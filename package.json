@@ -1,0 +1,28 @@
+{
+  "name": "notenmanagement",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "build-ios": "npm run build && npx cap copy ios && npx cap open ios",
+    "build-android": "npm run build && npx cap copy android && npx cap open android"
+  },
+  "devDependencies": {
+    "vite": "^6.3.5"
+  },
+  "dependencies": {
+    "@capacitor/android": "^7.3.0",
+    "@capacitor/cli": "^7.3.0",
+    "@capacitor/core": "^7.3.0",
+    "@capacitor/dialog": "^7.0.1",
+    "@capacitor/ios": "^7.3.0",
+    "@capacitor/preferences": "^7.0.1",
+    "@capacitor/push-notifications": "^7.0.1",
+    "@capacitor/status-bar": "^7.0.1",
+    "@capacitor/toast": "^7.0.1",
+    "@ionic/core": "^8.6.1"
+  }
+}
