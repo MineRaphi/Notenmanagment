@@ -7,38 +7,34 @@
         <!-- Ionic Core CSS -->
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@ionic/core/css/ionic.bundle.css" />
         <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1, user-scalable=no">
-        <title>Test</title>
+        <title>Notenmanagement</title>
     </head>
     <body>
+        <div id="login">
+            <h2>Notenmanagement</h2>
+            <form id="loginForm">
+                <label for="fname">Username</label>
+                <input type="text" id="username" name="username">
+                <br><br>
+                <label for="lname">Password</label>
+                <input type="password" id="password" name="password">
+                <br>
+                <br>
+                <button type="submit" id="loginButton"><b>Login</b></button>
+            </form>
+        </div>
 
-
-        <div id="mainContent">
-            <div id="login">
-                <h2>Notenmanagement</h2>
-                <form id="loginForm">
-                    <label for="fname">Username</label>
-                    <input type="text" id="username" name="username">
-                    <br><br>
-                    <label for="lname">Password</label>
-                    <input type="password" id="password" name="password">
-                    <br>
-                    <br>
-                    <button type="submit" id="loginButton"><b>Login</b></button>
-                </form>
-            </div>
-
-            <div id="main">
-                <div id="header">
-                    <div id="headerText">
-                        <button onclick="alert('Hello');">
-                            <img src="hamburgerIcon-weiss.png" width="50px" height="50px">
-                        </button>
-                        <h2>Notenmanagement</h2>
-                        <img src="LogoHTLlight.png" height="50px">
-                    </div>
+        <div id="main">
+            <div id="header">
+                <div id="headerText">
+                    <button onclick="alert('Hello');">
+                        <img src="hamburgerIcon-weiss.png" width="50px" height="50px">
+                    </button>
+                    <h2>Notenmanagement</h2>
+                    <img src="LogoHTLlight.png" height="50px">
                 </div>
-                <div id="startPage"></div>
             </div>
+            <div id="startPage"></div>
         </div>
 
         <!-- Ionic Core JS -->
