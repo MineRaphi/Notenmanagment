@@ -2,7 +2,7 @@ import { PushNotifications } from '@capacitor/push-notifications';
 import { Preferences } from '@capacitor/preferences';
 import { Toast } from '@capacitor/toast';
 import { StatusBar, Style } from '@capacitor/status-bar';
-import { loadingController } from '@ionic/core';
+import { loadingController, menuController } from '@ionic/core';
 
 
 const URL = `https://notenmanagement.htl-braunau.at/rest`;
