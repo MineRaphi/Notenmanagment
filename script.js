@@ -182,6 +182,9 @@ async function checkLoggedIn() {
 async function showStartPage() {
     document.getElementById("login").style.display = "none";
     document.getElementById("main").style.display = "block";
+    document.getElementById("startPage").style.display = "block";
+    document.getElementById("infoPage").style.display = "none";
+    document.getElementById("menu").close();
 
     const response = await fetch(URL + `/api/Schueler/${matrikelNr}/Noten?limit=5&sort=-Datum`, {
         method: 'GET',
@@ -224,6 +227,12 @@ async function showStartPage() {
     }
 }
 
+async function showInfoPage() {
+    document.getElementById("startPage").style.display = "none";
+    document.getElementById("infoPage").style.display = "block";
+    document.getElementById("menu").close();
+}
+
 function createGradeBox(data) {
     const box = document.createElement('div');
     box.classList.add('grade-box');
@@ -242,4 +251,7 @@ function createGradeBox(data) {
     `
     return box;
 }
+
+window.showStartPage = showStartPage;
+window.showInfoPage = showInfoPage;
 

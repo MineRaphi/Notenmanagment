@@ -4,6 +4,7 @@ body {
 
 #login {
     margin: 15vh auto 0 auto;
+    margin-top: 10vh;
     width: 80vw;
     max-width: 500px;
     background-color: #f7a312;
@@ -18,47 +19,17 @@ body {
     border-radius: 5px;
 }
 
-#sideMenu {
-    display: none;
-    position: absolute;
-    top: 0;
-    left: 0;
-    height: 100vh;
-    width: 60vw;
-    background-color: white;
-    z-index: 100;
-    padding-top: env(safe-area-inset-top);
-    padding-left: 15px;
-}
-
-#sideMenu button {
-    background: none;
-    border: none;
-    padding: 0;
-    margin-left: 15px;
-}
-
 #main {
     display: none;
 }
 
 #header {
-    position: absolute;
-    padding-top: env(safe-area-inset-top);
-    top: 0;
-    left: 0;
-    margin-top: 0px;
-    height: calc(48px + env(safe-area-inset-top));
-    width: 100vw;
-    background: linear-gradient(112deg, rgba(94,185,231,1) 0%, rgba(64,122,219,1) 33%, rgba(115,70,210,1) 67%, rgba(140,90,196,1) 100%);
+    --background: linear-gradient(112deg, rgba(94,185,231,1) 0%, rgba(64,122,219,1) 33%, rgba(115,70,210,1) 67%, rgba(140,90,196,1) 100%);
+    padding-bottom: 10px;
 }
 
 #headerText {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    position: relative;
-    height: 100%;
+    color: #f0f0f0;
 }
 
 #headerText button {
@@ -89,7 +60,18 @@ body {
 }
 
 #startPage {
+    display: none;
     margin: 15vh auto 0 auto;
+    margin-top: 5vh;
+    width: 100vw;
+    text-align: center;
+    align-content: center;
+}
+
+#infoPage {
+    display: none;
+    margin: 15vh auto 0 auto;
+    margin-top: 5vh;
     width: 100vw;
     text-align: center;
     align-content: center;
