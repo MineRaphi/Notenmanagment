@@ -20,6 +20,8 @@
         </ion-header>
         <ion-content class="ion-padding">This is the menu content.</ion-content>
         </ion-menu>
+
+
         <div class="ion-page" id="main-content">
         <ion-header>
             <ion-toolbar>
@@ -29,23 +31,41 @@
             <ion-title>Menu</ion-title>
             </ion-toolbar>
         </ion-header>
+
+        <ion-content>
+            
+            <div id="login">
+                <h2>Notenmanagement</h2>
+                <form id="loginForm">
+                    <label for="fname">Username</label>
+                    <input type="text" id="username" name="username">
+                    <br><br>
+                    <label for="lname">Password</label>
+                    <input type="password" id="password" name="password">
+                    <br>
+                    <br>
+                    <button type="submit" id="loginButton"><b>Login</b></button>
+                </form>
+            </div>
+
+            <div id="main">
+                <div id="header">
+                    <div id="headerText">
+                        <button onclick="document.getElementById('sideMenu').style.display = 'block'">
+                            <img src="hamburgerIcon-weiss.png" width="50px" height="50px">
+                        </button>
+                        <h2>Notenmanagement</h2>
+                        <img src="LogoHTLlight.png" height="50px">
+                    </div>
+                </div>
+                <div id="startPage"></div>
+            </div>
+
+        </ion-content>
         </div>
 
         
 
-        <div id="login">
-            <h2>Notenmanagement</h2>
-            <form id="loginForm">
-                <label for="fname">Username</label>
-                <input type="text" id="username" name="username">
-                <br><br>
-                <label for="lname">Password</label>
-                <input type="password" id="password" name="password">
-                <br>
-                <br>
-                <button type="submit" id="loginButton"><b>Login</b></button>
-            </form>
-        </div>
 
         <div id="sideMenu">
             <button onclick="document.getElementById('sideMenu').style.display = 'none'">
@@ -55,18 +75,7 @@
 
         </div>
 
-        <div id="main">
-            <div id="header">
-                <div id="headerText">
-                    <button onclick="document.getElementById('sideMenu').style.display = 'block'">
-                        <img src="hamburgerIcon-weiss.png" width="50px" height="50px">
-                    </button>
-                    <h2>Notenmanagement</h2>
-                    <img src="LogoHTLlight.png" height="50px">
-                </div>
-            </div>
-            <div id="startPage"></div>
-        </div>
+        
 
         <!-- Ionic Core JS -->
         <script type="module" src="https://cdn.jsdelivr.net/npm/@ionic/core/dist/ionic/ionic.esm.js"></script>
