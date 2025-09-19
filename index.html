@@ -21,10 +21,10 @@
         <ion-content class="ion-padding">
             <ion-list>
                 <ion-item>
-                    <button onclick="showStartPage()">Start</button>
+                    <button onclick="showStartPage()" class="menu-button">Start</button>
                 </ion-item>
                 <ion-item>
-                    <button onclick="showInfoPage()">Info</button>
+                    <button onclick="showInfoPage()" class="menu-button">Info</button>
                 </ion-item>
             </ion-list>
         </ion-content>
@@ -35,13 +35,13 @@
         <ion-header>
             <ion-toolbar id="header">
                 <ion-buttons slot="start">
-                    <ion-menu-button style="padding-top: 12px; padding-left: 5px; color: #f0f0f0;"></ion-menu-button>
+                    <ion-menu-button style="padding-top: 9px; padding-left: 5px; color: #f0f0f0;"></ion-menu-button>
                 </ion-buttons>
-                <ion-title><h2 id="headerText"><b>Notenmanagement</b></h2></ion-title>
+                <ion-title><h3 id="headerText"><b>Notenmanagement</b></h3></ion-title>
             </ion-toolbar>
         </ion-header>
 
-        <ion-content>
+        <ion-content scroll-y="false">
             
             <div id="login">
                 <h2>Notenmanagement</h2>
@@ -60,7 +60,7 @@
             <div id="main">
                 <div id="startPage"></div>
                 <div id="infoPage">
-                    <p>Information</p>
+                    <p>Information Page</p>
                 </div>
             </div>
 

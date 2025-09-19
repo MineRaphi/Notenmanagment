@@ -1,5 +1,9 @@
 body {
     background-color: #F5F5F5;
+    user-select: none;
+    -webkit-user-select: none; /* Safari */
+    -moz-user-select: none;    /* Firefox */
+    -ms-user-select: none;     /* Internet Explorer/Edge */
 }
 
 #login {
@@ -175,4 +179,12 @@ select {
 
 .n5 {
     background-color: #A501044D;
+}
+
+.menu-button {
+    width: 100%;
+    font-size: 24px;
+    text-align: left;
+    padding: 10px;
+    margin-left: 0;
 }

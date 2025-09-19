@@ -37,6 +37,7 @@ export async function hideLoading() {
 
 window.onload = function load() {
     checkLoggedIn();
+    document.getElementById("menu").disabled = false;
 }
 
 // requesting push notification
@@ -185,6 +186,7 @@ async function showStartPage() {
     document.getElementById("startPage").style.display = "block";
     document.getElementById("infoPage").style.display = "none";
     document.getElementById("menu").close();
+    document.getElementById("menu").disabled = false;
 
     const response = await fetch(URL + `/api/Schueler/${matrikelNr}/Noten?limit=5&sort=-Datum`, {
         method: 'GET',
@@ -210,6 +212,7 @@ async function showStartPage() {
 
         document.getElementById("login").style.display = "block";
         document.getElementById("main").style.display = "none";
+        document.getElementById("menu").disabled = true;
 
         Toast.show({
             text: '✅ Logged out!',
