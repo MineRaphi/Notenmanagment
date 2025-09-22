@@ -20,10 +20,10 @@ export async function hideLoading() {
     }
 }
 
-export async function showToast(message, success = true) {
+export async function showToast(message, success = true, position = 'bottom') {
     await Toast.show({
         text: `${success ? '✅' : '❌'} ${message}`,
         duration: 'short',
-        position: 'bottom',
+        position: position,
     });
 }

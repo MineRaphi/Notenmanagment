@@ -1,7 +1,8 @@
 import { Preferences } from '@capacitor/preferences';
 import { showLoading, hideLoading, showToast } from './ui.js';
-import { loginRequest, getStudentInfo } from './api.js';
+import { getStudentInfo } from './api.js';
 import { showStartPage, showInfoPage } from './pages.js';
+import { doLogin } from './auth.js';
 
 let accessToken = null;
 let matrikelNr = null;
@@ -14,31 +15,13 @@ window.onload = () => {
         e.preventDefault();
         const username = document.getElementById("username").value;
         const password = document.getElementById("password").value;
-        await doLogin(username, password);
+        const result = await doLogin(username, password);
+        if (result) {
+            accessToken = result.accessToken;
+            matrikelNr = result.matrikelNr;
+        }
     });
 };
-
-async function doLogin(username, password) {
-    await showLoading();
-    const response = await loginRequest(username, password);
-    const data = await response.json();
-
-    if (response.ok && data.role !== "Lehrer") {
-        accessToken = data.access_token;
-        matrikelNr = data.matrikelNr;
-
-        await Preferences.set({ key: 'accessToken', value: accessToken });
-        await Preferences.set({ key: 'matrikelNr', value: matrikelNr });
-
-        await getStudentInfo(matrikelNr, accessToken);
-        await hideLoading();
-        showToast("Login successful!");
-        showStartPage(matrikelNr, accessToken);
-    } else {
-        await hideLoading();
-        showToast("Login failed!", false);
-    }
-}
 
 async function checkLoggedIn() {
     const { value: loadedToken } = await Preferences.get({ key: 'accessToken' });
