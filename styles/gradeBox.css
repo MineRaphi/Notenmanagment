@@ -1,0 +1,69 @@
+.grade-box {
+    display: flex;
+    align-items: center;
+    margin: 0 auto;
+    width: 85vw;
+    border: #f7a312 solid 2px;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    width: 88vw;
+    height: 83px;
+}
+
+.subject-type {
+    flex: 1;
+    text-align: left;
+    font-size: 16px;
+    padding-left: 15px;
+}
+
+.subject-type p {
+    margin: 0;            /* Alle Außenabstände entfernen */
+    margin-bottom: 2px;   /* Oder einen kleinen Abstand, je nach Geschmack */
+    line-height: 1.2;     /* Zeilenhöhe enger machen, optional */
+}
+
+.date {
+    flex: 1;
+    text-align: center;
+    font-size: 16px;
+    padding-left: 10px;
+}
+
+.grade {
+    flex: 1;
+    text-align: right;
+    font-size: 21px;
+    padding-right: 15px;
+}
+
+.grade b {
+    font-size: 20px;
+}
+
+.grade p {
+    margin: 0;            /* Alle Außenabstände entfernen */
+    margin-bottom: 2px;   /* Oder einen kleinen Abstand, je nach Geschmack */
+    line-height: 1.2;     /* Zeilenhöhe enger machen, optional */
+    font-size: 13px;
+}
+
+.n1 {
+    background-color: #6296774D;
+}
+
+.n2 {
+    background-color: #8EB8974D;
+}
+
+.n3 {
+    background-color: #FFD4474D;
+}
+
+.n4 {
+    background-color: #FA79214D;
+}
+
+.n5 {
+    background-color: #A501044D;
+}

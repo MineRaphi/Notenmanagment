@@ -1,0 +1,59 @@
+body {
+    background-color: #F5F5F5;
+    user-select: none;
+    -webkit-user-select: none; /* Safari */
+    -moz-user-select: none;    /* Firefox */
+    -ms-user-select: none;     /* Internet Explorer/Edge */
+}
+
+#main {
+    display: none;
+}
+
+#startPage {
+    display: none;
+    margin: 15vh auto 0 auto;
+    margin-top: 5vh;
+    width: 100vw;
+    text-align: center;
+    align-content: center;
+}
+
+#infoPage {
+    display: none;
+    margin: 15vh auto 0 auto;
+    margin-top: 5vh;
+    width: 100vw;
+    text-align: center;
+    align-content: center;
+}
+
+/* makes sure doesnt auto zoom*/
+input,
+textarea,
+select {
+  font-size: 16px;
+}
+
+.latest-entries {
+    display: flex;
+    align-items: center;
+    width: 88vw;
+    height: 65px;
+    background: linear-gradient(160deg,#f7a312 -10%,#f38f17 60%,#ef7d00 120%);
+    border-radius: 5px;
+    margin: 0 auto;
+    margin-bottom: 10px;
+    color: #f0f0f0;
+    text-align: left;
+}
+
+.latest-entries h2 {
+    flex: 1;
+    margin: 0;
+    margin-bottom: 2px;
+    font-weight: 600;
+    font-size: 24px;
+    line-height: 1.2;
+    padding-left: 15px;
+}
