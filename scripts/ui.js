@@ -25,5 +25,6 @@ export async function showToast(message, success = true, position = 'bottom') {
         text: `${success ? '✅' : '❌'} ${message}`,
         duration: 'short',
         position: position,
+        keyboardAvoid: true,
     });
 }

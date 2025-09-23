@@ -1,7 +1,6 @@
 import { getLatestGrades } from './api.js';
 import { showToast } from './ui.js';
-import { Preferences } from '@capacitor/preferences'; // needed for logout
-import { Toast } from '@capacitor/toast';            // needed for logout
+import { Preferences } from '@capacitor/preferences';
 
 export function createGradeBox(data) {
     const box = document.createElement('div');
@@ -48,12 +47,7 @@ export async function showStartPage(matrikelNr, token) {
         document.getElementById("main").style.display = "none";
         document.getElementById("menu").disabled = true;
 
-        await Toast.show({
-            text: '✅ Logged out!',
-            duration: 'short',
-            position: 'bottom',
-            keyboardAvoid: true,
-        });
+        showToast("Logged out!", true);
     });
 
     for (let i of data) {
