@@ -3,8 +3,6 @@ import { showLoading, hideLoading, showToast } from './ui.js';
 import { loginRequest, getStudentInfo } from './api.js';
 import { showStartPage } from './pages.js';
 
-const URL = `https://notenmanagement.htl-braunau.at/rest`;
-
 function timeout(promise, ms) {
     const timeout = new Promise((_, reject) =>
         setTimeout(() => reject(new Error("Request timed out")), ms)
@@ -41,4 +39,24 @@ export async function doLogin(username, password) {
     }
 }
 
+export async function checkLoggedIn() {
+    const { value: loadedToken } = await Preferences.get({ key: 'accessToken' });
+    const { value: loadedMatrikel } = await Preferences.get({ key: 'matrikelNr' });
 
+    if (!loadedToken || !loadedMatrikel) return;
+
+    showLoading();
+    const response = await timeout(getStudentInfo(loadedMatrikel, loadedToken), 5000);
+    hideLoading();
+
+    if (!response.ok) {
+        await Preferences.remove({ key: 'accessToken' });
+        await Preferences.remove({ key: 'matrikelNr' });
+        return;
+    }
+
+    showToast("Login successful!");
+    showStartPage(loadedMatrikel, loadedToken);
+
+    return { matrikelNr: loadedMatrikel, accessToken: loadedToken };
+}
