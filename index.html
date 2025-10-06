@@ -4,6 +4,7 @@
         <meta charset="UTF-8" />
         <link rel="icon" type="image/svg+xml" href="/vite.svg" />
         <link rel="stylesheet" href="/styles/global.css">
+        <link rel="stylesheet" href="/styles/gradeBox.css">
         <link rel="stylesheet" href="/styles/header.css">
         <link rel="stylesheet" href="/styles/login.css">
         <link rel="stylesheet" href="/styles/menu.css">
@@ -25,6 +26,9 @@
             <ion-list>
                 <ion-item>
                     <button onclick="showStartPage()" class="menu-button">Start</button>
+                </ion-item>
+                <ion-item>
+                    <button onclick="showNotenPage()" class="menu-button">Noten</button>
                 </ion-item>
                 <ion-item>
                     <button onclick="showInfoPage()" class="menu-button">Info</button>
@@ -62,6 +66,7 @@
 
             <div id="main">
                 <div id="startPage"></div>
+                <div id="notenPage">Fächer</div>
                 <div id="infoPage">
                     <p>Information Page</p>
                 </div>

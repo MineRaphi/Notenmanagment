@@ -1,6 +1,19 @@
-import { getLatestGrades } from './api.js';
+import { getLatestGrades, getAllGrades, getSubjectsWithGrade } from './api.js';
 import { showToast } from './ui.js';
 import { Preferences } from '@capacitor/preferences';
+
+const startPage = document.getElementById("startPage");
+const notenPage = document.getElementById("notenPage");
+const infoPage = document.getElementById("infoPage");
+
+let pages = [startPage, notenPage, infoPage];
+
+function hideAllPages() {
+    document.getElementById("login").style.display = "none";
+    for(let i = 0; i < pages.length; i++) {
+        pages[i].style.display = "none";
+    }
+}
 
 export function createGradeBox(data) {
     const box = document.createElement('div');
@@ -20,10 +33,9 @@ export function createGradeBox(data) {
 }
 
 export async function showStartPage(matrikelNr, token) {
-    document.getElementById("login").style.display = "none";
+    hideAllPages();
     document.getElementById("main").style.display = "block";
     document.getElementById("startPage").style.display = "block";
-    document.getElementById("infoPage").style.display = "none";
     document.getElementById("menu").close();
     document.getElementById("menu").disabled = false;
 
@@ -55,8 +67,35 @@ export async function showStartPage(matrikelNr, token) {
     }
 }
 
+// None functional
+function createSubjectBox(fachData) {
+    const box = document.createElement('div');
+    box.classList.add('subject-box');
+    box.innerHTML = `
+        <h4>${fachData.Fach}</h4>
+    `;
+    return box;
+}
+// None functional
+export async function showNotenPage(matrikelNr, token) {
+    hideAllPages();
+    notenPage.style.display = "block";
+    document.getElementById("menu").close();
+
+    const response = await getSubjectsWithGrade(matrikelNr, token);
+    if (!response.ok) return;
+
+    const data = await response.json();
+
+    for (let i of data) {
+        notenPage.appendChild(createSubjectBox(i));
+    }
+
+
+}
+
 export function showInfoPage() {
-    document.getElementById("startPage").style.display = "none";
+    hideAllPages();
     document.getElementById("infoPage").style.display = "block";
     document.getElementById("menu").close();
 }
