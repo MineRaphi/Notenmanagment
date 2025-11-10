@@ -1,5 +1,5 @@
 import { showStartPage, showNotenPage, showInfoPage } from './pages.js';
-import { doLogin, checkLoggedIn } from './auth.js';
+import { doLogin, checkLoggedIn, logout } from './auth.js';
 
 let accessToken = null;
 let matrikelNr = null;
@@ -24,4 +24,5 @@ async function init() {
 
 window.showStartPage = () => showStartPage(matrikelNr, accessToken);
 window.showNotenPage = () => showNotenPage(matrikelNr, accessToken);
+window.logout = () => logout();
 window.showInfoPage = showInfoPage;

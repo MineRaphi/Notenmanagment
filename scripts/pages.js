@@ -45,22 +45,10 @@ export async function showStartPage(matrikelNr, token) {
     const data = await response.json();
     const element = document.getElementById("startPage");
     element.innerHTML = `
-        <button id="logout">Logout</button>
         <div class="latest-entries">
             <h2>Die Letzten Einträge</h2>
         </div>
     `;
-
-    element.querySelector('#logout').addEventListener('click', async () => {
-        await Preferences.remove({ key: 'accessToken' });
-        await Preferences.remove({ key: 'matrikelNr' });
-
-        document.getElementById("login").style.display = "block";
-        document.getElementById("main").style.display = "none";
-        document.getElementById("menu").disabled = true;
-
-        showToast("Logged out!", true);
-    });
 
     for (let i of data) {
         element.appendChild(createGradeBox(i));
