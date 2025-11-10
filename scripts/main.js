@@ -7,7 +7,7 @@ let matrikelNr = null;
 window.onload = init;
 
 async function init() {
-        document.getElementById("menu").disabled = true;
+    document.getElementById("menu").disabled = true;
 
     document.getElementById("loginForm").addEventListener("submit", async (e) => {
         e.preventDefault();
@@ -25,4 +25,4 @@ async function init() {
 window.showStartPage = () => showStartPage(matrikelNr, accessToken);
 window.showNotenPage = () => showNotenPage(matrikelNr, accessToken);
 window.logout = () => logout();
-window.showInfoPage = showInfoPage;
+window.showInfoPage = () => showInfoPage();

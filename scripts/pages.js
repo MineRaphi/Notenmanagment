@@ -40,7 +40,10 @@ export async function showStartPage(matrikelNr, token) {
     document.getElementById("menu").disabled = false;
 
     const response = await getLatestGrades(matrikelNr, token);
-    if (!response.ok) return;
+    if (!response.ok) {
+        showToast(`Failed! ${response.status}`, false);
+        return;
+    }
 
     const data = await response.json();
     const element = document.getElementById("startPage");
@@ -71,14 +74,14 @@ export async function showNotenPage(matrikelNr, token) {
     document.getElementById("menu").close();
 
     const response = await getSubjectsWithGrade(matrikelNr, token);
-    if (!response.ok) return;
+    if (!response.ok) {
+        showToast(`Failed! ${response.status}`, false);
+        return;
+    }
 
     const data = await response.json();
 
-    for (let i of data) {
-        notenPage.appendChild(createSubjectBox(i));
-    }
-
+    notenPage.innerHTML = data;
 
 }
 
