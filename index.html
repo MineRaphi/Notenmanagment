@@ -8,7 +8,6 @@
         <link rel="stylesheet" href="/styles/header.css">
         <link rel="stylesheet" href="/styles/login.css">
         <link rel="stylesheet" href="/styles/menu.css">
-        <link rel="stylesheet" href="/styles/noten.css">
         <!-- Ionic Core CSS -->
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@ionic/core/css/ionic.bundle.css" />
         <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1, user-scalable=no">
@@ -26,16 +25,16 @@
         <ion-content>
             <ion-list>
                 <ion-item>
-                    <button onclick="showStartPage()" class="menu-button">Start</button>
+                    <button id="showStart" class="menu-button">Start</button>
                 </ion-item>
                 <ion-item>
-                    <button onclick="showNotenPage()" class="menu-button">Noten</button>
+                    <button id="showNoten" class="menu-button">Noten</button>
                 </ion-item>
                 <ion-item>
-                    <button onclick="showInfoPage()" class="menu-button">Info</button>
+                    <button id="showInfo" class="menu-button">Info</button>
                 </ion-item>
                 <ion-item>
-                    <button onclick="logout()" class="menu-button">Logout</button>
+                    <button id="logout" class="menu-button">Logout</button>
                 </ion-item>
             </ion-list>
         </ion-content>
@@ -72,6 +71,7 @@
                 <div id="startPage"></div>
                 <div id="notenPage">
                     <div class="subject-list" id="subjectList"></div>
+                </div>
                 <div id="infoPage">
                     <p>Information Page</p>
                 </div>

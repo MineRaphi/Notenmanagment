@@ -24,7 +24,7 @@ async function init() {
     matrikelNr = response.matrikelNr;
 }
 
-window.showStartPage = () => showStartPage(matrikelNr, accessToken);
-window.showNotenPage = () => showNotenPage(matrikelNr, accessToken);
-window.logout = () => logout();
-window.showInfoPage = () => showInfoPage();
+document.getElementById("showStart").onclick = () => showStartPage(matrikelNr, accessToken);
+document.getElementById("showNoten").onclick = () => showNotenPage(matrikelNr, accessToken);
+document.getElementById("showInfo").onclick = () => showInfoPage();
+document.getElementById("logout").onclick = () => logout();

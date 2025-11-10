@@ -35,7 +35,7 @@ export function createGradeBox(data) {
 export async function showStartPage(matrikelNr, token) {
     hideAllPages();
     document.getElementById("main").style.display = "block";
-    document.getElementById("startPage").style.display = "block";
+    startPage.style.display = "block";
     document.getElementById("menu").close();
     document.getElementById("menu").disabled = false;
 
@@ -87,6 +87,6 @@ export async function showNotenPage(matrikelNr, token) {
 
 export function showInfoPage() {
     hideAllPages();
-    document.getElementById("infoPage").style.display = "block";
+    infoPage.style.display = "block";
     document.getElementById("menu").close();
 }
