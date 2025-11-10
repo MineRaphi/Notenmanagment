@@ -81,7 +81,15 @@ export async function showNotenPage(matrikelNr, token) {
 
     const data = await response.json();
 
-    notenPage.innerHTML = data;
+    const subjectList = document.getElementById("subjectList");
+
+    subjectList.innerHTML = "";
+
+    data.forEach(item => {
+        const div = document.createElement("div");
+        div.innerHTML = `<p>${item.Fach}</p>`;
+        subjectList.appendChild(div);
+    });
 
 }
 
