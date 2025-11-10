@@ -4,7 +4,7 @@ export async function loginRequest(username, password) {
     return fetch(URL + '/Token', {
         method: 'POST',
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: `grant_type=password&username=${username}&password=${password}`
+        body: `grant_type=password&username=${encodeURIComponent(username)}&password=${encodeURIComponent(password)}`
     });
 }
 
