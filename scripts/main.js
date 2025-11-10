@@ -19,7 +19,9 @@ async function init() {
             matrikelNr = result.matrikelNr;
         }
     });
-    checkLoggedIn();
+    const response = await checkLoggedIn();
+    accessToken = response.accessToken;
+    matrikelNr = response.matrikelNr;
 }
 
 window.showStartPage = () => showStartPage(matrikelNr, accessToken);
