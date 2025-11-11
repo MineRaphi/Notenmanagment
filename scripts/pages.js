@@ -1,4 +1,5 @@
 import { getLatestGrades, getAllGrades, getSubjectsWithGrade } from './api.js';
+import { logout } from './auth.js'
 import { showToast } from './ui.js';
 import { Preferences } from '@capacitor/preferences';
 
@@ -64,7 +65,7 @@ export async function showStartPage(matrikelNr, token) {
 
     const response = await getLatestGrades(matrikelNr, token);
     if (!response.ok) {
-        showToast(`Failed! ${response.status}`, false);
+        logout(true);
         return;
     }
 
@@ -98,7 +99,7 @@ export async function showNotenPage(matrikelNr, token) {
 
     const response = await getSubjectsWithGrade(matrikelNr, token);
     if (!response.ok) {
-        showToast(`Failed! ${response.status}`, false);
+        logout(true);
         return;
     }
 

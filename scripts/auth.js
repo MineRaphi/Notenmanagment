@@ -61,7 +61,7 @@ export async function checkLoggedIn() {
     return { matrikelNr: loadedMatrikel, accessToken: loadedToken };
 }
 
-export async function logout() {
+export async function logout(forced = false) {
     await Preferences.remove({ key: 'accessToken' });
     await Preferences.remove({ key: 'matrikelNr' });
 
@@ -69,5 +69,10 @@ export async function logout() {
     document.getElementById("main").style.display = "none";
     document.getElementById("menu").disabled = true;
 
-    showToast("Logged out!", true);
+    if (!forced) {
+        showToast("Logged out!", true);
+    }
+    else {
+        showToast("Neuanmeldung erforderlich!", false);
+    }
 }
