@@ -25,7 +25,7 @@ export function createGradeBox(data) {
         </div>
             <p class="date">${data.Datum.replace("T00:00:00", "")}</p>
         <div class="grade">
-            <p>Note <b>${data.Note}</b></p>
+            ${data.Note !== null ? `<p>Note <b>${data.Note}</b></p>` : ''}
             ${data.Punkte !== null ? `<p>${data.Punkte}/${data.MaxPunkte}</p>` : ''}
         </div>
     `;
