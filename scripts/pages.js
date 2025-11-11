@@ -17,7 +17,30 @@ function hideAllPages() {
 
 export function createGradeBox(data) {
     const box = document.createElement('div');
-    box.classList.add('grade-box', `n${data.Note}`);
+    if (data.Note !== null) {
+        box.classList.add('grade-box', `n${data.Note}`);
+    }
+    else {
+        if (data.Punkte !== null && data.MaxPunkte !== null) {
+            let percent = data.Punkte / data.MaxPunkte;
+
+            if (percent >= 0.88) {
+                box.classList.add('grade-box', `n1`);
+            }
+            else if (percent >= 0.75) {
+                box.classList.add('grade-box', `n2`);
+            }
+            else if (percent >= 0.62) {
+                box.classList.add('grade-box', `n3`);
+            }
+            else if (percent >= 0.50) {
+                box.classList.add('grade-box', `n4`);
+            }
+            else {
+                box.classList.add('grade-box', `n5`);
+            }
+        }
+    }
     box.innerHTML = `
         <div class="subject-type">
             <p>${data.Fach}</p>
