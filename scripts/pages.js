@@ -1,7 +1,6 @@
-import { getLatestGrades, getAllGrades, getSubjectsWithGrade } from './api.js';
+import { getLatestGrades, getSubjectsWithGrade, getGradesFromSubject } from './api.js';
 import { logout } from './auth.js'
-import { showToast } from './ui.js';
-import { Preferences } from '@capacitor/preferences';
+import { showToast, enableScroll, disableScroll } from './ui.js';
 
 const startPage = document.getElementById("startPage");
 const notenPage = document.getElementById("notenPage");
@@ -14,6 +13,7 @@ function hideAllPages() {
     for(let i = 0; i < pages.length; i++) {
         pages[i].style.display = "none";
     }
+    disableScroll();
 }
 
 export function createGradeBox(data) {
@@ -82,20 +82,28 @@ export async function showStartPage(matrikelNr, token) {
     }
 }
 
-// None functional
-function createSubjectBox(fachData) {
-    const box = document.createElement('div');
-    box.classList.add('subject-box');
-    box.innerHTML = `
-        <h4>${fachData.Fach}</h4>
-    `;
-    return box;
+async function createSubjectGradeBox(matrikelNr, token, subject) {
+    const div = document.createElement("div");
+    div.innerHTML = `<h2>${subject}</h2>`;
+
+    const response = await getGradesFromSubject(matrikelNr, token, subject);
+
+    const data = await response.json();
+
+    data.forEach(item => {
+        const grade = document.createElement("div");
+        grade.innerHTML = `<p>${item.Note}</p>`;
+        div.appendChild(grade);
+    });
+
+    return div;
 }
-// None functional
+
 export async function showNotenPage(matrikelNr, token) {
     hideAllPages();
     notenPage.style.display = "block";
     document.getElementById("menu").close();
+    enableScroll();
 
     const response = await getSubjectsWithGrade(matrikelNr, token);
     if (!response.ok) {
@@ -106,13 +114,19 @@ export async function showNotenPage(matrikelNr, token) {
     const data = await response.json();
 
     const subjectList = document.getElementById("subjectList");
+    const subjectGradeList = document.getElementById("subjectGradeList")
 
     subjectList.innerHTML = "";
+    subjectGradeList.innerHTML = "";
 
     data.forEach(item => {
         const div = document.createElement("div");
         div.innerHTML = `<p>${item.Fach}</p>`;
         subjectList.appendChild(div);
+    });
+
+    data.forEach(async item => {
+        subjectGradeList.appendChild(await createSubjectGradeBox(matrikelNr, token, item.Fach));
     });
 
 }

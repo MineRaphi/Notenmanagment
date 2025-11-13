@@ -20,14 +20,14 @@ export async function getLatestGrades(matrikelNr, token) {
     });
 }
 
-export async function getAllGrades(matrikelNr, token) {
-    return fetch(URL + `/api/Schueler/${matrikelNr}/Noten?sort=Fach`, {
+export async function getSubjectsWithGrade(matrikelNr, token) {
+    return fetch(URL + `/api/Schueler/${matrikelNr}/Faecher?sort=Fach`, {
         headers: { 'Authorization': `bearer ${token}` }
     });
 }
 
-export async function getSubjectsWithGrade(matrikelNr, token) {
-    return fetch(URL + `/api/Schueler/${matrikelNr}/Faecher?sort=Fach`, {
+export async function getGradesFromSubject(matrikelNr, token, subject) {
+    return fetch(URL + `/api/Schueler/${matrikelNr}/Faecher/${subject}/Noten?sort=Datum`, {
         headers: { 'Authorization': `bearer ${token}` }
     });
 }
