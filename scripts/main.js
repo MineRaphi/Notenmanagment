@@ -1,5 +1,6 @@
 import { showStartPage, showNotenPage, showInfoPage } from './pages.js';
 import { doLogin, checkLoggedIn, logout } from './auth.js';
+import { disableScroll } from './ui.js';
 
 let accessToken = null;
 let matrikelNr = null;
@@ -8,6 +9,7 @@ window.onload = init;
 
 async function init() {
     document.getElementById("menu").disabled = true;
+    disableScroll();
 
     document.getElementById("loginForm").addEventListener("submit", async (e) => {
         e.preventDefault();

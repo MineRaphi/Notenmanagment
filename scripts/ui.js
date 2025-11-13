@@ -2,6 +2,7 @@ import { loadingController } from '@ionic/core';
 import { Toast } from '@capacitor/toast';
 
 let loadingInstance = null;
+const ionContent = document.querySelector('ion-content');
 
 export async function showLoading() {
     loadingInstance = await loadingController.create({
@@ -27,4 +28,12 @@ export async function showToast(message, success = true, position = 'bottom') {
         position: position,
         keyboardAvoid: true,
     });
+}
+
+export function enableScroll() {
+    ionContent.style.overflowY = 'auto';
+}
+
+export function disableScroll() {
+    ionContent.style.overflowY = 'hidden';
 }
