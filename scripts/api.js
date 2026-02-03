@@ -31,3 +31,9 @@ export async function getGradesFromSubject(matrikelNr, token, subject) {
         headers: { 'Authorization': `bearer ${token}` }
     });
 }
+
+export async function getFruewarnungen(matrikelNr, token) {
+    return fetch(URL + `/api/Schueler/${matrikelNr}/Fruehwarnungen?sort=Fach`, {
+        headers: { 'Authorization': `bearer ${token}` }
+    });
+}

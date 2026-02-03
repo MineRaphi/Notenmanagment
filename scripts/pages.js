@@ -1,12 +1,13 @@
-import { getLatestGrades, getSubjectsWithGrade, getGradesFromSubject } from './api.js';
+import { getLatestGrades, getSubjectsWithGrade, getGradesFromSubject, getFruewarnungen } from './api.js';
 import { logout } from './auth.js'
-import { showToast, enableScroll, disableScroll } from './ui.js';
+import { showToast, enableScroll, disableScroll, showLoading, hideLoading } from './ui.js';
 
 const startPage = document.getElementById("startPage");
 const notenPage = document.getElementById("notenPage");
 const infoPage = document.getElementById("infoPage");
+const fruewarnungPage = document.getElementById("fruewarnungPage");
 
-let pages = [startPage, notenPage, infoPage];
+let pages = [startPage, notenPage, fruewarnungPage, infoPage];
 
 function hideAllPages() {
     document.getElementById("login").style.display = "none";
@@ -16,7 +17,7 @@ function hideAllPages() {
     disableScroll();
 }
 
-export function createGradeBox(data) {
+function createGradeBox(data) {
     const box = document.createElement('div');
     if (data.Note !== null) {
         box.classList.add('grade-box', `n${data.Note}`);
@@ -84,7 +85,8 @@ export async function showStartPage(matrikelNr, token) {
 
 async function createSubjectGradeBox(matrikelNr, token, subject) {
     const div = document.createElement("div");
-    div.innerHTML = `<h2>${subject}</h2>`;
+    div.classList.add('subject-grades-list');
+    div.innerHTML = `<h3 class="subject-grades-header">${subject}</h3>`;
 
     const response = await getGradesFromSubject(matrikelNr, token, subject);
 
@@ -105,6 +107,12 @@ export async function showNotenPage(matrikelNr, token) {
     document.getElementById("menu").close();
     enableScroll();
 
+    const subjectList = document.getElementById("subjectList");
+    const subjectGradeList = document.getElementById("subjectGradeList")
+
+    subjectList.innerHTML = "";
+    subjectGradeList.innerHTML = "";
+
     const response = await getSubjectsWithGrade(matrikelNr, token);
     if (!response.ok) {
         logout(true);
@@ -113,22 +121,49 @@ export async function showNotenPage(matrikelNr, token) {
 
     const data = await response.json();
 
-    const subjectList = document.getElementById("subjectList");
-    const subjectGradeList = document.getElementById("subjectGradeList")
-
-    subjectList.innerHTML = "";
-    subjectGradeList.innerHTML = "";
-
     data.forEach(item => {
         const div = document.createElement("div");
         div.innerHTML = `<p>${item.Fach}</p>`;
         subjectList.appendChild(div);
     });
 
+    await showLoading();
     data.forEach(async item => {
         subjectGradeList.appendChild(await createSubjectGradeBox(matrikelNr, token, item.Fach));
     });
+    await hideLoading();
 
+}
+
+export async function showFruehwarnungPage(matrikelNr, token) {
+    hideAllPages();
+    fruewarnungPage.style.display = "block";
+    document.getElementById("menu").close();
+    enableScroll();
+
+    const fruewarnungList = document.getElementById("fruewarnungList");
+    fruewarnungList.innerHTML = "";
+
+    const response = await getFruewarnungen(matrikelNr, token);
+    if (!response.ok) {
+        logout(true);
+        return;
+    }
+
+    const data = await response.json();
+
+    if (data.length === 0) {
+        const div = document.createElement("div");
+        div.innerHTML = `<p>Keine Frühwarnungen vorhanden</p>`;
+        fruewarnungList.appendChild(div);
+        return;
+    }
+
+    data.forEach(item => {
+        const div = document.createElement("div");
+        div.innerHTML = `<p>${item.Fach}</p>`;
+        fruewarnungList.appendChild(div);
+    });
 }
 
 export function showInfoPage() {

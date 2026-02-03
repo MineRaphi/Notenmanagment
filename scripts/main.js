@@ -1,4 +1,4 @@
-import { showStartPage, showNotenPage, showInfoPage } from './pages.js';
+import { showStartPage, showNotenPage, showInfoPage, showFruehwarnungPage } from './pages.js';
 import { doLogin, checkLoggedIn, logout } from './auth.js';
 import { disableScroll } from './ui.js';
 
@@ -28,5 +28,6 @@ async function init() {
 
 document.getElementById("showStart").onclick = () => showStartPage(matrikelNr, accessToken);
 document.getElementById("showNoten").onclick = () => showNotenPage(matrikelNr, accessToken);
+document.getElementById("showFruewarnung").onclick = () => showFruehwarnungPage(matrikelNr, accessToken);
 document.getElementById("showInfo").onclick = () => showInfoPage();
 document.getElementById("logout").onclick = () => logout();
