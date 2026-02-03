@@ -129,9 +129,14 @@ export async function showNotenPage(matrikelNr, token) {
     });
 
     await showLoading();
-    data.forEach(async item => {
-        subjectGradeList.appendChild(await createSubjectGradeBox(matrikelNr, token, item.Fach));
-    });
+    const promises = data.map(item =>
+        createSubjectGradeBox(matrikelNr, token, item.Fach)
+    );
+
+    for (const promise of promises) {
+        const box = await promise;
+        subjectGradeList.appendChild(box);
+    }
     await hideLoading();
 
 }
