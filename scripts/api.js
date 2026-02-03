@@ -37,3 +37,9 @@ export async function getFruewarnungen(matrikelNr, token) {
         headers: { 'Authorization': `bearer ${token}` }
     });
 }
+
+export async function getFehlstunden(matrikelNr, token) {
+    return fetch(URL + `/api/Schueler/${matrikelNr}/Fehlstunden`, {
+        headers: { 'Authorization': `bearer ${token}` }
+    });
+}

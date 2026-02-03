@@ -32,7 +32,10 @@
                     <button id="showNoten" class="menu-button">Noten</button>
                 </ion-item>
                 <ion-item>
-                    <button id="showFruewarnung" class="menu-button">fruewarnungPage</button>
+                    <button id="showFruewarnung" class="menu-button">Frühwarungen</button>
+                </ion-item>
+                <ion-item>
+                    <button id="showFehlstunden" class="menu-button">Fehlstunden</button>
                 </ion-item>
                 <ion-item>
                     <button id="showInfo" class="menu-button">Info</button>
@@ -82,6 +85,25 @@
                 </div>
                 <div id="fruewarnungPage">
                     <div id="fruewarnungList"></div>
+                </div>
+                <div id="fehlstundenPage">
+                    <div id="fehlstundenTable">
+                        <h1>Meine Fehlstunden</h1>
+                        <table>
+                            <tr>
+                                <th>Gesamt</th>
+                                <th>Offen</th>
+                                <th>Entschuldigt</th>
+                                <th>Nicht Entschuldigt</th>
+                            </tr>
+                            <tr>
+                                <td id="absencesTotal">...</td>
+                                <td id="absencesOpen">...</td>
+                                <td id="absencesExcused">...</td>
+                                <td id="absencesNotExcused">...</td>
+                            </tr>
+                        </table>
+                    </div>
                 </div>
                 <div id="infoPage">
                     <p>Information Page</p>

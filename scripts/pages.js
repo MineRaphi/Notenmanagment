@@ -1,13 +1,14 @@
-import { getLatestGrades, getSubjectsWithGrade, getGradesFromSubject, getFruewarnungen } from './api.js';
+import { getLatestGrades, getSubjectsWithGrade, getGradesFromSubject, getFruewarnungen, getFehlstunden } from './api.js';
 import { logout } from './auth.js'
 import { showToast, enableScroll, disableScroll, showLoading, hideLoading } from './ui.js';
 
 const startPage = document.getElementById("startPage");
 const notenPage = document.getElementById("notenPage");
-const infoPage = document.getElementById("infoPage");
 const fruewarnungPage = document.getElementById("fruewarnungPage");
+const fehlstundenPage = document.getElementById("fehlstundenPage");
+const infoPage = document.getElementById("infoPage");
 
-let pages = [startPage, notenPage, fruewarnungPage, infoPage];
+let pages = [startPage, notenPage, fruewarnungPage, fehlstundenPage, infoPage];
 
 function hideAllPages() {
     document.getElementById("login").style.display = "none";
@@ -139,7 +140,6 @@ export async function showFruehwarnungPage(matrikelNr, token) {
     hideAllPages();
     fruewarnungPage.style.display = "block";
     document.getElementById("menu").close();
-    enableScroll();
 
     const fruewarnungList = document.getElementById("fruewarnungList");
     fruewarnungList.innerHTML = "";
@@ -164,6 +164,30 @@ export async function showFruehwarnungPage(matrikelNr, token) {
         div.innerHTML = `<p>${item.Fach}</p>`;
         fruewarnungList.appendChild(div);
     });
+}
+
+export async function showFehlstundenPage(matrikelNr, token) {
+    hideAllPages();
+    fehlstundenPage.style.display = "block";
+    document.getElementById("menu").close();
+
+    const response = await getFehlstunden(matrikelNr, token);
+    if (!response.ok) {
+        logout(true);
+        return;
+    }
+
+    const data = await response.json();
+
+    const open = data.Fehlstunden_Offen;
+    const notExcused = data.Fehlstunden_NichtEntschuldigt;
+    const excused = data.Fehlstunden_Entschuldigt;
+    const total = open + notExcused + excused;
+
+    document.getElementById("absencesTotal").innerHTML = total;
+    document.getElementById("absencesOpen").innerHTML = open
+    document.getElementById("absencesExcused").innerHTML = excused;
+    document.getElementById("absencesNotExcused").innerHTML = notExcused;
 }
 
 export function showInfoPage() {
