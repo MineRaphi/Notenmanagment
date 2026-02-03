@@ -68,7 +68,8 @@ export async function logout(forced = false) {
     document.getElementById("login").style.display = "block";
     document.getElementById("main").style.display = "none";
     document.getElementById("menu").disabled = true;
-
+    document.getElementById("username").value = "";
+    document.getElementById("password").value = "";
     if (!forced) {
         showToast("Logged out!", true);
     }
