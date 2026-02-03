@@ -20,27 +20,28 @@ function hideAllPages() {
 
 function createGradeBox(data) {
     const box = document.createElement('div');
+    box.classList.add('grade-box');
     if (data.Note !== null) {
-        box.classList.add('grade-box', `n${data.Note}`);
+        box.classList.add(`n${data.Note}`);
     }
     else {
         if (data.Punkte !== null && data.MaxPunkte !== null) {
             let percent = data.Punkte / data.MaxPunkte;
 
             if (percent >= 0.88) {
-                box.classList.add('grade-box', `n1`);
+                box.classList.add(`n1`);
             }
             else if (percent >= 0.75) {
-                box.classList.add('grade-box', `n2`);
+                box.classList.add(`n2`);
             }
             else if (percent >= 0.62) {
-                box.classList.add('grade-box', `n3`);
+                box.classList.add(`n3`);
             }
             else if (percent >= 0.50) {
-                box.classList.add('grade-box', `n4`);
+                box.classList.add(`n4`);
             }
             else {
-                box.classList.add('grade-box', `n5`);
+                box.classList.add(`n5`);
             }
         }
     }
