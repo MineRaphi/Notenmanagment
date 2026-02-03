@@ -34,7 +34,18 @@
 }
 
 .subject-grades-list {
+    margin-top: 10px;
     border: #f7a312 solid 5px;
     border-radius: 5px;
     background-color: #ffffff;
+}
+
+.subject-grades-header {
+    background-color: #f7a312;
+    color: #f0f0f0;
+    font-weight: bold;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-left: 15px;
+    margin-top: 0px;
 }

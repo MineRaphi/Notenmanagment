@@ -93,11 +93,59 @@ async function createSubjectGradeBox(matrikelNr, token, subject) {
 
     const data = await response.json();
 
+    const gradeTable = document.createElement("table");
+
+    gradeTable.style.minWidth = "100%";
+
+    const headRow = document.createElement("tr");
+    headRow.innerHTML = `
+        <th>Datum</th>
+        <th>Info</th>
+        <th>Note</th>
+        <th>Punkte</th>
+        <th>Prozent</th>
+    `;
+    gradeTable.appendChild(headRow);
+
     data.forEach(item => {
-        const grade = document.createElement("div");
-        grade.innerHTML = `<p>${item.Note}</p>`;
-        div.appendChild(grade);
+        const row = document.createElement("tr");
+        row.innerHTML = `
+            <td>${item.Datum.replace("T00:00:00", "")}</td>
+            <td>${item.Typ}</td>
+            <td>${item.Note}</td>
+            <td>${item.Punkte}/${item.MaxPunkte}</td>
+            <td>${(item.Punkte/item.MaxPunkte*100).toFixed(2)}%</td>
+        `;
+
+        if (item.Note !== null) {
+            row.classList.add(`n${item.Note}`);
+        }
+        else {
+            if (item.Punkte !== null && item.MaxPunkte !== null) {
+                let percent = item.Punkte / item.MaxPunkte;
+
+                if (percent >= 0.88) {
+                    row.classList.add(`n1`);
+                }
+                else if (percent >= 0.75) {
+                    row.classList.add(`n2`);
+                }
+                else if (percent >= 0.62) {
+                    row.classList.add(`n3`);
+                }
+                else if (percent >= 0.50) {
+                    row.classList.add(`n4`);
+                }
+                else {
+                    row.classList.add(`n5`);
+                }
+            }
+        }
+
+        gradeTable.appendChild(row);
     });
+
+    div.appendChild(gradeTable);
 
     return div;
 }
