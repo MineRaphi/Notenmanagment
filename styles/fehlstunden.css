@@ -1,0 +1,44 @@
+.fehlstunden {
+    border: #f7a312 solid 5px;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    background-color: #ffffff;
+}
+
+.fehlstunden-header {
+    background-color: #f7a312;
+    color: #f0f0f0;
+    font-weight: bold;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-left: 15px;
+    margin-top: 0px;
+    margin-bottom: 0px;
+}
+
+.fehlstunden-table {
+    margin: 0px;
+    width: 100%;
+}
+
+.fehlstunden-table-header {
+    background-color: #F7DEB6;
+}
+
+#absencesTotal {
+    font-weight: bold;
+    text-align: center;
+}
+
+#absencesOpen {
+    text-align: center;
+}
+
+#absencesExcused { 
+    text-align: center;
+}
+
+#absencesNotExcused {
+    text-align: center;
+    background-color: #CB444A;
+}

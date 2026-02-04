@@ -3,6 +3,7 @@
     <head>
         <meta charset="UTF-8" />
         <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+        <link rel="stylesheet" href="/styles/fehlstunden.css">
         <link rel="stylesheet" href="/styles/global.css">
         <link rel="stylesheet" href="/styles/gradeBox.css">
         <link rel="stylesheet" href="/styles/header.css">
@@ -87,14 +88,14 @@
                     <div id="fruewarnungList"></div>
                 </div>
                 <div id="fehlstundenPage">
-                    <div id="fehlstundenTable">
-                        <h1>Meine Fehlstunden</h1>
-                        <table>
-                            <tr>
-                                <th>Gesamt</th>
-                                <th>Offen</th>
-                                <th>Entschuldigt</th>
-                                <th>Nicht Entschuldigt</th>
+                    <div class="fehlstunden" id="fehlstundenTable">
+                        <h2 class="fehlstunden-header">Fehlstunden (ohne Gewähr)</h2>
+                        <table class="fehlstunden-table">
+                            <tr class="fehlstunden-table-header">
+                                <th style="width: 20%;">Gesamt</th>
+                                <th style="width: 20%;">Offen</th>
+                                <th style="width: 20%;">Entschuldigt</th>
+                                <th style="width: 40%;">Nicht Entschuldigt</th>
                             </tr>
                             <tr>
                                 <td id="absencesTotal">...</td>
