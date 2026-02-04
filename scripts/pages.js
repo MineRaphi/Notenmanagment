@@ -106,6 +106,9 @@ async function createSubjectGradeBox(matrikelNr, token, subject) {
     gradeTable.style.marginTop = "0px";
 
     const headRow = document.createElement("tr");
+    headRow.style.backgroundColor = "#F7DEB6";
+    headRow.style.height = "35px";
+
     headRow.innerHTML = `
         <th>Datum</th>
         <th>Info</th>
@@ -117,7 +120,7 @@ async function createSubjectGradeBox(matrikelNr, token, subject) {
 
     data.forEach(item => {
         const row = document.createElement("tr");
-        row.style.height = "35px";
+        row.style.height = "45px";
 
         const date = item.Datum.replace("T00:00:00", "");
         const year = date.substring(2, 4);
