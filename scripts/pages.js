@@ -45,12 +45,18 @@ function createGradeBox(data) {
             }
         }
     }
+
+    const date = data.Datum.replace("T00:00:00", "");
+    const year = date.substring(0, 4);
+    const month = date.substring(5,7);
+    const day = date.substring(8,10);
+    
     box.innerHTML = `
         <div class="subject-type">
             <p>${data.Fach}</p>
             <p>${data.Typ}</p>
         </div>
-            <p class="date">${data.Datum.replace("T00:00:00", "")}</p>
+            <p class="date">${day}/${month}/${year}</p>
         <div class="grade">
             ${data.Note !== null ? `<p>Note <b>${data.Note}</b></p>` : ''}
             ${data.Punkte !== null ? `<p>${data.Punkte}/${data.MaxPunkte}</p>` : ''}
@@ -97,6 +103,7 @@ async function createSubjectGradeBox(matrikelNr, token, subject) {
     const gradeTable = document.createElement("table");
 
     gradeTable.style.minWidth = "100%";
+    gradeTable.style.marginTop = "0px";
 
     const headRow = document.createElement("tr");
     headRow.innerHTML = `
@@ -110,12 +117,36 @@ async function createSubjectGradeBox(matrikelNr, token, subject) {
 
     data.forEach(item => {
         const row = document.createElement("tr");
+        row.style.height = "35px";
+
+        const date = item.Datum.replace("T00:00:00", "");
+        const year = date.substring(2, 4);
+        const month = date.substring(5,7);
+        const day = date.substring(8,10);
+        const type = item.Typ.replace("Semesternote", "Semester");
+        let grade = item.Note;
+        let points = `${item.Punkte}/${item.MaxPunkte}`;
+        let percent = `${(item.Punkte/item.MaxPunkte*100).toFixed(2)}%`;
+        let gradeSpan = 1;
+
+        if (grade === null) {
+            grade = "";
+        }
+        if (item.Punkte === null || item.MaxPunkte === null) {
+            points = "";
+            percent = "";
+        }
+        if (grade === 0) {
+            gradeSpan = 2;
+            grade = "Gefehlt";
+        }
+
         row.innerHTML = `
-            <td>${item.Datum.replace("T00:00:00", "")}</td>
-            <td>${item.Typ}</td>
-            <td>${item.Note}</td>
-            <td>${item.Punkte}/${item.MaxPunkte}</td>
-            <td>${(item.Punkte/item.MaxPunkte*100).toFixed(2)}%</td>
+            <td style="width: 19%; text-align: end;">${day}/${month}/${year}</td>
+            <td style="width: 27%; text-align: center;">${type}</td>
+            <td style="width: 15%; text-align: center;" colspan=${gradeSpan}>${grade}</td>
+            <td style="width: 20%; text-align: center;">${points}</td>
+            <td style="width: 19%; text-align: end;">${percent} </td>
         `;
 
         if (item.Note !== null) {
