@@ -23,6 +23,11 @@
 
 .fehlstunden-table-header {
     background-color: #F7DEB6;
+    min-height: 25px;
+}
+
+.fehlstunden-table-data {
+    height: 25px;
 }
 
 #absencesTotal {
@@ -41,4 +46,6 @@
 #absencesNotExcused {
     text-align: center;
     background-color: #CB444A;
+    font-weight: bold;
+    color: #f0f0f0;
 }
