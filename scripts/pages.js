@@ -1,4 +1,4 @@
-import { getLatestGrades, getSubjectsWithGrade, getGradesFromSubject, getFruewarnungen, getFehlstunden } from './api.js';
+import { getLatestGrades, getSubjectsWithGrade, getGradesFromSubject, getFruewarnungen, getFehlstunden, getLFdata, getLFgrade } from './api.js';
 import { logout } from './auth.js'
 import { showToast, enableScroll, disableScroll, showLoading, hideLoading } from './ui.js';
 
@@ -7,8 +7,9 @@ const notenPage = document.getElementById("notenPage");
 const fruewarnungPage = document.getElementById("fruewarnungPage");
 const fehlstundenPage = document.getElementById("fehlstundenPage");
 const infoPage = document.getElementById("infoPage");
+const LFdetailsPage = document.getElementById("LFdetailsPage");
 
-let pages = [startPage, notenPage, fruewarnungPage, fehlstundenPage, infoPage];
+let pages = [startPage, notenPage, fruewarnungPage, fehlstundenPage, infoPage, LFdetailsPage];
 
 function hideAllPages() {
     document.getElementById("login").style.display = "none";
@@ -18,9 +19,13 @@ function hideAllPages() {
     disableScroll();
 }
 
-function createGradeBox(data) {
+function createGradeBox(matrikelNr, token, data) {
     const box = document.createElement('div');
     box.classList.add('grade-box');
+    box.addEventListener("click", () => {
+        showLFdetailsPage(matrikelNr, token, data.LF_ID);
+    });
+
     if (data.Note !== null) {
         box.classList.add(`n${data.Note}`);
     }
@@ -87,7 +92,7 @@ export async function showStartPage(matrikelNr, token) {
     `;
 
     for (let i of data) {
-        element.appendChild(createGradeBox(i));
+        element.appendChild(createGradeBox(matrikelNr, token, i));
     }
 }
 
@@ -121,6 +126,9 @@ async function createSubjectGradeBox(matrikelNr, token, subject) {
     data.forEach(item => {
         const row = document.createElement("tr");
         row.style.height = "45px";
+        row.addEventListener("click", () => {
+            showLFdetailsPage(matrikelNr, token, item.LF_ID);
+        });
 
         const date = item.Datum.replace("T00:00:00", "");
         const year = date.substring(2, 4);
@@ -282,4 +290,90 @@ export function showInfoPage() {
     hideAllPages();
     infoPage.style.display = "block";
     document.getElementById("menu").close();
+}
+
+export async function showLFdetailsPage(matrikelNr, token, LF_ID) {
+    hideAllPages();
+    LFdetailsPage.style.display = "block";
+    document.getElementById("menu").close();
+
+    const LFheaderName = document.getElementById("LFheaderName");
+    const LFheaderDetails = document.getElementById("LFheaderDetails");
+    const LFgrade = document.getElementById("LFgrade");
+    const LFpoints = document.getElementById("LFpoints");
+    const LFpercent = document.getElementById("LFpercent");
+    const LFcomment = document.getElementById("LFcomment");
+
+    LFheaderName.textContent = "";
+    LFheaderDetails.textContent = "";
+    LFgrade.textContent = "";
+    LFpoints.textContent = "";
+    LFpercent.textContent = "";
+    LFcomment.textContent = "";
+
+    await showLoading();
+
+    const dataResponse = await getLFdata(matrikelNr, token, LF_ID);
+    const data = await dataResponse.json();
+
+    const gradeResponse = await getLFgrade(matrikelNr, token, LF_ID);
+    const grade = await gradeResponse.json();
+
+    const date = data.Datum.replace("T00:00:00", "");
+    const year = date.substring(0, 4);
+    const month = date.substring(5,7);
+    const day = date.substring(8,10);
+
+    let note = grade.Note;
+    let points = `${grade.Punkte}/${data.MaxPunkte}`;
+    let percent = `${(grade.Punkte/data.MaxPunkte*100).toFixed(2)}%`;
+
+    if (note === null) {
+        note = "";
+    }
+    if (grade.Punkte === null || data.MaxPunkte === null) {
+        points = "";
+        percent = "";
+    }
+    if (note === 0) {
+        note = "Gefehlt";
+    }
+
+    LFheaderName.textContent = `${data.Typ} in ${data.Fach}`;
+    LFheaderDetails.textContent = `${day}/${month}/${year}, ${data.Kommentar}`;
+
+    LFgrade.innerHTML = note;
+    LFpoints.innerHTML = points;
+    LFpercent.innerHTML = percent;
+    LFcomment.innerHTML = grade.Kommentar;
+
+    const row = document.getElementById("LFtableData");
+    row.classList.remove("n0", "n1", "n2", "n3", "n4", "n5");
+
+    if (grade.Note !== null) {
+        row.classList.add(`n${grade.Note}`);
+    }
+    else {
+        if (grade.Punkte !== null && data.MaxPunkte !== null) {
+            let percent = grade.Punkte / data.MaxPunkte;
+
+            if (percent >= 0.88) {
+                row.classList.add(`n1`);
+            }
+            else if (percent >= 0.75) {
+                row.classList.add(`n2`);
+            }
+            else if (percent >= 0.62) {
+                row.classList.add(`n3`);
+            }
+            else if (percent >= 0.50) {
+                row.classList.add(`n4`);
+            }
+            else {
+                row.classList.add(`n5`);
+            }
+        }
+    }
+
+    await hideLoading();
 }

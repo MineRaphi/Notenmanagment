@@ -1,0 +1,53 @@
+.LF-details {
+    border: #f7a312 solid 5px;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    background-color: #ffffff;
+}
+
+.LF-header-name {
+    background-color: #f7a312;
+    color: #f0f0f0;
+    font-weight: bold;
+    padding-top: 10px;
+    padding-bottom: 0px;
+    padding-left: 15px;
+    margin-top: 0px;
+    margin-bottom: 0px;
+}
+
+.LF-header-details {
+    background-color: #f7a312;
+    color: #f0f0f0;
+    font-weight: bold;
+    padding-top: 0px;
+    padding-bottom: 10px;
+    padding-left: 15px;
+    margin-top: 0px;
+    margin-bottom: 0px;
+}
+
+.LF-table {
+    margin: 0px;
+    width: 100%;
+}
+
+.LF-table-header {
+    background-color: #F7DEB6;
+}
+
+#LFgrade {
+    text-align: center;
+}
+
+#LFpoints {
+    text-align: center;
+}
+
+#LFpercent {
+    text-align: center;
+}
+
+#LFcomment {
+    text-align: start;
+}

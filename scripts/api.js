@@ -43,3 +43,15 @@ export async function getFehlstunden(matrikelNr, token) {
         headers: { 'Authorization': `bearer ${token}` }
     });
 }
+
+export async function getLFdata(_matrikelNr, token, LF_ID) {
+    return fetch(URL + `/api/LFs/${LF_ID}`, {
+        headers: { 'Authorization': `bearer ${token}` }
+    });
+}
+
+export async function getLFgrade(matrikelNr, token, LF_ID) {
+    return fetch(URL + `/api/LFs/${LF_ID}/Schueler/${matrikelNr}/Noten`, {
+        headers: { 'Authorization': `bearer ${token}` }
+    });
+}
