@@ -303,13 +303,15 @@ export async function showLFdetailsPage(matrikelNr, token, LF_ID) {
     const LFpoints = document.getElementById("LFpoints");
     const LFpercent = document.getElementById("LFpercent");
     const LFcomment = document.getElementById("LFcomment");
-
+    const row = document.getElementById("LFtableData");
+    
     LFheaderName.textContent = "";
     LFheaderDetails.textContent = "";
     LFgrade.textContent = "";
     LFpoints.textContent = "";
     LFpercent.textContent = "";
     LFcomment.textContent = "";
+    row.classList.remove("n0", "n1", "n2", "n3", "n4", "n5");
 
     await showLoading();
 
@@ -346,9 +348,6 @@ export async function showLFdetailsPage(matrikelNr, token, LF_ID) {
     LFpoints.innerHTML = points;
     LFpercent.innerHTML = percent;
     LFcomment.innerHTML = grade.Kommentar;
-
-    const row = document.getElementById("LFtableData");
-    row.classList.remove("n0", "n1", "n2", "n3", "n4", "n5");
 
     if (grade.Note !== null) {
         row.classList.add(`n${grade.Note}`);
