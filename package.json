@@ -15,12 +15,12 @@
   },
   "dependencies": {
     "@capacitor/android": "^7.3.0",
-    "@capacitor/cli": "^7.3.0",
+    "@capacitor/cli": "^8.0.2",
     "@capacitor/core": "^7.3.0",
     "@capacitor/dialog": "^7.0.1",
     "@capacitor/ios": "^7.3.0",
     "@capacitor/preferences": "^7.0.1",
-    "@capacitor/push-notifications": "^7.0.1",
+    "@capacitor/push-notifications": "^7.0.4",
     "@capacitor/status-bar": "^7.0.1",
     "@capacitor/toast": "^7.0.1",
     "@ionic/core": "^8.6.1"
