@@ -56,3 +56,36 @@
 #LFcomment {
     text-align: start;
 }
+
+.LF-notenspiegel {
+    border: #f7a312 solid 5px;
+    border-radius: 5px;
+    background-color: #ffffff;
+    margin-top: 30px;
+}
+
+.LF-notenspiegel-header {
+    background-color: #f7a312;
+    color: #f0f0f0;
+    font-weight: bold;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-left: 15px;
+    margin-top: 0px;
+    margin-bottom: 0px;
+}
+
+.notenspiegel-table {
+    margin: 0px;
+    width: 100%;
+}
+
+.notenspiegel-table-header {
+    background-color: #F7DEB6;
+    height: 30px;
+}
+
+.notenspiegel-table-data {
+    text-align: center;
+    height: 30px;
+}

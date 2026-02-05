@@ -292,7 +292,7 @@ export function showInfoPage() {
     document.getElementById("menu").close();
 }
 
-export async function showLFdetailsPage(matrikelNr, token, LF_ID) {
+async function showLFdetailsPage(matrikelNr, token, LF_ID) {
     hideAllPages();
     LFdetailsPage.style.display = "block";
     document.getElementById("menu").close();
@@ -304,6 +304,14 @@ export async function showLFdetailsPage(matrikelNr, token, LF_ID) {
     const LFpercent = document.getElementById("LFpercent");
     const LFcomment = document.getElementById("LFcomment");
     const row = document.getElementById("LFtableData");
+    const LFnotenspiegel = document.getElementById("LFnotenspiegel");
+    const gradeOne = document.getElementById("gradeOne");
+    const gradeTwo = document.getElementById("gradeTwo");
+    const gradeThree = document.getElementById("gradeThree");
+    const gradeFour = document.getElementById("gradeFour");
+    const gradeFive = document.getElementById("gradeFive");
+    const gradeMissing = document.getElementById("gradeMissing");
+    const gradeAverage = document.getElementById("gradeAverage");
     
     LFheaderName.textContent = "";
     LFheaderDetails.textContent = "";
@@ -312,6 +320,7 @@ export async function showLFdetailsPage(matrikelNr, token, LF_ID) {
     LFpercent.textContent = "";
     LFcomment.textContent = "";
     row.classList.remove("n0", "n1", "n2", "n3", "n4", "n5");
+    LFnotenspiegel.style.display = "none";
 
     await showLoading();
 
@@ -372,6 +381,24 @@ export async function showLFdetailsPage(matrikelNr, token, LF_ID) {
                 row.classList.add(`n5`);
             }
         }
+    }
+
+    if (data.Notenspiegel !== null) {
+        const average = (data.Notenspiegel[0] * 1 +
+                        data.Notenspiegel[1] * 2 +
+                        data.Notenspiegel[2] * 3 +
+                        data.Notenspiegel[3] * 4 +
+                        data.Notenspiegel[4] * 5) / (data.Notenspiegel[0] + data.Notenspiegel[1] + data.Notenspiegel[2] + data.Notenspiegel[3] + data.Notenspiegel[4]);
+
+        gradeOne.innerHTML = data.Notenspiegel[0];
+        gradeTwo.innerHTML = data.Notenspiegel[1];
+        gradeThree.innerHTML = data.Notenspiegel[2];
+        gradeFour.innerHTML = data.Notenspiegel[3];
+        gradeFive.innerHTML = data.Notenspiegel[4];
+        gradeMissing.innerHTML = data.Notenspiegel[5];
+        gradeAverage.innerHTML = average.toFixed(2);
+
+        LFnotenspiegel.style.display = "block";
     }
 
     await hideLoading();
