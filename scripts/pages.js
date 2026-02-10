@@ -1,6 +1,7 @@
 import { getLatestGrades, getSubjectsWithGrade, getGradesFromSubject, getFruewarnungen, getFehlstunden, getLFdata, getLFgrade } from './api.js';
 import { logout } from './auth.js'
 import { showToast, enableScroll, disableScroll, showLoading, hideLoading } from './ui.js';
+import Chart from 'chart.js/auto';
 
 const startPage = document.getElementById("startPage");
 const notenPage = document.getElementById("notenPage");
@@ -8,6 +9,42 @@ const fruewarnungPage = document.getElementById("fruewarnungPage");
 const fehlstundenPage = document.getElementById("fehlstundenPage");
 const infoPage = document.getElementById("infoPage");
 const LFdetailsPage = document.getElementById("LFdetailsPage");
+
+const chart = new Chart(document.getElementById('notenspiegelChart'),
+{
+    type: 'bar',
+    data: {
+        labels: [1, 2, 3, 4, 5, "Gefehlt"],
+        datasets: [{
+            label: "Noten",
+            data: [0, 0, 0, 0, 0, 0],
+            backgroundColor: [
+                '#2B9152',
+                '#8EB897',
+                '#FFD447',
+                '#FA7921',
+                '#A50104',
+                '#A6A6A6',
+            ],
+        }]
+    },
+    options: {
+        animation: {
+            duration: 0
+        },
+        animations: {
+            y: {
+                duration: 1500,
+                from: ctx => ctx.chart.scales.y.getPixelForValue(0)
+            }
+        },
+        plugins: {
+            legend: { display: false },
+            tooltip: { enabled: false }
+        }
+    }
+});
+
 
 let pages = [startPage, notenPage, fruewarnungPage, fehlstundenPage, infoPage, LFdetailsPage];
 
@@ -17,6 +54,9 @@ function hideAllPages() {
         pages[i].style.display = "none";
     }
     disableScroll();
+    chart.data.datasets[0].data = [0, 0, 0, 0, 0, 0];
+    chart.update();
+
 }
 
 function createGradeBox(matrikelNr, token, data) {
@@ -312,6 +352,7 @@ async function showLFdetailsPage(matrikelNr, token, LF_ID) {
     const gradeFive = document.getElementById("gradeFive");
     const gradeMissing = document.getElementById("gradeMissing");
     const gradeAverage = document.getElementById("gradeAverage");
+    const notenspiegelChart = document.getElementById("notenspiegelChart");
     
     LFheaderName.textContent = "";
     LFheaderDetails.textContent = "";
@@ -321,6 +362,7 @@ async function showLFdetailsPage(matrikelNr, token, LF_ID) {
     LFcomment.textContent = "";
     row.classList.remove("n0", "n1", "n2", "n3", "n4", "n5");
     LFnotenspiegel.style.display = "none";
+    notenspiegelChart.style.display = "none";
 
     await showLoading();
 
@@ -398,7 +440,19 @@ async function showLFdetailsPage(matrikelNr, token, LF_ID) {
         gradeMissing.innerHTML = data.Notenspiegel[5];
         gradeAverage.innerHTML = average.toFixed(2);
 
+        
+        chart.data.datasets[0].data = [
+            data.Notenspiegel[0],
+            data.Notenspiegel[1],
+            data.Notenspiegel[2],
+            data.Notenspiegel[3],
+            data.Notenspiegel[4],
+            data.Notenspiegel[5]
+        ]
+        chart.update();
+        
         LFnotenspiegel.style.display = "block";
+        notenspiegelChart.style.display = "block";
     }
 
     await hideLoading();
