@@ -8,6 +8,7 @@ body {
 
 #main {
     display: none;
+    font-size: 0.9rem;
 }
 
 #startPage {
@@ -26,6 +27,18 @@ body {
     width: 100vw;
     text-align: center;
     align-content: center;
+}
+
+#notenPage {
+    margin: 15px;
+}
+
+#fehlstundenPage {
+    margin: 15px;
+}
+
+#LFdetailsPage {
+    margin: 15px;
 }
 
 /* makes sure doesnt auto zoom*/
