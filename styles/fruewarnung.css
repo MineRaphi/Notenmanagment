@@ -1,0 +1,39 @@
+.fruewarnung {
+    border: #f7a312 solid 5px;
+    border-radius: 5px;
+    background-color: #e6e6e6;
+}
+
+.fruewarnung-header {
+    background-color: #f7a312;
+    color: #f0f0f0;
+    font-weight: bold;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-left: 15px;
+    margin-top: 0px;
+    margin-bottom: 0px;
+}
+
+.fruewarnung-table {
+    margin: 0px;
+    width: 100%;
+}
+
+.fruewarnung-table-header {
+    background-color: #F7DEB6;
+    height: 30px;
+}
+
+.fruewarnung-table-data {
+    height: 30px;
+    text-align: center;
+    background-color: #CB444A;
+    font-weight: bold;
+    color: #f0f0f0;
+}
+
+.fruewarnung-empty {
+    text-align: center;
+    font-weight: bold;
+}

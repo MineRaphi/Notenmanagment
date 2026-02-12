@@ -1,4 +1,4 @@
-import { getLatestGrades, getSubjectsWithGrade, getGradesFromSubject, getFruewarnungen, getFehlstunden, getLFdata, getLFgrade } from './api.js';
+import { getLatestGrades, getSubjectsWithGrade, getGradesFromSubject, getFruewarnungen, getFehlstunden, getLFdata, getLFgrade, getLehrer } from './api.js';
 import { logout } from './auth.js'
 import { showToast, enableScroll, disableScroll, showLoading, hideLoading } from './ui.js';
 import Chart from 'chart.js/auto';
@@ -277,8 +277,7 @@ export async function showFruehwarnungPage(matrikelNr, token) {
     fruewarnungPage.style.display = "block";
     document.getElementById("menu").close();
 
-    const fruewarnungList = document.getElementById("fruewarnungList");
-    fruewarnungList.innerHTML = "";
+    const fruewarnungTable = document.getElementById("fruewarnungTable");
 
     const response = await getFruewarnungen(matrikelNr, token);
     if (!response.ok) {
@@ -289,16 +288,48 @@ export async function showFruehwarnungPage(matrikelNr, token) {
     const data = await response.json();
 
     if (data.length === 0) {
+        fruewarnungTable.innerHTML = "";
+
         const div = document.createElement("div");
         div.innerHTML = `<p>Keine Frühwarnungen vorhanden</p>`;
-        fruewarnungList.appendChild(div);
+        div.classList.add("fruewarnung-empty");
+        fruewarnungTable.appendChild(div);
         return;
     }
 
+    const responseLehrer = await getLehrer(matrikelNr, token);
+
+    if (!responseLehrer.ok) {
+        logout(true);
+        return;
+    }
+
+    const lehrer = await responseLehrer.json();
+
+    fruewarnungTable.innerHTML = `
+        <tr class="fruewarnung-table-header">
+            <th style="width: 25%;">Fach</th>
+            <th style="width: 45%;">Lehrer</th>
+            <th style="width: 30%;">Datum</th>
+        </tr>
+    `;
+
     data.forEach(item => {
-        const div = document.createElement("div");
-        div.innerHTML = `<p>${item.Fach}</p>`;
-        fruewarnungList.appendChild(div);
+        const date = item.Eingetragen.replace("T00:00:00", "");
+        const year = date.substring(2, 4);
+        const month = date.substring(5,7);
+        const day = date.substring(8,10);
+
+        const row = document.createElement("tr");
+        row.innerHTML = `
+            <td>${item.Fach}</td>
+            <td>${lehrer.find(i => i.Lehrer_ID === item.Lehrer_ID).Nachname} ${lehrer.find(i => i.Lehrer_ID === item.Lehrer_ID).Vorname}</td>
+            <td>${day}/${month}/${year}</td>
+        `;
+
+        row.classList.add("fruewarnung-table-data");
+
+        fruewarnungTable.appendChild(row);
     });
 }
 

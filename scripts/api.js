@@ -55,3 +55,9 @@ export async function getLFgrade(matrikelNr, token, LF_ID) {
         headers: { 'Authorization': `bearer ${token}` }
     });
 }
+
+export async function getLehrer(matrikelNr, token) {
+    return fetch(URL + `/api/Lehrer`, {
+        headers: { 'Authorization': `bearer ${token}` }
+    });
+}
