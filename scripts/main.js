@@ -1,4 +1,4 @@
-import { showStartPage, showNotenPage, showInfoPage, showFruehwarnungPage, showFehlstundenPage } from './pages.js';
+import { showStartPage, showNotenPage, showInfoPage, showFruehwarnungPage, showFehlstundenPage, showWhereIsMyTeacherPage, whereIsMyTeacherShowData } from './pages.js';
 import { doLogin, checkLoggedIn, logout } from './auth.js';
 import { disableScroll } from './ui.js';
 
@@ -30,5 +30,7 @@ document.getElementById("showStart").onclick = () => showStartPage(matrikelNr, a
 document.getElementById("showNoten").onclick = () => showNotenPage(matrikelNr, accessToken);
 document.getElementById("showFruewarnung").onclick = () => showFruehwarnungPage(matrikelNr, accessToken);
 document.getElementById("showFehlstunden").onclick = () => showFehlstundenPage(matrikelNr, accessToken);
+document.getElementById("showWhereIsMyTeacherPage").onclick = () => showWhereIsMyTeacherPage(); 
+document.getElementById("whereIsMyTeacherButton").onclick = () => whereIsMyTeacherShowData();
 document.getElementById("showInfo").onclick = () => showInfoPage();
 document.getElementById("logout").onclick = () => logout();

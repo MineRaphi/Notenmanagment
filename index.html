@@ -41,6 +41,9 @@
                     <button id="showFehlstunden" class="menu-button">Fehlstunden</button>
                 </ion-item>
                 <ion-item>
+                    <button id="showWhereIsMyTeacherPage" class="menu-button">Where Is My Teacher</button>
+                </ion-item>
+                <ion-item>
                     <button id="showInfo" class="menu-button">Info</button>
                 </ion-item>
                 <ion-item>
@@ -110,6 +113,25 @@
                             </tr>
                         </table>
                     </div>
+                </div>
+                <div id="whereIsMyTeacherPage">
+                    <select id="whereIsMyTeacherList">
+                        <option disabled selected>Lehrer/in auswählen ...</option>
+                    </select>
+                    <button id="whereIsMyTeacherButton" expand="block">Nachschlagen</button>
+                    <table class="u-full-width">
+                        <thead>
+                            <tr>
+                                <th>EH / Start</th>
+                                <th>Raum</th>
+                                <th>Klasse</th>
+                                <th>Fach</th>
+                            </tr>
+                        </thead>
+                        <tbody id="whereIsMyTeacherTable">
+
+                        </tbody>
+                    </table>
                 </div>
                 <div id="infoPage">
                     <p>Information Page</p>

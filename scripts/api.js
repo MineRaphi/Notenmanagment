@@ -1,3 +1,5 @@
+import { CapacitorHttp } from '@capacitor/core';
+
 const URL = `https://notenmanagement.htl-braunau.at/rest`;
 
 export async function loginRequest(username, password) {
@@ -59,5 +61,31 @@ export async function getLFgrade(matrikelNr, token, LF_ID) {
 export async function getLehrer(matrikelNr, token) {
     return fetch(URL + `/api/Lehrer`, {
         headers: { 'Authorization': `bearer ${token}` }
+    });
+}
+
+export async function getLehrerListUntis() {
+    const response = await CapacitorHttp.request({
+        method: 'GET',
+        url: 'https://services01.htl-braunau.at/WhereIsMyTeacher/',
+    });
+
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(response.data, "text/html");
+
+    return doc.getElementById("teacherlist")?.innerHTML;
+}
+
+export async function getLehrerDataUntis(teacherID) {
+    return await CapacitorHttp.request({
+        method: 'POST',
+        url: 'https://services01.htl-braunau.at/WhereIsMyTeacher/data.php',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        data: {
+            action: 'getSchedule',
+            teacherid: teacherID
+        }
     });
 }

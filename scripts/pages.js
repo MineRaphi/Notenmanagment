@@ -1,4 +1,4 @@
-import { getLatestGrades, getSubjectsWithGrade, getGradesFromSubject, getFruewarnungen, getFehlstunden, getLFdata, getLFgrade, getLehrer } from './api.js';
+import { getLatestGrades, getSubjectsWithGrade, getGradesFromSubject, getFruewarnungen, getFehlstunden, getLFdata, getLFgrade, getLehrer, getLehrerListUntis, getLehrerDataUntis } from './api.js';
 import { logout } from './auth.js'
 import { showToast, enableScroll, disableScroll, showLoading, hideLoading } from './ui.js';
 import Chart from 'chart.js/auto';
@@ -7,6 +7,7 @@ const startPage = document.getElementById("startPage");
 const notenPage = document.getElementById("notenPage");
 const fruewarnungPage = document.getElementById("fruewarnungPage");
 const fehlstundenPage = document.getElementById("fehlstundenPage");
+const whereIsMyTeacherPage = document.getElementById("whereIsMyTeacherPage");
 const infoPage = document.getElementById("infoPage");
 const LFdetailsPage = document.getElementById("LFdetailsPage");
 
@@ -46,7 +47,7 @@ const chart = new Chart(document.getElementById('notenspiegelChart'),
 });
 
 
-let pages = [startPage, notenPage, fruewarnungPage, fehlstundenPage, infoPage, LFdetailsPage];
+let pages = [startPage, notenPage, fruewarnungPage, fehlstundenPage, whereIsMyTeacherPage, infoPage, LFdetailsPage];
 
 function hideAllPages() {
     document.getElementById("login").style.display = "none";
@@ -355,6 +356,28 @@ export async function showFehlstundenPage(matrikelNr, token) {
     document.getElementById("absencesOpen").innerHTML = open
     document.getElementById("absencesExcused").innerHTML = excused;
     document.getElementById("absencesNotExcused").innerHTML = notExcused;
+}
+
+export async function showWhereIsMyTeacherPage() {
+    hideAllPages();
+    whereIsMyTeacherPage.style.display = "block";
+    document.getElementById("menu").close();
+
+    const teacherSelect = document.getElementById("whereIsMyTeacherList");
+    const lehrerList = await getLehrerListUntis();
+
+    teacherSelect.innerHTML = lehrerList;
+}
+
+export async function whereIsMyTeacherShowData() {
+    const teacherSelect = document.getElementById("whereIsMyTeacherList");
+    const table = document.getElementById("whereIsMyTeacherTable");
+
+    const teacherID = teacherSelect.value;
+
+    const response = await getLehrerDataUntis(teacherID);
+
+    table.innerHTML = response.data;
 }
 
 export function showInfoPage() {
