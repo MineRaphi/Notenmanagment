@@ -364,6 +364,10 @@ export async function showWhereIsMyTeacherPage() {
     document.getElementById("menu").close();
 
     const teacherSelect = document.getElementById("whereIsMyTeacherList");
+    const table = document.getElementById("whereIsMyTeacherTable");
+
+    table.innerHTML = "";
+
     const lehrerList = await getLehrerListUntis();
 
     teacherSelect.innerHTML = lehrerList;
@@ -375,9 +379,11 @@ export async function whereIsMyTeacherShowData() {
 
     const teacherID = teacherSelect.value;
 
+    showLoading();
     const response = await getLehrerDataUntis(teacherID);
 
     table.innerHTML = response.data;
+    hideLoading();
 }
 
 export function showInfoPage() {

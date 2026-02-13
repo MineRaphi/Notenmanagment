@@ -12,6 +12,7 @@
         <link rel="stylesheet" href="/styles/login.css">
         <link rel="stylesheet" href="/styles/menu.css">
         <link rel="stylesheet" href="/styles/noten.css">
+        <link rel="stylesheet" href="/styles/whereTeacher.css">
         <!-- Ionic Core CSS -->
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@ionic/core/css/ionic.bundle.css" />
         <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1, user-scalable=no">
@@ -118,14 +119,14 @@
                     <select id="whereIsMyTeacherList">
                         <option disabled selected>Lehrer/in auswählen ...</option>
                     </select>
-                    <button id="whereIsMyTeacherButton" expand="block">Nachschlagen</button>
-                    <table class="u-full-width">
+                    <button id="whereIsMyTeacherButton">Nachschlagen</button>
+                    <table class="whereIsMyTeacher-table">
                         <thead>
                             <tr>
-                                <th>EH / Start</th>
-                                <th>Raum</th>
-                                <th>Klasse</th>
-                                <th>Fach</th>
+                                <th width="25%">EH / Start</th>
+                                <th width="40%">Raum</th>
+                                <th width="20%">Klasse</th>
+                                <th width="15%">Fach</th>
                             </tr>
                         </thead>
                         <tbody id="whereIsMyTeacherTable">
