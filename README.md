@@ -42,10 +42,6 @@ npm run build-android
 
 * See [Releases](https://github.com/MineRaphi/Notenmanagment/releases) for current published Version
 
-* 0.1
-    * Initial Release
-    * See [Release page] for more details
-
 ## License
 
 This project is licensed under the GNU GPLv3 License - see the LICENSE.md file for details
