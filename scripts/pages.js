@@ -8,6 +8,7 @@ const notenPage = document.getElementById("notenPage");
 const fruewarnungPage = document.getElementById("fruewarnungPage");
 const fehlstundenPage = document.getElementById("fehlstundenPage");
 const whereIsMyTeacherPage = document.getElementById("whereIsMyTeacherPage");
+const settingsPage = document.getElementById("settingsPage");
 const infoPage = document.getElementById("infoPage");
 const LFdetailsPage = document.getElementById("LFdetailsPage");
 
@@ -47,7 +48,7 @@ const chart = new Chart(document.getElementById('notenspiegelChart'),
 });
 
 
-let pages = [startPage, notenPage, fruewarnungPage, fehlstundenPage, whereIsMyTeacherPage, infoPage, LFdetailsPage];
+let pages = [startPage, notenPage, fruewarnungPage, fehlstundenPage, whereIsMyTeacherPage, settingsPage, infoPage, LFdetailsPage];
 
 function hideAllPages() {
     document.getElementById("login").style.display = "none";
@@ -384,6 +385,12 @@ export async function whereIsMyTeacherShowData() {
 
     table.innerHTML = response.data;
     hideLoading();
+}
+
+export async function showSettingsPage() {
+    hideAllPages();
+    settingsPage.style.display = "block";
+    document.getElementById("menu").close();
 }
 
 export function showInfoPage() {

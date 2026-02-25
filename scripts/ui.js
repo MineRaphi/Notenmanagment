@@ -37,3 +37,15 @@ export function enableScroll() {
 export function disableScroll() {
     ionContent.style.overflowY = 'hidden';
 }
+
+export async function changeTheme(theme) {
+    if (theme == "dark") {
+        document.documentElement.classList.add("dark");
+    }
+    else if (theme == "light") {
+        document.documentElement.classList.remove("dark");
+    }
+    else {
+        document.documentElement.classList.toggle("dark");
+    }
+}
