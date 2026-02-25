@@ -4,19 +4,19 @@
     text-align: left;
     padding: 15px;
     margin: 0;
-    background-color: #ffffff;
-    color: #787878;
+    background-color: var(--background-color);
+    color: var(--menu-text-color);
     font-weight: bold;
 }
 
 ion-list {
-  margin: 0;
-  padding: 0;
+    margin: 0;
+    padding: 0;
 }
 
 ion-item {
-  --padding-start: 0;
-  --inner-padding-end: 0;
-  padding: 0;
-  margin: 0;
+    --padding-start: 0;
+    --inner-padding-end: 0;
+    padding: 0;
+    margin: 0;
 }

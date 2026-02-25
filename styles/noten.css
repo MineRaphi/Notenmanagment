@@ -1,11 +1,11 @@
 .subject-header {
-    border: #f7a312 solid 5px;
+    border: var(--border-orange) solid 5px;
     border-radius: 5px;
-    background-color: #f7a312;
+    background-color: var(--border-orange);
 }
 
 .subject-header h3 {
-    color: #f0f0f0;
+    color: var(--text-color);
     font-weight: bold;
     margin-top: 10px;
     margin-bottom: 15px;
@@ -15,7 +15,7 @@
 .subject-list {
     display: grid;
     grid-template-columns: auto auto auto;
-    background-color: #ffffff;
+    background-color: var(--background-color);
     padding: 10px;
     padding-top: 5px;
     height: 100px;
@@ -34,14 +34,14 @@
 
 .subject-grades-list {
     margin-top: 15px;
-    border: #f7a312 solid 5px;
+    border: var(--border-orange) solid 5px;
     border-radius: 5px;
-    background-color: #ffffff;
+    background-color: var(--background-color);
 }
 
 .subject-grades-header {
-    background-color: #f7a312;
-    color: #f0f0f0;
+    background-color: var(--border-orange);
+    color: var(--text-color);
     font-weight: bold;
     padding-top: 10px;
     padding-bottom: 10px;

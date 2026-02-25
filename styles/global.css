@@ -1,5 +1,4 @@
 body {
-    background-color: #F5F5F5;
     user-select: none;
     -webkit-user-select: none; /* Safari */
     -moz-user-select: none;    /* Firefox */
@@ -61,7 +60,7 @@ select {
     align-items: center;
     width: 88vw;
     height: 65px;
-    background: linear-gradient(160deg,#f7a312 -10%,#f38f17 60%,#ef7d00 120%);
+    background: linear-gradient(160deg,var(--border-orange) -10%, var(--header-orange-middle) 60%, var(--header-orange-gradiant) 120%);
     border-radius: 5px;
     margin: 0 auto;
     margin-bottom: 10px;

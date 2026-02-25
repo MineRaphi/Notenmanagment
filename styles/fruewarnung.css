@@ -1,12 +1,12 @@
 .fruewarnung {
-    border: #f7a312 solid 5px;
+    border: var(--border-orange) solid 5px;
     border-radius: 5px;
     background-color: #e6e6e6;
 }
 
 .fruewarnung-header {
-    background-color: #f7a312;
-    color: #f0f0f0;
+    background-color: var(--border-orange);
+    color: var(--text-color-light);
     font-weight: bold;
     padding-top: 10px;
     padding-bottom: 10px;
@@ -21,16 +21,16 @@
 }
 
 .fruewarnung-table-header {
-    background-color: #F7DEB6;
+    background-color: var(--table-header);
     height: 30px;
 }
 
 .fruewarnung-table-data {
     height: 30px;
     text-align: center;
-    background-color: #CB444A;
+    background-color: var(--warning-red);
     font-weight: bold;
-    color: #f0f0f0;
+    color: var(--text-color-light);
 }
 
 .fruewarnung-empty {

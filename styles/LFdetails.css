@@ -1,12 +1,12 @@
 .LF-details {
-    border: #f7a312 solid 5px;
+    border: var(--border-orange) solid 5px;
     border-radius: 5px;
-    background-color: #ffffff;
+    background-color: var(--background-color);
 }
 
 .LF-header-name {
-    background-color: #f7a312;
-    color: #f0f0f0;
+    background-color: var(--border-orange);
+    color: var(--text-color);
     font-weight: bold;
     padding-top: 10px;
     padding-bottom: 0px;
@@ -16,8 +16,8 @@
 }
 
 .LF-header-details {
-    background-color: #f7a312;
-    color: #f0f0f0;
+    background-color: var(--border-orange);
+    color: var(--text-color);
     font-weight: bold;
     padding-top: 0px;
     padding-bottom: 10px;
@@ -32,7 +32,7 @@
 }
 
 .LF-table-header {
-    background-color: #F7DEB6;
+    background-color: var(--table-header);
     height: 30px;
 }
 
@@ -57,16 +57,16 @@
 }
 
 .LF-notenspiegel {
-    border: #f7a312 solid 5px;
+    border: var(--border-orange) solid 5px;
     border-radius: 5px;
-    background-color: #ffffff;
+    background-color: var(--background-color);
     margin-top: 30px;
     margin-bottom: 30px;
 }
 
 .LF-notenspiegel-header {
-    background-color: #f7a312;
-    color: #f0f0f0;
+    background-color: var(--border-orange);
+    color: var(--text-color);
     font-weight: bold;
     padding-top: 10px;
     padding-bottom: 10px;
@@ -81,7 +81,7 @@
 }
 
 .notenspiegel-table-header {
-    background-color: #F7DEB6;
+    background-color: var(--table-header);
     height: 30px;
 }
 

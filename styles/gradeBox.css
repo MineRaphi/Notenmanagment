@@ -3,7 +3,7 @@
     align-items: center;
     margin: 0 auto;
     width: 85vw;
-    border: #f7a312 solid 2px;
+    border: var(--border-orange) solid 2px;
     border-radius: 5px;
     margin-bottom: 10px;
     width: 88vw;
@@ -48,25 +48,25 @@
     font-size: 13px;
 }
 .n0 {
-    background-color: #A6A6A6;
+    background-color: var(--grade-null);
 }
 
 .n1 {
-    background-color: #2B91524D;
+    background-color: var(--grade-one);
 }
 
 .n2 {
-    background-color: #8EB8974D;
+    background-color: var(--grade-two);
 }
 
 .n3 {
-    background-color: #FFD4474D;
+    background-color: var(--grade-three);
 }
 
 .n4 {
-    background-color: #FA79214D;
+    background-color: var(--grade-four);
 }
 
 .n5 {
-    background-color: #A501044D;
+    background-color: var(--grade-five);
 }

@@ -3,7 +3,7 @@
     margin-top: 10vh;
     width: 80vw;
     max-width: 500px;
-    background-color: #f7a312;
+    background-color: var(--border-orange);
     border-radius: 10px;
     padding: 20px;
     box-shadow: 0 5px 15px rgba(0,0,0,0.2);
