@@ -30,7 +30,7 @@ async function init() {
 }
 
 async function loadPreferedTheme() {
-        const { theme, lastSystemTheme } = await loadTheme();
+    const { theme, lastSystemTheme } = await loadTheme();
     const isSystemThemeDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
     
     if (theme != "dark" && theme != "light") {
