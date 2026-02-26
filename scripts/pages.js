@@ -180,7 +180,7 @@ async function createSubjectGradeBox(matrikelNr, token, subject) {
         const type = item.Typ.replace("Semesternote", "Semester");
         let grade = item.Note;
         let points = `${item.Punkte}/${item.MaxPunkte}`;
-        let percent = `${(item.Punkte/item.MaxPunkte*100).toFixed(2)}%`;
+        let percent = `${(item.Punkte/item.MaxPunkte*100).toFixed(2)}%<span style="color: #00000000">.</span>`;
         let gradeSpan = 1;
 
         if (grade === null) {
