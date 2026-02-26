@@ -10,6 +10,7 @@ const fehlstundenPage = document.getElementById("fehlstundenPage");
 const whereIsMyTeacherPage = document.getElementById("whereIsMyTeacherPage");
 const settingsPage = document.getElementById("settingsPage");
 const infoPage = document.getElementById("infoPage");
+const subjectPage = document.getElementById("subjectPage");
 const LFdetailsPage = document.getElementById("LFdetailsPage");
 
 const chart = new Chart(document.getElementById('notenspiegelChart'),
@@ -48,7 +49,7 @@ const chart = new Chart(document.getElementById('notenspiegelChart'),
 });
 
 
-let pages = [startPage, notenPage, fruewarnungPage, fehlstundenPage, whereIsMyTeacherPage, settingsPage, infoPage, LFdetailsPage];
+let pages = [startPage, notenPage, fruewarnungPage, fehlstundenPage, whereIsMyTeacherPage, settingsPage, infoPage, subjectPage, LFdetailsPage];
 
 function hideAllPages() {
     document.getElementById("login").style.display = "none";
@@ -258,6 +259,9 @@ export async function showNotenPage(matrikelNr, token) {
     data.forEach(item => {
         const div = document.createElement("div");
         div.innerHTML = `<p>${item.Fach}</p>`;
+        div.addEventListener("click", () => {
+            showSubjectPage(matrikelNr, token, item.Fach);
+        });
         subjectList.appendChild(div);
     });
 
@@ -272,6 +276,23 @@ export async function showNotenPage(matrikelNr, token) {
     }
     await hideLoading();
 
+}
+
+async function showSubjectPage(matrikelNr, token, subject) {
+    hideAllPages();
+    subjectPage.style.display = "block";
+    document.getElementById("menu").close();
+    enableScroll();
+
+    subjectPage.innerHTML = "";
+
+    await showLoading();
+
+    const box = await createSubjectGradeBox(matrikelNr, token, subject);
+
+    subjectPage.appendChild(box);
+
+    await hideLoading();
 }
 
 export async function showFruehwarnungPage(matrikelNr, token) {
