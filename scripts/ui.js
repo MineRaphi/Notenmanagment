@@ -41,6 +41,7 @@ export function disableScroll() {
 export async function changeTheme(theme) {
     if (theme == "dark") {
         document.documentElement.classList.add("dark");
+        document.getElementById("themeToggle").checked = true;
     }
     else if (theme == "light") {
         document.documentElement.classList.remove("dark");
