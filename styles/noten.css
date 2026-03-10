@@ -5,7 +5,7 @@
 }
 
 .subject-header h3 {
-    color: var(--text-color);
+    color: var(--text-color-light);
     font-weight: bold;
     margin-top: 10px;
     margin-bottom: 15px;
@@ -41,7 +41,7 @@
 
 .subject-grades-header {
     background-color: var(--border-orange);
-    color: var(--text-color);
+    color: var(--text-color-light);
     font-weight: bold;
     padding-top: 10px;
     padding-bottom: 10px;
