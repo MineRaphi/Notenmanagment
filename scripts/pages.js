@@ -99,17 +99,33 @@ function createGradeBox(matrikelNr, token, data) {
     const month = date.substring(5,7);
     const day = date.substring(8,10);
     
-    box.innerHTML = `
-        <div class="subject-type">
-            <p>${data.Fach}</p>
-            <p>${data.Typ}</p>
-        </div>
-            <p class="date">${day}/${month}/${year}</p>
-        <div class="grade">
-            ${data.Note !== null ? `<p>Note <b>${data.Note}</b></p>` : ''}
-            ${data.Punkte !== null ? `<p>${data.Punkte}/${data.MaxPunkte}</p>` : ''}
-        </div>
-    `;
+    if (data.Note !== 0) {
+        box.innerHTML = `
+            <div class="subject-type">
+                <p>${data.Fach}</p>
+                <p>${data.Typ}</p>
+            </div>
+                <p class="date">${day}/${month}/${year}</p>
+            <div class="grade">
+                ${data.Note !== null ? `<p>Note <b>${data.Note}</b></p>` : ''}
+                ${data.Punkte !== null ? `<p>${data.Punkte}/${data.MaxPunkte}</p>` : ''}
+            </div>
+        `;
+    }
+    else {
+        box.innerHTML = `
+            <div class="subject-type">
+                <p>${data.Fach}</p>
+                <p>${data.Typ}</p>
+            </div>
+                <p class="date">${day}/${month}/${year}</p>
+            <div class="grade">
+                <p><b style="font-size: 15px;">Gefehlt</b></p>
+                ${data.Punkte !== null ? `<p>${data.Punkte}/${data.MaxPunkte}</p>` : ''}
+            </div>
+        `;
+    }
+
     return box;
 }
 
