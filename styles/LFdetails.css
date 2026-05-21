@@ -6,7 +6,7 @@
 
 .LF-header-name {
     background-color: var(--border-orange);
-    color: var(--text-color);
+    color: var(--text-color-light);
     font-weight: bold;
     padding-top: 10px;
     padding-bottom: 0px;
@@ -17,7 +17,7 @@
 
 .LF-header-details {
     background-color: var(--border-orange);
-    color: var(--text-color);
+    color: var(--text-color-light);
     font-weight: bold;
     padding-top: 0px;
     padding-bottom: 10px;
@@ -66,7 +66,7 @@
 
 .LF-notenspiegel-header {
     background-color: var(--border-orange);
-    color: var(--text-color);
+    color: var(--text-color-light);
     font-weight: bold;
     padding-top: 10px;
     padding-bottom: 10px;
