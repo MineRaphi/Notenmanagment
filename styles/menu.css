@@ -9,6 +9,10 @@
     font-weight: bold;
 }
 
+.menu-header {
+    --background: var(--background-color);
+}
+
 ion-list {
     margin: 0;
     padding: 0;
