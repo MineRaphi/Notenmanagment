@@ -17,6 +17,11 @@
     --text-color-light: #f0f0f0;
     --text-color-dark: #0f0f0f;
     --menu-text-color: #787878;
+    --header-color1: rgba(94,185,231,1);
+    --header-color2: rgba(64,122,219,1);
+    --header-color3: rgba(115,70,210,1);
+    --header-color4: rgba(140,90,196,1);
+    
 }
 
 :root.dark {
@@ -38,4 +43,8 @@
     --text-color-light: #f0f0f0;
     --text-color-dark: #0f0f0f;
     --menu-text-color: #787878;
+    --header-color1: rgb(56, 129, 165);
+    --header-color2: rgb(47, 87, 157);
+    --header-color3: rgb(72, 44, 131);
+    --header-color4: rgb(63, 32, 99);
 }
