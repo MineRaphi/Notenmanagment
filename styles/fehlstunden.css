@@ -6,7 +6,7 @@
 
 .fehlstunden-header {
     background-color: var(--border-orange);
-    color: var(--text-color);
+    color: var(--text-color-light);
     font-weight: bold;
     padding-top: 10px;
     padding-bottom: 10px;
@@ -32,14 +32,17 @@
 #absencesTotal {
     font-weight: bold;
     text-align: center;
+    color: var(--text-color);
 }
 
 #absencesOpen {
     text-align: center;
+    color: var(--text-color);
 }
 
 #absencesExcused { 
     text-align: center;
+    color: var(--text-color);
 }
 
 #absencesNotExcused {

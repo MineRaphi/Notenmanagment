@@ -78,11 +78,13 @@
 .notenspiegel-table {
     margin: 0px;
     width: 100%;
+    color: var(--text-color);
 }
 
 .notenspiegel-table-header {
     background-color: var(--table-header);
     height: 30px;
+    color: var(--text-color-dark);
 }
 
 .notenspiegel-table-data {

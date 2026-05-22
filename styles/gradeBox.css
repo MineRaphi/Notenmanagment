@@ -50,24 +50,30 @@
 }
 .n0 {
     background-color: var(--grade-null);
+    color: var(--text-color-dark);
 }
 
 .n1 {
     background-color: var(--grade-one);
+    color: var(--text-color-dark);
 }
 
 .n2 {
     background-color: var(--grade-two);
+    color: var(--text-color-dark);
 }
 
 .n3 {
     background-color: var(--grade-three);
+    color: var(--text-color-dark);
 }
 
 .n4 {
     background-color: var(--grade-four);
+    color: var(--text-color-dark);
 }
 
 .n5 {
     background-color: var(--grade-five);
+    color: var(--text-color-dark);
 }

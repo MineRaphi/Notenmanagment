@@ -26,6 +26,7 @@ body {
     width: 100vw;
     text-align: center;
     align-content: center;
+    color: var(--text-color);
 }
 
 #notenPage {
@@ -84,4 +85,12 @@ select {
     font-size: 24px;
     line-height: 1.2;
     padding-left: 15px;
+}
+
+.settings-title {
+    --color: var(--text-color);
+}
+
+#themeToggle {
+    color: var(--text-color);
 }
