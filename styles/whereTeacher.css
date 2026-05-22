@@ -29,6 +29,7 @@
 .whereIsMyTeacher-table {
     width: 100%;
     text-align: center;
+    color: var(--text-color)
 }
 
 #whereIsMyTeacherTable td {
