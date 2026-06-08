@@ -94,6 +94,10 @@ function createGradeBox(matrikelNr, token, data) {
         }
     }
 
+    if (data.Note == null && data.MaxPunkte == null && data.Punkte == null) {
+        box.classList.add('nd');
+    }
+
     const date = data.Datum.replace("T00:00:00", "");
     const year = date.substring(0, 4);
     const month = date.substring(5,7);
@@ -242,6 +246,10 @@ async function createSubjectGradeBox(matrikelNr, token, subject) {
                     row.classList.add(`n5`);
                 }
             }
+        }
+
+        if (item.Note == null && item.MaxPunkte == null && item.Punkte == null) {
+            row.classList.add(`nd`);
         }
 
         gradeTable.appendChild(row);
@@ -527,6 +535,10 @@ async function showLFdetailsPage(matrikelNr, token, LF_ID) {
                 row.classList.add(`n5`);
             }
         }
+    }
+
+    if (grade.Note == null && grade.MaxPunkte == null && grade.Punkte == null) {
+        row.classList.add(`nd`);
     }
 
     if (data.Notenspiegel !== null) {

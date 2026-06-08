@@ -48,6 +48,7 @@
     line-height: 1.2;     /* Zeilenhöhe enger machen, optional */
     font-size: 13px;
 }
+
 .n0 {
     background-color: var(--grade-null);
     color: var(--text-color-dark);
@@ -75,5 +76,10 @@
 
 .n5 {
     background-color: var(--grade-five);
+    color: var(--text-color-dark);
+}
+
+.nd {
+    background-color: var(--grade-default);
     color: var(--text-color-dark);
 }

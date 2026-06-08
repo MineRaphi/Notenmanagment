@@ -13,6 +13,7 @@
     --grade-three: #FFD4474D;
     --grade-four: #FA79214D;
     --grade-five: #A501044D;
+    --grade-default: #ffffff;
     --text-color: #0f0f0f;
     --text-color-light: #f0f0f0;
     --text-color-dark: #0f0f0f;
@@ -39,6 +40,7 @@
     --grade-three: #bca55a;
     --grade-four: #c3733d;
     --grade-five: #993f40;
+    --grade-default: #ffffff;
     --text-color: #f0f0f0;
     --text-color-light: #f0f0f0;
     --text-color-dark: #0f0f0f;
