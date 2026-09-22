@@ -69,34 +69,7 @@ function createGradeBox(matrikelNr, token, data) {
         showLFdetailsPage(matrikelNr, token, data.LF_ID);
     });
 
-    if (data.Note !== null) {
-        box.classList.add(`n${data.Note}`);
-    }
-    else {
-        if (data.Punkte !== null && data.MaxPunkte !== null) {
-            let percent = data.Punkte / data.MaxPunkte;
-
-            if (percent >= 0.88) {
-                box.classList.add(`n1`);
-            }
-            else if (percent >= 0.75) {
-                box.classList.add(`n2`);
-            }
-            else if (percent >= 0.62) {
-                box.classList.add(`n3`);
-            }
-            else if (percent >= 0.50) {
-                box.classList.add(`n4`);
-            }
-            else {
-                box.classList.add(`n5`);
-            }
-        }
-    }
-
-    if (data.Note == null && data.MaxPunkte == null && data.Punkte == null) {
-        box.classList.add('nd');
-    }
+    box.classList.add(getGradeClass(data.Note, data.Punkte, data.MaxPunkte));
 
     const date = data.Datum.replace("T00:00:00", "");
     const year = date.substring(0, 4);
@@ -131,6 +104,23 @@ function createGradeBox(matrikelNr, token, data) {
     }
 
     return box;
+}
+
+function getGradeClass(note, punkte, maxPunkte) {
+    if (note !== null) {
+        return `n${note}`;
+    }
+
+    if (punkte !== null && maxPunkte !== null) {
+        const percent = punkte / maxPunkte;
+        console.log(percent)
+        if (percent >= 0.88) return 'n1';
+        if (percent >= 0.75) return 'n2';
+        if (percent >= 0.62) return 'n3';
+        if (percent >= 0.50) return 'n4';
+        return 'n5';
+    }
+    return 'nd';
 }
 
 export async function showStartPage(matrikelNr, token) {
@@ -223,34 +213,7 @@ async function createSubjectGradeBox(matrikelNr, token, subject) {
             <td style="width: 19%; text-align: end;">${percent} </td>
         `;
 
-        if (item.Note !== null) {
-            row.classList.add(`n${item.Note}`);
-        }
-        else {
-            if (item.Punkte !== null && item.MaxPunkte !== null) {
-                let percent = item.Punkte / item.MaxPunkte;
-
-                if (percent >= 0.88) {
-                    row.classList.add(`n1`);
-                }
-                else if (percent >= 0.75) {
-                    row.classList.add(`n2`);
-                }
-                else if (percent >= 0.62) {
-                    row.classList.add(`n3`);
-                }
-                else if (percent >= 0.50) {
-                    row.classList.add(`n4`);
-                }
-                else {
-                    row.classList.add(`n5`);
-                }
-            }
-        }
-
-        if (item.Note == null && item.MaxPunkte == null && item.Punkte == null) {
-            row.classList.add(`nd`);
-        }
+        row.classList.add(getGradeClass(item.Note, item.Punkte, item.MaxPunkte));
 
         gradeTable.appendChild(row);
     });
@@ -512,34 +475,7 @@ async function showLFdetailsPage(matrikelNr, token, LF_ID) {
     LFpercent.innerHTML = percent;
     LFcomment.innerHTML = grade.Kommentar;
 
-    if (grade.Note !== null) {
-        row.classList.add(`n${grade.Note}`);
-    }
-    else {
-        if (grade.Punkte !== null && data.MaxPunkte !== null) {
-            let percent = grade.Punkte / data.MaxPunkte;
-
-            if (percent >= 0.88) {
-                row.classList.add(`n1`);
-            }
-            else if (percent >= 0.75) {
-                row.classList.add(`n2`);
-            }
-            else if (percent >= 0.62) {
-                row.classList.add(`n3`);
-            }
-            else if (percent >= 0.50) {
-                row.classList.add(`n4`);
-            }
-            else {
-                row.classList.add(`n5`);
-            }
-        }
-    }
-
-    if (grade.Note == null && grade.MaxPunkte == null && grade.Punkte == null) {
-        row.classList.add(`nd`);
-    }
+    row.classList.add(getGradeClass(data.Note, data.Punkte, data.MaxPunkte));
 
     if (data.Notenspiegel !== null) {
         const average = (data.Notenspiegel[0] * 1 +
