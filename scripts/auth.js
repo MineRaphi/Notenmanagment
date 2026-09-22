@@ -43,16 +43,25 @@ export async function checkLoggedIn() {
     const { value: loadedToken } = await Preferences.get({ key: 'accessToken' });
     const { value: loadedMatrikel } = await Preferences.get({ key: 'matrikelNr' });
 
-    if (!loadedToken || !loadedMatrikel) return;
+    if (!loadedToken || !loadedMatrikel) {
+        return { matrikelNr: null, accessToken: null };
+    }
 
     showLoading();
-    const response = await timeout(getStudentInfo(loadedMatrikel, loadedToken), 5000);
+    let response;
+    try {
+        response = await timeout(getStudentInfo(loadedMatrikel, loadedToken), 5000);
+    } catch (error) {
+        hideLoading()
+        showToast("Server not reachable", false, 'center')
+        return { matrikelNr: null, accessToken: null };
+    }
     hideLoading();
 
     if (!response.ok) {
         await Preferences.remove({ key: 'accessToken' });
         await Preferences.remove({ key: 'matrikelNr' });
-        return;
+        return { matrikelNr: null, accessToken: null };
     }
 
     showToast("Login successful!");
