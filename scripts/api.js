@@ -1,6 +1,7 @@
 import { CapacitorHttp } from '@capacitor/core';
 
 const URL = `https://notenmanagement.htl-braunau.at/rest`;
+//const URL = `http://127.0.0.1:8000`;
 
 export async function loginRequest(username, password) {
     return fetch(URL + '/Token', {
