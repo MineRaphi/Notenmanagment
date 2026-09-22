@@ -11,17 +11,17 @@
     "build-android": "npm run build && npx cap copy android && npx cap open android"
   },
   "devDependencies": {
+    "@capacitor/cli": "^8.5.2",
     "vite": "^8.0.16"
   },
   "dependencies": {
-    "@capacitor/android": "^7.3.0",
-    "@capacitor/cli": "^8.0.2",
-    "@capacitor/core": "^7.3.0",
-    "@capacitor/dialog": "^7.0.1",
-    "@capacitor/ios": "^7.3.0",
-    "@capacitor/preferences": "^7.0.1",
-    "@capacitor/status-bar": "^7.0.1",
-    "@capacitor/toast": "^7.0.1",
+    "@capacitor/android": "^8.0.0",
+    "@capacitor/core": "^8.5.2",
+    "@capacitor/dialog": "^8.0.0",
+    "@capacitor/ios": "^8.5.2",
+    "@capacitor/preferences": "^8.0.0",
+    "@capacitor/status-bar": "^8.0.0",
+    "@capacitor/toast": "^8.0.0",
     "@ionic/core": "^8.6.1",
     "chart.js": "^4.5.1"
   }
