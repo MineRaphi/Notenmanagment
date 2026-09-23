@@ -13,40 +13,7 @@ const infoPage = document.getElementById("infoPage");
 const subjectPage = document.getElementById("subjectPage");
 const LFdetailsPage = document.getElementById("LFdetailsPage");
 
-const chart = new Chart(document.getElementById('notenspiegelChart'),
-{
-    type: 'bar',
-    data: {
-        labels: [1, 2, 3, 4, 5, "Gefehlt"],
-        datasets: [{
-            label: "Noten",
-            data: [0, 0, 0, 0, 0, 0],
-            backgroundColor: [
-                '#2B9152',
-                '#8EB897',
-                '#FFD447',
-                '#FA7921',
-                '#A50104',
-                '#A6A6A6',
-            ],
-        }]
-    },
-    options: {
-        animation: {
-            duration: 0
-        },
-        animations: {
-            y: {
-                duration: 1500,
-                from: ctx => ctx.chart.scales.y.getPixelForValue(0)
-            }
-        },
-        plugins: {
-            legend: { display: false },
-            tooltip: { enabled: false }
-        }
-    }
-});
+let chart = null;
 
 
 let pages = [startPage, notenPage, fruewarnungPage, fehlstundenPage, whereIsMyTeacherPage, settingsPage, infoPage, subjectPage, LFdetailsPage];
@@ -57,9 +24,10 @@ function hideAllPages() {
         pages[i].style.display = "none";
     }
     disableScroll();
-    chart.data.datasets[0].data = [0, 0, 0, 0, 0, 0];
-    chart.update();
-
+    if (chart !== null) {
+        chart.data.datasets[0].data = [0, 0, 0, 0, 0, 0];
+        chart.update();
+    }
 }
 
 function createGradeBox(matrikelNr, token, data) {
@@ -121,7 +89,6 @@ function getGradeClass(note, punkte, maxPunkte) {
 }
 
 function formatDate(data, shortYear=false) {
-    console.log(data);
     const date = data.replace("T00:00:00", "");
 
     let year;
@@ -423,10 +390,51 @@ export function showInfoPage() {
     document.getElementById("menu").close();
 }
 
+function createTemplateChart() {
+    return new Chart(document.getElementById('notenspiegelChart'),
+    {
+        type: 'bar',
+        data: {
+            labels: [1, 2, 3, 4, 5, "Gefehlt"],
+            datasets: [{
+                label: "Noten",
+                data: [0, 0, 0, 0, 0, 0],
+                backgroundColor: [
+                    '#2B9152',
+                    '#8EB897',
+                    '#FFD447',
+                    '#FA7921',
+                    '#A50104',
+                    '#A6A6A6',
+                ],
+            }]
+        },
+        options: {
+            animation: {
+                duration: 0
+            },
+            animations: {
+                y: {
+                    duration: 1500,
+                    from: ctx => ctx.chart.scales.y.getPixelForValue(0)
+                }
+            },
+            plugins: {
+                legend: { display: false },
+                tooltip: { enabled: false }
+            }
+        }
+    });
+}
+
 async function showLFdetailsPage(matrikelNr, token, LF_ID) {
     hideAllPages();
     LFdetailsPage.style.display = "block";
     document.getElementById("menu").close();
+
+    if (chart === null) {
+        chart = createTemplateChart();
+    }
 
     const LFheaderName = document.getElementById("LFheaderName");
     const LFheaderDetails = document.getElementById("LFheaderDetails");
