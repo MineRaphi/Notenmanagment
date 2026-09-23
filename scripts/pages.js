@@ -144,12 +144,12 @@ export async function showStartPage(matrikelNr, token) {
     document.getElementById("menu").disabled = false;
 
     const response = await getLatestGrades(matrikelNr, token);
-    if (response.status < 200 || response >= 300) {
+    if (response.status < 200 || response.status >= 300) {
         logout(true);
         return;
     }
 
-    const data = await response.data;
+    const data = response.data;
     const element = document.getElementById("startPage");
     element.innerHTML = `
         <div class="latest-entries">
@@ -174,7 +174,7 @@ async function createSubjectGradeBox(matrikelNr, token, subject) {
         return;
     }
 
-    const data = await response.data;
+    const data = response.data;
 
     const gradeTable = document.createElement("table");
 
@@ -457,11 +457,24 @@ async function showLFdetailsPage(matrikelNr, token, LF_ID) {
 
     await showLoading();
 
-    const dataResponse = await getLFdata(matrikelNr, token, LF_ID);    
-    const data = await dataResponse.data;
+    const dataResponse = await getLFdata(matrikelNr, token, LF_ID);   
+
+    if (dataResponse.status < 200 || dataResponse.status >= 300) {
+        logout(true);
+        return;
+    }
+
+    const data = dataResponse.data;
+
 
     const gradeResponse = await getLFgrade(matrikelNr, token, LF_ID);
-    const grade = await gradeResponse.data;
+
+    if (gradeResponse.status < 200 || gradeResponse.status >= 300) {
+        logout(true);
+        return;
+    }
+
+    const grade = gradeResponse.data;
 
     const formatedDate = formatDate(data.Datum);
 
