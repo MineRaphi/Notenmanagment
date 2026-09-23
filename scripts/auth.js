@@ -15,9 +15,13 @@ export async function doLogin(username, password) {
 
     try {
         const response = await timeout(loginRequest(username, password), 5000)
-        const data = await response.json();
+        const data = response.data;
 
-        if (response.ok && data.role !== "Lehrer") {
+        if (response.status < 200 || response.status >= 300 || data.role !== "Schueler") {
+            await hideLoading();
+            showToast("Login failed!", false, 'center');
+        }
+        else {
             await Preferences.set({ key: 'accessToken', value: data.access_token });
             await Preferences.set({ key: 'matrikelNr', value: data.matrikelNr });
 
@@ -27,10 +31,6 @@ export async function doLogin(username, password) {
             showStartPage(data.matrikelNr, data.access_token);
 
             return { accessToken: data.access_token, matrikelNr: data.matrikelNr};
-        }
-        else {
-            await hideLoading();
-            showToast("Login failed!", false, 'center');
         }
     }
     catch (error) {
@@ -58,7 +58,7 @@ export async function checkLoggedIn() {
     }
     hideLoading();
 
-    if (!response.ok) {
+    if (response.status < 200 || response.status >= 300) {
         await Preferences.remove({ key: 'accessToken' });
         await Preferences.remove({ key: 'matrikelNr' });
         return { matrikelNr: null, accessToken: null };

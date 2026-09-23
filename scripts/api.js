@@ -8,8 +8,12 @@ export async function loginRequest(username, password) {
         method: 'POST',
         url: URL + '/Token',
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: `grant_type=password&username=${encodeURIComponent(username)}&password=${encodeURIComponent(password)}`
-    })
+        data: {
+            grant_type: 'password',
+            username: username,
+            password: password
+        }
+    });
 }
 
 export async function getStudentInfo(matrikelNr, token) {

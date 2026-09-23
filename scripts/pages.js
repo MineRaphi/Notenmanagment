@@ -144,12 +144,12 @@ export async function showStartPage(matrikelNr, token) {
     document.getElementById("menu").disabled = false;
 
     const response = await getLatestGrades(matrikelNr, token);
-    if (!response.ok) {
+    if (response.status < 200 || response >= 300) {
         logout(true);
         return;
     }
 
-    const data = await response.json();
+    const data = await response.data;
     const element = document.getElementById("startPage");
     element.innerHTML = `
         <div class="latest-entries">
@@ -169,7 +169,12 @@ async function createSubjectGradeBox(matrikelNr, token, subject) {
 
     const response = await getGradesFromSubject(matrikelNr, token, subject);
 
-    const data = await response.json();
+    if (response.status < 200 || response.status >= 300) {
+        logout(true);
+        return;
+    }
+
+    const data = await response.data;
 
     const gradeTable = document.createElement("table");
 
@@ -247,12 +252,13 @@ export async function showNotenPage(matrikelNr, token) {
     subjectGradeList.innerHTML = "";
 
     const response = await getSubjectsWithGrade(matrikelNr, token);
-    if (!response.ok) {
+
+    if (response.status < 200 || response.status >= 300) {
         logout(true);
         return;
     }
 
-    const data = await response.json();
+    const data = await response.data;
 
     data.forEach(item => {
         const div = document.createElement("div");
@@ -301,12 +307,13 @@ export async function showFruehwarnungPage(matrikelNr, token) {
     const fruewarnungTable = document.getElementById("fruewarnungTable");
 
     const response = await getFruewarnungen(matrikelNr, token);
-    if (!response.ok) {
+
+    if (response.status < 200 || response.status >= 300) {
         logout(true);
         return;
     }
 
-    const data = await response.json();
+    const data = await response.data;
 
     if (data.length === 0) {
         fruewarnungTable.innerHTML = "";
@@ -320,12 +327,12 @@ export async function showFruehwarnungPage(matrikelNr, token) {
 
     const responseLehrer = await getLehrer(matrikelNr, token);
 
-    if (!responseLehrer.ok) {
+    if (responseLehrer.status < 200 || responseLehrer.status >= 300) {
         logout(true);
         return;
     }
 
-    const lehrer = await responseLehrer.json();
+    const lehrer = await responseLehrer.data;
 
     fruewarnungTable.innerHTML = `
         <tr class="fruewarnung-table-header">
@@ -357,12 +364,13 @@ export async function showFehlstundenPage(matrikelNr, token) {
     document.getElementById("menu").close();
 
     const response = await getFehlstunden(matrikelNr, token);
-    if (!response.ok) {
+
+    if (response.status < 200 || response.status >= 300) {
         logout(true);
         return;
     }
 
-    const data = await response.json();
+    const data = await response.data;
 
     const open = data.Fehlstunden_Offen;
     const notExcused = data.Fehlstunden_NichtEntschuldigt;
@@ -449,11 +457,11 @@ async function showLFdetailsPage(matrikelNr, token, LF_ID) {
 
     await showLoading();
 
-    const dataResponse = await getLFdata(matrikelNr, token, LF_ID);
-    const data = await dataResponse.json();
+    const dataResponse = await getLFdata(matrikelNr, token, LF_ID);    
+    const data = await dataResponse.data;
 
     const gradeResponse = await getLFgrade(matrikelNr, token, LF_ID);
-    const grade = await gradeResponse.json();
+    const grade = await gradeResponse.data;
 
     const formatedDate = formatDate(data.Datum);
 
