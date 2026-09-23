@@ -24,6 +24,17 @@ async function init() {
             matrikelNr = result.matrikelNr;
         }
     });
+
+    document.getElementById("showStart").addEventListener("click", () => showStartPage(matrikelNr, accessToken));
+    document.getElementById("showNoten").addEventListener("click", () => showNotenPage(matrikelNr, accessToken));
+    document.getElementById("showFruewarnung").addEventListener("click", () => showFruehwarnungPage(matrikelNr, accessToken));
+    document.getElementById("showFehlstunden").addEventListener("click", () => showFehlstundenPage(matrikelNr, accessToken));
+    document.getElementById("showWhereIsMyTeacherPage").addEventListener("click", () => showWhereIsMyTeacherPage(matrikelNr, accessToken));
+    document.getElementById("whereIsMyTeacherButton").addEventListener("click", () => whereIsMyTeacherShowData());
+    document.getElementById("showSettings").addEventListener("click", () => showSettingsPage());
+    document.getElementById("showInfo").addEventListener("click", () => showInfoPage());
+    document.getElementById("logout").addEventListener("click", () => logout())
+
     const response = await checkLoggedIn();
     accessToken = response.accessToken;
     matrikelNr = response.matrikelNr;
@@ -60,16 +71,6 @@ async function loadPreferedTheme() {
         }
     }
 }
-
-document.getElementById("showStart").onclick = () => showStartPage(matrikelNr, accessToken);
-document.getElementById("showNoten").onclick = () => showNotenPage(matrikelNr, accessToken);
-document.getElementById("showFruewarnung").onclick = () => showFruehwarnungPage(matrikelNr, accessToken);
-document.getElementById("showFehlstunden").onclick = () => showFehlstundenPage(matrikelNr, accessToken);
-document.getElementById("showWhereIsMyTeacherPage").onclick = () => showWhereIsMyTeacherPage(); 
-document.getElementById("whereIsMyTeacherButton").onclick = () => whereIsMyTeacherShowData();
-document.getElementById("showSettings").onclick = () => showSettingsPage();
-document.getElementById("showInfo").onclick = () => showInfoPage();
-document.getElementById("logout").onclick = () => logout();
 
 document.getElementById("themeToggle").addEventListener("ionChange", () => {
     const toggleDark = document.getElementById("themeToggle").checked;
