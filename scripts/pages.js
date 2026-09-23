@@ -71,10 +71,7 @@ function createGradeBox(matrikelNr, token, data) {
 
     box.classList.add(getGradeClass(data.Note, data.Punkte, data.MaxPunkte));
 
-    const date = data.Datum.replace("T00:00:00", "");
-    const year = date.substring(0, 4);
-    const month = date.substring(5,7);
-    const day = date.substring(8,10);
+    const formatedDate = formatDate(data.Datum, false);
     
     if (data.Note !== 0) {
         box.innerHTML = `
@@ -82,7 +79,7 @@ function createGradeBox(matrikelNr, token, data) {
                 <p>${data.Fach}</p>
                 <p>${data.Typ}</p>
             </div>
-                <p class="date">${day}/${month}/${year}</p>
+                <p class="date">${formatedDate}</p>
             <div class="grade">
                 ${data.Note !== null ? `<p>Note <b>${data.Note}</b></p>` : ''}
                 ${data.Punkte !== null ? `<p>${data.Punkte}/${data.MaxPunkte}</p>` : ''}
@@ -121,6 +118,22 @@ function getGradeClass(note, punkte, maxPunkte) {
         return 'n5';
     }
     return 'nd';
+}
+
+function formatDate(data, shortYear=false) {
+    console.log(data);
+    const date = data.replace("T00:00:00", "");
+
+    let year;
+    if (shortYear) {
+        year = date.substring(2, 4);
+    } else {
+        year = date.substring(0, 4);
+    }
+    const month = date.substring(5,7);
+    const day = date.substring(8,10);
+
+    return `${day}/${month}/${year}`
 }
 
 export async function showStartPage(matrikelNr, token) {
@@ -183,10 +196,8 @@ async function createSubjectGradeBox(matrikelNr, token, subject) {
             showLFdetailsPage(matrikelNr, token, item.LF_ID);
         });
 
-        const date = item.Datum.replace("T00:00:00", "");
-        const year = date.substring(2, 4);
-        const month = date.substring(5,7);
-        const day = date.substring(8,10);
+        const formatedDate = formatDate(item.Datum);
+
         const type = item.Typ.replace("Semesternote", "Semester");
         let grade = item.Note;
         let points = `${item.Punkte}/${item.MaxPunkte}`;
@@ -206,7 +217,7 @@ async function createSubjectGradeBox(matrikelNr, token, subject) {
         }
 
         row.innerHTML = `
-            <td style="width: 19%; text-align: end;">${day}/${month}/${year}</td>
+            <td style="width: 19%; text-align: end;">${formatedDate}</td>
             <td style="width: 27%; text-align: center;">${type}</td>
             <td style="width: 15%; text-align: center;" colspan=${gradeSpan}>${grade}</td>
             <td style="width: 20%; text-align: center;">${points}</td>
@@ -325,16 +336,13 @@ export async function showFruehwarnungPage(matrikelNr, token) {
     `;
 
     data.forEach(item => {
-        const date = item.Eingetragen.replace("T00:00:00", "");
-        const year = date.substring(2, 4);
-        const month = date.substring(5,7);
-        const day = date.substring(8,10);
+        const formatedDate = formatDate(item.Eingetragen, true);
 
         const row = document.createElement("tr");
         row.innerHTML = `
             <td>${item.Fach}</td>
             <td>${lehrer.find(i => i.Lehrer_ID === item.Lehrer_ID).Nachname} ${lehrer.find(i => i.Lehrer_ID === item.Lehrer_ID).Vorname}</td>
-            <td>${day}/${month}/${year}</td>
+            <td>${formatedDate}</td>
         `;
 
         row.classList.add("fruewarnung-table-data");
@@ -447,10 +455,7 @@ async function showLFdetailsPage(matrikelNr, token, LF_ID) {
     const gradeResponse = await getLFgrade(matrikelNr, token, LF_ID);
     const grade = await gradeResponse.json();
 
-    const date = data.Datum.replace("T00:00:00", "");
-    const year = date.substring(0, 4);
-    const month = date.substring(5,7);
-    const day = date.substring(8,10);
+    const formatedDate = formatDate(data.Datum);
 
     let note = grade.Note;
     let points = `${grade.Punkte}/${data.MaxPunkte}`;
@@ -468,7 +473,7 @@ async function showLFdetailsPage(matrikelNr, token, LF_ID) {
     }
 
     LFheaderName.textContent = `${data.Typ} in ${data.Fach}`;
-    LFheaderDetails.textContent = `${day}/${month}/${year}, ${data.Kommentar}`;
+    LFheaderDetails.textContent = `${formatedDate}, ${data.Kommentar}`;
 
     LFgrade.innerHTML = note;
     LFpoints.innerHTML = points;
