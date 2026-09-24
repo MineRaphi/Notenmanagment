@@ -32,6 +32,12 @@ function hideAllPages() {
     }
 }
 
+function escapeHtml(str) {
+    const div = document.createElement('div');
+    div.textContent = str;
+    return div.innerHTML;
+}
+
 function createGradeBox(data) {
     const box = document.createElement('div');
     box.classList.add('grade-box');
@@ -46,26 +52,26 @@ function createGradeBox(data) {
     if (data.Note !== 0) {
         box.innerHTML = `
             <div class="subject-type">
-                <p>${data.Fach}</p>
-                <p>${data.Typ}</p>
+                <p>${escapeHtml(data.Fach)}</p>
+                <p>${escapeHtml(data.Typ)}</p>
             </div>
                 <p class="date">${formatedDate}</p>
             <div class="grade">
-                ${data.Note !== null ? `<p>Note <b>${data.Note}</b></p>` : ''}
-                ${data.Punkte !== null ? `<p>${data.Punkte}/${data.MaxPunkte}</p>` : ''}
+                ${data.Note !== null ? `<p>Note <b>${escapeHtml(data.Note)}</b></p>` : ''}
+                ${data.Punkte !== null ? `<p>${escapeHtml(data.Punkte)}/${escapeHtml(data.MaxPunkte)}</p>` : ''}
             </div>
         `;
     }
     else {
         box.innerHTML = `
             <div class="subject-type">
-                <p>${data.Fach}</p>
-                <p>${data.Typ}</p>
+                <p>${escapeHtml(data.Fach)}</p>
+                <p>${escapeHtml(data.Typ)}</p>
             </div>
                 <p class="date">${formatedDate}</p>
             <div class="grade">
                 <p><b style="font-size: 15px;">Gefehlt</b></p>
-                ${data.Punkte !== null ? `<p>${data.Punkte}/${data.MaxPunkte}</p>` : ''}
+                ${data.Punkte !== null ? `<p>${escapeHtml(data.Punkte)}/${escapeHtml(data.MaxPunkte)}</p>` : ''}
             </div>
         `;
     }
@@ -139,7 +145,7 @@ export async function showStartPage() {
 async function createSubjectGradeBox(subject) {
     const div = document.createElement("div");
     div.classList.add('subject-grades-list');
-    div.innerHTML = `<h3 class="subject-grades-header">${subject}</h3>`;
+    div.innerHTML = `<h3 class="subject-grades-header">${escapeHtml(subject)}</h3>`;
 
     const response = await getGradesFromSubject(session.matrikelNr, session.accessToken, subject);
 
@@ -180,7 +186,7 @@ async function createSubjectGradeBox(subject) {
             showLFdetailsPage(item.LF_ID);
         });
 
-        const formatedDate = formatDate(item.Datum);
+        const formatedDate = formatDate(item.Datum, true);
 
         const type = item.Typ.replace("Semesternote", "Semester");
         let grade = item.Note;
@@ -201,10 +207,10 @@ async function createSubjectGradeBox(subject) {
         }
 
         row.innerHTML = `
-            <td style="width: 19%; text-align: end;">${formatedDate}</td>
-            <td style="width: 27%; text-align: center;">${type}</td>
-            <td style="width: 15%; text-align: center;" colspan=${gradeSpan}>${grade}</td>
-            <td style="width: 20%; text-align: center;">${points}</td>
+            <td style="width: 19%; text-align: end;">${escapeHtml(formatedDate)}</td>
+            <td style="width: 27%; text-align: center;">${escapeHtml(type)}</td>
+            <td style="width: 15%; text-align: center;" colspan=${escapeHtml(gradeSpan)}>${escapeHtml(grade)}</td>
+            <td style="width: 20%; text-align: center;">${escapeHtml(points)}</td>
             <td style="width: 19%; text-align: end;">${percent} </td>
         `;
 
@@ -246,7 +252,7 @@ export async function showNotenPage() {
 
     data.forEach(item => {
         const div = document.createElement("div");
-        div.innerHTML = `<p>${item.Fach}</p>`;
+        div.innerHTML = `<p>${escapeHtml(item.Fach)}</p>`;
         div.addEventListener("click", () => {
             showSubjectPage(item.Fach);
         });
@@ -316,6 +322,11 @@ export async function showFruehwarnungPage() {
 
     const responseLehrer = await getLehrer(session.matrikelNr, session.accessToken);
 
+    if (responseLehrer.status === 0) {
+        showToast(TIMEOUT_MESSAGE, false, "center");
+        return;
+    }
+
     if (responseLehrer.status < 200 || responseLehrer.status >= 300) {
         logout(true);
         return;
@@ -336,10 +347,10 @@ export async function showFruehwarnungPage() {
 
         const row = document.createElement("tr");
         row.innerHTML = `
-            <td>${item.Fach}</td>
-            <td>${lehrer.find(i => i.Lehrer_ID === item.Lehrer_ID).Nachname} ${lehrer.find(i => i.Lehrer_ID === item.Lehrer_ID).Vorname}</td>
-            <td>${formatedDate}</td>
-        `;
+            <td>${escapeHtml(item.Fach)}</td>
+            <td>${escapeHtml(lehrer.find(i => i.Lehrer_ID === item.Lehrer_ID).Nachname)} ${escapeHtml(lehrer.find(i => i.Lehrer_ID === item.Lehrer_ID).Vorname)}</td>
+            <td>${escapeHtml(formatedDate)}</td>
+            `;
 
         row.classList.add("fruewarnung-table-data");
 
@@ -354,7 +365,7 @@ export async function showFehlstundenPage() {
 
     const response = await getFehlstunden(session.matrikelNr, session.accessToken);
 
-    if (response === 0) {
+    if (response.status === 0) {
         showToast(TIMEOUT_MESSAGE, false, 'center');
         return;
     }
@@ -371,10 +382,10 @@ export async function showFehlstundenPage() {
     const excused = data.Fehlstunden_Entschuldigt;
     const total = open + notExcused + excused;
 
-    document.getElementById("absencesTotal").innerHTML = total;
-    document.getElementById("absencesOpen").innerHTML = open
-    document.getElementById("absencesExcused").innerHTML = excused;
-    document.getElementById("absencesNotExcused").innerHTML = notExcused;
+    document.getElementById("absencesTotal").innerHTML = escapeHtml(total);
+    document.getElementById("absencesOpen").innerHTML = escapeHtml(open);
+    document.getElementById("absencesExcused").innerHTML = escapeHtml(excused);
+    document.getElementById("absencesNotExcused").innerHTML = escapeHtml(notExcused);
 }
 
 export async function showWhereIsMyTeacherPage() {
@@ -536,10 +547,10 @@ async function showLFdetailsPage(LF_ID) {
     LFheaderName.textContent = `${data.Typ} in ${data.Fach}`;
     LFheaderDetails.textContent = `${formatedDate}, ${data.Kommentar}`;
 
-    LFgrade.innerHTML = note;
-    LFpoints.innerHTML = points;
-    LFpercent.innerHTML = percent;
-    LFcomment.innerHTML = grade.Kommentar;
+    LFgrade.innerHTML = escapeHtml(note);
+    LFpoints.innerHTML = escapeHtml(points);
+    LFpercent.innerHTML = escapeHtml(percent);
+    LFcomment.innerHTML = escapeHtml(grade.Kommentar);
 
     row.classList.add(getGradeClass(data.Note, data.Punkte, data.MaxPunkte));
 
@@ -550,13 +561,13 @@ async function showLFdetailsPage(LF_ID) {
                         data.Notenspiegel[3] * 4 +
                         data.Notenspiegel[4] * 5) / (data.Notenspiegel[0] + data.Notenspiegel[1] + data.Notenspiegel[2] + data.Notenspiegel[3] + data.Notenspiegel[4]);
 
-        gradeOne.innerHTML = data.Notenspiegel[0];
-        gradeTwo.innerHTML = data.Notenspiegel[1];
-        gradeThree.innerHTML = data.Notenspiegel[2];
-        gradeFour.innerHTML = data.Notenspiegel[3];
-        gradeFive.innerHTML = data.Notenspiegel[4];
-        gradeMissing.innerHTML = data.Notenspiegel[5];
-        gradeAverage.innerHTML = average.toFixed(2);
+        gradeOne.innerHTML = escapeHtml(data.Notenspiegel[0]);
+        gradeTwo.innerHTML = escapeHtml(data.Notenspiegel[1]);
+        gradeThree.innerHTML = escapeHtml(data.Notenspiegel[2]);
+        gradeFour.innerHTML = escapeHtml(data.Notenspiegel[3]);
+        gradeFive.innerHTML = escapeHtml(data.Notenspiegel[4]);
+        gradeMissing.innerHTML = escapeHtml(data.Notenspiegel[5]);
+        gradeAverage.innerHTML = escapeHtml(average.toFixed(2));
 
         
         chart.data.datasets[0].data = [
