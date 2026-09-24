@@ -111,6 +111,8 @@ export async function showStartPage() {
     document.getElementById("menu").close();
     document.getElementById("menu").disabled = false;
 
+    console.log(session.matrikelNr, session.accessToken)
+
     const response = await getLatestGrades(session.matrikelNr, session.accessToken);
     if (response.status < 200 || response.status >= 300) {
         logout(true);
@@ -135,7 +137,7 @@ async function createSubjectGradeBox(subject) {
     div.classList.add('subject-grades-list');
     div.innerHTML = `<h3 class="subject-grades-header">${subject}</h3>`;
 
-    const response = await getGradesFromSubject(subject);
+    const response = await getGradesFromSubject(session.matrikelNr, session.accessToken, subject);
 
     if (response.status < 200 || response.status >= 300) {
         logout(true);

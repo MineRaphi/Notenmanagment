@@ -2,6 +2,7 @@ import { Preferences } from '@capacitor/preferences';
 import { showLoading, hideLoading, showToast } from './ui.js';
 import { loginRequest, getStudentInfo } from './api.js';
 import { showStartPage } from './pages.js';
+import { session } from './session.js';
 
 function timeout(promise, ms) {
     const timeout = new Promise((_, reject) =>
@@ -22,15 +23,16 @@ export async function doLogin(username, password) {
             showToast("Login failed!", false, 'center');
         }
         else {
+            session.accessToken = data.access_token;
+            session.matrikelNr = data.matrikelNr;
+
             await Preferences.set({ key: 'accessToken', value: data.access_token });
             await Preferences.set({ key: 'matrikelNr', value: data.matrikelNr });
 
             await getStudentInfo(data.matrikelNr, data.access_token);
             await hideLoading();
             showToast("Login successful!");
-            showStartPage(data.matrikelNr, data.access_token);
-
-            return { accessToken: data.access_token, matrikelNr: data.matrikelNr};
+            showStartPage();
         }
     }
     catch (error) {
@@ -73,6 +75,9 @@ export async function checkLoggedIn() {
 export async function logout(forced = false) {
     await Preferences.remove({ key: 'accessToken' });
     await Preferences.remove({ key: 'matrikelNr' });
+
+    session.accessToken = null;
+    session.matrikelNr = null;
 
     document.getElementById("login").style.display = "block";
     document.getElementById("main").style.display = "none";

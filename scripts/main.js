@@ -16,11 +16,7 @@ async function init() {
         e.preventDefault();
         const username = document.getElementById("username").value;
         const password = document.getElementById("password").value;
-        const result = await doLogin(username, password);
-        if (result) {
-            session.accessToken = result.accessToken;
-            session.matrikelNr = result.matrikelNr;
-        }
+        doLogin(username, password);
     });
 
     document.getElementById("showStart").addEventListener("click", () => showStartPage());
@@ -34,8 +30,8 @@ async function init() {
     document.getElementById("logout").addEventListener("click", () => logout())
 
     const response = await checkLoggedIn();
-    accessToken = response.accessToken;
-    matrikelNr = response.matrikelNr;
+    session.accessToken = response.accessToken;
+    session.matrikelNr = response.matrikelNr;
 }
 
 async function loadPreferedTheme() {
