@@ -3,6 +3,7 @@ import { showLoading, hideLoading, showToast } from './ui.js';
 import { loginRequest, getStudentInfo } from './api.js';
 import { showStartPage } from './pages.js';
 import { session } from './session.js';
+import { TIMEOUT_MESSAGE } from './config.js';
 
 function timeout(promise, ms) {
     const timeout = new Promise((_, reject) =>
@@ -61,6 +62,11 @@ export async function checkLoggedIn() {
         return;
     }
     hideLoading();
+
+    if (response.status === 0) {
+        showToast(TIMEOUT_MESSAGE, false, 'center');
+        return;
+    }
 
     if (response.status < 200 || response.status >= 300) {
         await Preferences.remove({ key: 'accessToken' });

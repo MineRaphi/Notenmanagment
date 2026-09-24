@@ -3,6 +3,7 @@ import { logout } from './auth.js'
 import { showToast, enableScroll, disableScroll, showLoading, hideLoading } from './ui.js';
 import Chart from 'chart.js/auto';
 import { session } from './session.js';
+import { TIMEOUT_MESSAGE } from './config.js';
 
 const startPage = document.getElementById("startPage");
 const notenPage = document.getElementById("notenPage");
@@ -111,6 +112,12 @@ export async function showStartPage() {
     document.getElementById("menu").disabled = false;
 
     const response = await getLatestGrades(session.matrikelNr, session.accessToken);
+
+    if (response.status === 0) {
+        showToast(TIMEOUT_MESSAGE, false, 'center');
+        return;
+    }
+    
     if (response.status < 200 || response.status >= 300) {
         logout(true);
         return;
@@ -135,6 +142,11 @@ async function createSubjectGradeBox(subject) {
     div.innerHTML = `<h3 class="subject-grades-header">${subject}</h3>`;
 
     const response = await getGradesFromSubject(session.matrikelNr, session.accessToken, subject);
+
+    if (response.status === 0) {
+        showToast(TIMEOUT_MESSAGE, false, 'center');
+        return;
+    }
 
     if (response.status < 200 || response.status >= 300) {
         logout(true);
@@ -220,6 +232,11 @@ export async function showNotenPage() {
 
     const response = await getSubjectsWithGrade(session.matrikelNr, session.accessToken);
 
+    if (response.status === 0) {
+        showToast(TIMEOUT_MESSAGE, false, 'center');
+        return;
+    }
+
     if (response.status < 200 || response.status >= 300) {
         logout(true);
         return;
@@ -274,6 +291,11 @@ export async function showFruehwarnungPage() {
     const fruewarnungTable = document.getElementById("fruewarnungTable");
 
     const response = await getFruewarnungen(session.matrikelNr, session.accessToken);
+
+    if (response.status === 0) {
+        showToast(TIMEOUT_MESSAGE, false, 'center');
+        return;
+    }
 
     if (response.status < 200 || response.status >= 300) {
         logout(true);
@@ -332,6 +354,11 @@ export async function showFehlstundenPage() {
 
     const response = await getFehlstunden(session.matrikelNr, session.accessToken);
 
+    if (response === 0) {
+        showToast(TIMEOUT_MESSAGE, false, 'center');
+        return;
+    }
+
     if (response.status < 200 || response.status >= 300) {
         logout(true);
         return;
@@ -361,6 +388,11 @@ export async function showWhereIsMyTeacherPage() {
     table.innerHTML = "";
 
     const lehrerList = await getLehrerListUntis();
+
+    if (lehrerList === null) {
+        showToast("Connection failed. Check your internet.", false, 'center');
+        return;
+    }
 
     teacherSelect.innerHTML = lehrerList;
 }
