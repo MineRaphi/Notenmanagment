@@ -66,10 +66,11 @@ export async function checkLoggedIn() {
         return { matrikelNr: null, accessToken: null };
     }
 
+    session.accessToken = loadedToken;
+    session.matrikelNr = loadedMatrikel;
+
     showToast("Login successful!");
     showStartPage(loadedMatrikel, loadedToken);
-
-    return { matrikelNr: loadedMatrikel, accessToken: loadedToken };
 }
 
 export async function logout(forced = false) {

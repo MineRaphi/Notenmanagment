@@ -29,9 +29,7 @@ async function init() {
     document.getElementById("showInfo").addEventListener("click", () => showInfoPage());
     document.getElementById("logout").addEventListener("click", () => logout())
 
-    const response = await checkLoggedIn();
-    session.accessToken = response.accessToken;
-    session.matrikelNr = response.matrikelNr;
+    checkLoggedIn();
 }
 
 async function loadPreferedTheme() {

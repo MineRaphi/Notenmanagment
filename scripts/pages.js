@@ -79,7 +79,6 @@ function getGradeClass(note, punkte, maxPunkte) {
 
     if (punkte !== null && maxPunkte !== null) {
         const percent = punkte / maxPunkte;
-        console.log(percent)
         if (percent >= 0.88) return 'n1';
         if (percent >= 0.75) return 'n2';
         if (percent >= 0.62) return 'n3';
@@ -110,8 +109,6 @@ export async function showStartPage() {
     startPage.style.display = "block";
     document.getElementById("menu").close();
     document.getElementById("menu").disabled = false;
-
-    console.log(session.matrikelNr, session.accessToken)
 
     const response = await getLatestGrades(session.matrikelNr, session.accessToken);
     if (response.status < 200 || response.status >= 300) {
