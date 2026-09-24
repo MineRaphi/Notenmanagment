@@ -50,6 +50,10 @@
     margin-bottom: 0px;
 }
 
+.subject-grades-header-row {
+    background-color: #F7DEB6;
+}
+
 #notenPage {
     padding-bottom: 60px;
 }

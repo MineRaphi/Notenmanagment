@@ -161,7 +161,7 @@ async function createSubjectGradeBox(subject) {
     gradeTable.style.marginTop = "0px";
 
     const headRow = document.createElement("tr");
-    headRow.style.backgroundColor = "#F7DEB6";
+    headRow.classList.add("subject-grades-header-row");
     headRow.style.height = "35px";
 
     headRow.innerHTML = `
