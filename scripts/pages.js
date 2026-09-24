@@ -61,7 +61,7 @@ function createGradeBox(data) {
                 <p>${data.Fach}</p>
                 <p>${data.Typ}</p>
             </div>
-                <p class="date">${day}/${month}/${year}</p>
+                <p class="date">${formatedDate}</p>
             <div class="grade">
                 <p><b style="font-size: 15px;">Gefehlt</b></p>
                 ${data.Punkte !== null ? `<p>${data.Punkte}/${data.MaxPunkte}</p>` : ''}
