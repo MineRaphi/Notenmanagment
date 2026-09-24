@@ -1,5 +1,6 @@
 import { CapacitorHttp } from '@capacitor/core';
 import { API_URL, DEFAULT_TIMEOUT_MS } from './config';
+import DOMPurify from 'dompurify';
 
 async function request(options, timeoutMs=DEFAULT_TIMEOUT_MS) {
     try {
@@ -111,12 +112,20 @@ export async function getLehrerListUntis() {
 
     const parser = new DOMParser();
     const doc = parser.parseFromString(response.data, "text/html");
+    const rawList = doc.getElementById("teacherlist")?.innerHTML;
 
-    return doc.getElementById("teacherlist")?.innerHTML;
+    if (!rawList) {
+        return rawList;
+    }
+
+    return DOMPurify.sanitize(rawList, {
+        ALLOWED_TAGS: ['option'],
+        ALLOWED_ATTR: ['value', 'selected']
+    });
 }
 
 export async function getLehrerDataUntis(teacherID) {
-    return request({
+    const response = request({
         method: 'POST',
         url: 'https://services01.htl-braunau.at/WhereIsMyTeacher/data.php',
         headers: {
@@ -127,4 +136,10 @@ export async function getLehrerDataUntis(teacherID) {
             teacherid: teacherID
         }
     });
+
+    if (response === 0 || response.data == null) {
+        return response;
+    }
+
+    return { ...response, data: DOMPurify.sanitize(response.data) }
 }
