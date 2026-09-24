@@ -2,9 +2,7 @@ import { showStartPage, showNotenPage, showInfoPage, showFruehwarnungPage, showF
 import { doLogin, checkLoggedIn, logout } from './auth.js';
 import { changeTheme, disableScroll, showToast } from './ui.js';
 import { loadTheme, setPreferedTheme } from './preferences.js';
-
-let accessToken = null;
-let matrikelNr = null;
+import { session } from './session.js';
 
 window.onload = init;
 
@@ -20,16 +18,16 @@ async function init() {
         const password = document.getElementById("password").value;
         const result = await doLogin(username, password);
         if (result) {
-            accessToken = result.accessToken;
-            matrikelNr = result.matrikelNr;
+            session.accessToken = result.accessToken;
+            session.matrikelNr = result.matrikelNr;
         }
     });
 
-    document.getElementById("showStart").addEventListener("click", () => showStartPage(matrikelNr, accessToken));
-    document.getElementById("showNoten").addEventListener("click", () => showNotenPage(matrikelNr, accessToken));
-    document.getElementById("showFruewarnung").addEventListener("click", () => showFruehwarnungPage(matrikelNr, accessToken));
-    document.getElementById("showFehlstunden").addEventListener("click", () => showFehlstundenPage(matrikelNr, accessToken));
-    document.getElementById("showWhereIsMyTeacherPage").addEventListener("click", () => showWhereIsMyTeacherPage(matrikelNr, accessToken));
+    document.getElementById("showStart").addEventListener("click", () => showStartPage());
+    document.getElementById("showNoten").addEventListener("click", () => showNotenPage());
+    document.getElementById("showFruewarnung").addEventListener("click", () => showFruehwarnungPage());
+    document.getElementById("showFehlstunden").addEventListener("click", () => showFehlstundenPage());
+    document.getElementById("showWhereIsMyTeacherPage").addEventListener("click", () => showWhereIsMyTeacherPage());
     document.getElementById("whereIsMyTeacherButton").addEventListener("click", () => whereIsMyTeacherShowData());
     document.getElementById("showSettings").addEventListener("click", () => showSettingsPage());
     document.getElementById("showInfo").addEventListener("click", () => showInfoPage());

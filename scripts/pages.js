@@ -2,6 +2,7 @@ import { getLatestGrades, getSubjectsWithGrade, getGradesFromSubject, getFruewar
 import { logout } from './auth.js'
 import { showToast, enableScroll, disableScroll, showLoading, hideLoading } from './ui.js';
 import Chart from 'chart.js/auto';
+import { session } from './session.js';
 
 const startPage = document.getElementById("startPage");
 const notenPage = document.getElementById("notenPage");
@@ -30,11 +31,11 @@ function hideAllPages() {
     }
 }
 
-function createGradeBox(matrikelNr, token, data) {
+function createGradeBox(data) {
     const box = document.createElement('div');
     box.classList.add('grade-box');
     box.addEventListener("click", () => {
-        showLFdetailsPage(matrikelNr, token, data.LF_ID);
+        showLFdetailsPage(data.LF_ID);
     });
 
     box.classList.add(getGradeClass(data.Note, data.Punkte, data.MaxPunkte));
@@ -103,14 +104,14 @@ function formatDate(data, shortYear=false) {
     return `${day}/${month}/${year}`
 }
 
-export async function showStartPage(matrikelNr, token) {
+export async function showStartPage() {
     hideAllPages();
     document.getElementById("main").style.display = "block";
     startPage.style.display = "block";
     document.getElementById("menu").close();
     document.getElementById("menu").disabled = false;
 
-    const response = await getLatestGrades(matrikelNr, token);
+    const response = await getLatestGrades(session.matrikelNr, session.accessToken);
     if (response.status < 200 || response.status >= 300) {
         logout(true);
         return;
@@ -125,16 +126,16 @@ export async function showStartPage(matrikelNr, token) {
     `;
 
     for (let i of data) {
-        element.appendChild(createGradeBox(matrikelNr, token, i));
+        element.appendChild(createGradeBox(i));
     }
 }
 
-async function createSubjectGradeBox(matrikelNr, token, subject) {
+async function createSubjectGradeBox(subject) {
     const div = document.createElement("div");
     div.classList.add('subject-grades-list');
     div.innerHTML = `<h3 class="subject-grades-header">${subject}</h3>`;
 
-    const response = await getGradesFromSubject(matrikelNr, token, subject);
+    const response = await getGradesFromSubject(subject);
 
     if (response.status < 200 || response.status >= 300) {
         logout(true);
@@ -165,7 +166,7 @@ async function createSubjectGradeBox(matrikelNr, token, subject) {
         const row = document.createElement("tr");
         row.style.height = "45px";
         row.addEventListener("click", () => {
-            showLFdetailsPage(matrikelNr, token, item.LF_ID);
+            showLFdetailsPage(item.LF_ID);
         });
 
         const formatedDate = formatDate(item.Datum);
@@ -206,7 +207,7 @@ async function createSubjectGradeBox(matrikelNr, token, subject) {
     return div;
 }
 
-export async function showNotenPage(matrikelNr, token) {
+export async function showNotenPage() {
     hideAllPages();
     notenPage.style.display = "block";
     document.getElementById("menu").close();
@@ -218,7 +219,7 @@ export async function showNotenPage(matrikelNr, token) {
     subjectList.innerHTML = "";
     subjectGradeList.innerHTML = "";
 
-    const response = await getSubjectsWithGrade(matrikelNr, token);
+    const response = await getSubjectsWithGrade(session.matrikelNr, session.accessToken);
 
     if (response.status < 200 || response.status >= 300) {
         logout(true);
@@ -231,14 +232,14 @@ export async function showNotenPage(matrikelNr, token) {
         const div = document.createElement("div");
         div.innerHTML = `<p>${item.Fach}</p>`;
         div.addEventListener("click", () => {
-            showSubjectPage(matrikelNr, token, item.Fach);
+            showSubjectPage(item.Fach);
         });
         subjectList.appendChild(div);
     });
 
     await showLoading();
     const promises = data.map(item =>
-        createSubjectGradeBox(matrikelNr, token, item.Fach)
+        createSubjectGradeBox(item.Fach)
     );
 
     for (const promise of promises) {
@@ -249,7 +250,7 @@ export async function showNotenPage(matrikelNr, token) {
 
 }
 
-async function showSubjectPage(matrikelNr, token, subject) {
+async function showSubjectPage(subject) {
     hideAllPages();
     subjectPage.style.display = "block";
     document.getElementById("menu").close();
@@ -259,21 +260,21 @@ async function showSubjectPage(matrikelNr, token, subject) {
 
     await showLoading();
 
-    const box = await createSubjectGradeBox(matrikelNr, token, subject);
+    const box = await createSubjectGradeBox(subject);
 
     subjectPage.appendChild(box);
 
     await hideLoading();
 }
 
-export async function showFruehwarnungPage(matrikelNr, token) {
+export async function showFruehwarnungPage() {
     hideAllPages();
     fruewarnungPage.style.display = "block";
     document.getElementById("menu").close();
 
     const fruewarnungTable = document.getElementById("fruewarnungTable");
 
-    const response = await getFruewarnungen(matrikelNr, token);
+    const response = await getFruewarnungen(session.matrikelNr, session.accessToken);
 
     if (response.status < 200 || response.status >= 300) {
         logout(true);
@@ -292,7 +293,7 @@ export async function showFruehwarnungPage(matrikelNr, token) {
         return;
     }
 
-    const responseLehrer = await getLehrer(matrikelNr, token);
+    const responseLehrer = await getLehrer(session.matrikelNr, session.accessToken);
 
     if (responseLehrer.status < 200 || responseLehrer.status >= 300) {
         logout(true);
@@ -325,12 +326,12 @@ export async function showFruehwarnungPage(matrikelNr, token) {
     });
 }
 
-export async function showFehlstundenPage(matrikelNr, token) {
+export async function showFehlstundenPage() {
     hideAllPages();
     fehlstundenPage.style.display = "block";
     document.getElementById("menu").close();
 
-    const response = await getFehlstunden(matrikelNr, token);
+    const response = await getFehlstunden(session.matrikelNr, session.accessToken);
 
     if (response.status < 200 || response.status >= 300) {
         logout(true);
@@ -427,7 +428,7 @@ function createTemplateChart() {
     });
 }
 
-async function showLFdetailsPage(matrikelNr, token, LF_ID) {
+async function showLFdetailsPage(LF_ID) {
     hideAllPages();
     LFdetailsPage.style.display = "block";
     document.getElementById("menu").close();
@@ -465,7 +466,7 @@ async function showLFdetailsPage(matrikelNr, token, LF_ID) {
 
     await showLoading();
 
-    const dataResponse = await getLFdata(matrikelNr, token, LF_ID);   
+    const dataResponse = await getLFdata(session.matrikelNr, session.accessToken, LF_ID);   
 
     if (dataResponse.status < 200 || dataResponse.status >= 300) {
         logout(true);
@@ -475,7 +476,7 @@ async function showLFdetailsPage(matrikelNr, token, LF_ID) {
     const data = dataResponse.data;
 
 
-    const gradeResponse = await getLFgrade(matrikelNr, token, LF_ID);
+    const gradeResponse = await getLFgrade(session.matrikelNr, session.accessToken, LF_ID);
 
     if (gradeResponse.status < 200 || gradeResponse.status >= 300) {
         logout(true);
