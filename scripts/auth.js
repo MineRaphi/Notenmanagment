@@ -56,21 +56,25 @@ export async function checkLoggedIn() {
     } catch (error) {
         hideLoading()
         showToast("Server not reachable", false, 'center')
-        return { matrikelNr: null, accessToken: null };
+        session.accessToken = null;
+        session.matrikelNr = null;
+        return;
     }
     hideLoading();
 
     if (response.status < 200 || response.status >= 300) {
         await Preferences.remove({ key: 'accessToken' });
         await Preferences.remove({ key: 'matrikelNr' });
-        return { matrikelNr: null, accessToken: null };
+        session.accessToken = null;
+        session.matrikelNr = null;
+        return;
     }
 
     session.accessToken = loadedToken;
     session.matrikelNr = loadedMatrikel;
 
     showToast("Login successful!");
-    showStartPage(loadedMatrikel, loadedToken);
+    showStartPage();
 }
 
 export async function logout(forced = false) {
