@@ -69,11 +69,7 @@ export async function checkLoggedIn() {
 }
 
 export async function logout(forced = false) {
-    await Preferences.remove({ key: 'accessToken' });
-    await Preferences.remove({ key: 'matrikelNr' });
-
-    session.accessToken = null;
-    session.matrikelNr = null;
+    session.clear()
 
     document.getElementById("login").style.display = "block";
     document.getElementById("main").style.display = "none";
