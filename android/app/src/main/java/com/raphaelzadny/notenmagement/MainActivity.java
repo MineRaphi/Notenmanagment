@@ -1,4 +1,4 @@
-package com.raphaelzadny.notenmagement;
+package com.raphaelzadny.notenmanagement;
 
 import com.getcapacitor.BridgeActivity;
 

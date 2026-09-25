@@ -4,7 +4,7 @@
     "type": "APK",
     "kind": "Directory"
   },
-  "applicationId": "com.raphaelzadny.notenmagement",
+  "applicationId": "com.raphaelzadny.notenmanagement",
   "variantName": "release",
   "elements": [
     {
