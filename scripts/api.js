@@ -125,7 +125,7 @@ export async function getLehrerListUntis() {
 }
 
 export async function getLehrerDataUntis(teacherID) {
-    const response = request({
+    const response = await request({
         method: 'POST',
         url: 'https://services01.htl-braunau.at/WhereIsMyTeacher/data.php',
         headers: {
