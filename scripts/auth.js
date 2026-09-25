@@ -24,13 +24,10 @@ export async function doLogin(username, password) {
             showToast("Login failed!", false, 'center');
         }
         else {
-            session.accessToken = data.access_token;
-            session.matrikelNr = data.matrikelNr;
+            await session.setAccessToken(data.access_token);
+            await session.setMatrikelNr(data.matrikelNr);
 
-            await Preferences.set({ key: 'accessToken', value: data.access_token });
-            await Preferences.set({ key: 'matrikelNr', value: data.matrikelNr });
-
-            await getStudentInfo(data.matrikelNr, data.access_token);
+            await getStudentInfo(session.matrikelNr, session.accessToken);
             await hideLoading();
             showToast("Login successful!");
             showStartPage();
@@ -43,22 +40,16 @@ export async function doLogin(username, password) {
 }
 
 export async function checkLoggedIn() {
-    const { value: loadedToken } = await Preferences.get({ key: 'accessToken' });
-    const { value: loadedMatrikel } = await Preferences.get({ key: 'matrikelNr' });
-
-    if (!loadedToken || !loadedMatrikel) {
-        return { matrikelNr: null, accessToken: null };
-    }
+    await session.load();
 
     showLoading();
     let response;
     try {
-        response = await timeout(getStudentInfo(loadedMatrikel, loadedToken), 5000);
+        response = await timeout(getStudentInfo(session.matrikelNr, session.accessToken), 5000);
     } catch (error) {
         hideLoading()
         showToast("Server not reachable", false, 'center')
-        session.accessToken = null;
-        session.matrikelNr = null;
+        await session.clear()
         return;
     }
     hideLoading();
@@ -69,15 +60,9 @@ export async function checkLoggedIn() {
     }
 
     if (response.status < 200 || response.status >= 300) {
-        await Preferences.remove({ key: 'accessToken' });
-        await Preferences.remove({ key: 'matrikelNr' });
-        session.accessToken = null;
-        session.matrikelNr = null;
+        await session.clear()
         return;
     }
-
-    session.accessToken = loadedToken;
-    session.matrikelNr = loadedMatrikel;
 
     showToast("Login successful!");
     showStartPage();
