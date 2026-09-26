@@ -2,8 +2,6 @@ import { showStartPage, showNotenPage, showInfoPage, showFruehwarnungPage, showF
 import { doLogin, checkLoggedIn, logout } from './auth.js';
 import { changeTheme, disableScroll, showToast } from './ui.js';
 import { loadTheme, setPreferedTheme } from './preferences.js';
-import { session } from './session.js';
-import { API_URL } from './config.js';
 
 window.onload = init;
 

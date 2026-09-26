@@ -1,4 +1,3 @@
-import { Preferences } from '@capacitor/preferences';
 import { showLoading, hideLoading, showToast } from './ui.js';
 import { loginRequest, getStudentInfo } from './api.js';
 import { showStartPage } from './pages.js';
