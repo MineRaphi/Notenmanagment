@@ -4,11 +4,14 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
+    "dev": "vite --mode dev",
     "build": "vite build",
     "preview": "vite preview",
     "build-ios": "npm run build && npx cap copy ios && npx cap open ios",
-    "build-android": "npm run build && npx cap copy android && npx cap open android"
+    "build-android": "npm run build && npx cap copy android && npx cap open android",
+    "build-dev": "vite build --mode dev",
+    "dev-ios": "npm run build-dev && npx cap copy ios && npx cap open ios",
+    "dev-android": "npm run build-dev && npx cap copy android && npx cap open android"
   },
   "devDependencies": {
     "@capacitor/cli": "^8.5.2",
