@@ -414,11 +414,11 @@ export async function whereIsMyTeacherShowData() {
 
     const teacherID = teacherSelect.value;
 
-    showLoading();
+    await showLoading();
     const response = await getLehrerDataUntis(teacherID);
 
     table.innerHTML = response.data;
-    hideLoading();
+    await hideLoading();
 }
 
 export async function showSettingsPage() {
@@ -585,4 +585,26 @@ async function showLFdetailsPage(LF_ID) {
     }
 
     await hideLoading();
+}
+
+export function clearPages() {
+    startPage.innerHTML = "";
+    subjectPage.innerHTML = "";
+    document.getElementById("subjectList").innerHTML = "";
+    document.getElementById("subjectGradeList").innerHTML = "";
+    document.getElementById("fruewarnungTable").innerHTML = "";
+
+    for (const id of ["absencesTotal", "absencesOpen", "absencesExcused", "absencesNotExcused"]) {
+        document.getElementById(id).textContent = "...";
+    }
+
+    for (const id of ["LFheaderName", "LFheaderDetails", "LFgrade", "LFpoints", "LFpercent", "LFcomment",
+                      "gradeOne", "gradeTwo", "gradeThree", "gradeFour", "gradeFive", "gradeMissing", "gradeAverage"]) {
+        document.getElementById(id).textContent = "";
+    }
+
+    if (chart !== null) {
+        chart.data.datasets[0].data = [0, 0, 0, 0, 0, 0];
+        chart.update();
+    }
 }

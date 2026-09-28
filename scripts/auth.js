@@ -1,6 +1,6 @@
 import { showLoading, hideLoading, showToast } from './ui.js';
 import { loginRequest, getStudentInfo } from './api.js';
-import { showStartPage } from './pages.js';
+import { clearPages, showStartPage } from './pages.js';
 import { session } from './session.js';
 import { TIMEOUT_MESSAGE } from './config.js';
 
@@ -41,17 +41,17 @@ export async function doLogin(username, password) {
 export async function checkLoggedIn() {
     await session.load();
 
-    showLoading();
+    await showLoading();
     let response;
     try {
         response = await timeout(getStudentInfo(session.matrikelNr, session.accessToken), 5000);
     } catch (error) {
-        hideLoading()
+        await hideLoading()
         showToast("Server not reachable", false, 'center')
         await session.clear()
         return;
     }
-    hideLoading();
+    await hideLoading();
 
     if (response.status === 0) {
         showToast(TIMEOUT_MESSAGE, false, 'center');
@@ -68,7 +68,8 @@ export async function checkLoggedIn() {
 }
 
 export async function logout(forced = false) {
-    session.clear()
+    await session.clear()
+    clearPages();
 
     document.getElementById("login").style.display = "block";
     document.getElementById("main").style.display = "none";
