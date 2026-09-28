@@ -132,7 +132,7 @@ export async function showStartPage() {
     document.getElementById("menu").disabled = false;
 
     await loadCached(
-        "latestGrades",
+        `latestGrades:${session.matrikelNr}`,
         () => getLatestGrades(session.matrikelNr, session.accessToken),
         renderStartPage,
         900
