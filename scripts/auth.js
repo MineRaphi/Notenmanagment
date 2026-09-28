@@ -43,6 +43,7 @@ export async function checkLoggedIn() {
 
     if (response.status === 0) {
         showToast(TIMEOUT_MESSAGE, false, 'center');
+        await hideLoading();
         session.clear()
         return;
     }
@@ -50,9 +51,11 @@ export async function checkLoggedIn() {
     if (response.status < 200 || response.status >= 300) {
         await session.clear()
         showToast("new login required", false, 'bottom');
+        await hideLoading();
         return;
     }
 
+    await hideLoading();
     showToast("Login successful!");
     showStartPage();
 }
