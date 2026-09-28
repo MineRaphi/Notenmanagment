@@ -141,10 +141,11 @@ export async function getLehrerDataUntis(teacherID) {
         return response;
     }
 
-    return { 
-        ...response,
-        data: DOMPurify.sanitize(response.data, {
-            ALLOWED_TAGS: ['tr', 'td'],
-        })
-    }
+    const cleanTable = DOMPurify.sanitize(`<table><tbody>${response.data}</tbody></table>`, {
+        ALLOWED_TAGS: ['table', 'tbody', 'tr', 'td'],
+        RETURN_DOM: true,   // keeps the parsed tree so we can read the inner HTML
+    });
+    const cleanData = cleanTable.querySelector('tbody').innerHTML;
+
+    return { ...response, data: cleanData }
 }
