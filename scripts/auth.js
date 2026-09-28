@@ -5,62 +5,51 @@ import { session } from './session.js';
 import { TIMEOUT_MESSAGE } from './config.js';
 import { cache } from './cache.js';
 
-function timeout(promise, ms) {
-    const timeout = new Promise((_, reject) =>
-        setTimeout(() => reject(new Error("Request timed out")), ms)
-    );
-    return Promise.race([promise, timeout]);
-}
-
 export async function doLogin(username, password) {
     await showLoading();
 
-    try {
-        const response = await timeout(loginRequest(username, password), 5000)
-        const data = response.data;
+    const response = await loginRequest(username, password);
+    const data = response.data;
 
-        if (response.status < 200 || response.status >= 300 || data.role !== "Schueler") {
-            await hideLoading();
-            showToast("Login failed!", false, 'center');
-        }
-        else {
-            await session.setAccessToken(data.access_token);
-            await session.setMatrikelNr(data.matrikelNr);
-
-            await getStudentInfo(session.matrikelNr, session.accessToken);
-            await hideLoading();
-            showToast("Login successful!");
-            showStartPage();
-        }
-    }
-    catch (error) {
+    if (response.status === 0) {
         await hideLoading();
-        showToast("Server not reachable", false, 'center');
+        showToast(TIMEOUT_MESSAGE, false, 'center');
+    }
+
+    if (response.status < 200 || response.status >= 300 || data.role !== "Schueler") {
+        await hideLoading();
+        showToast("Login failed!", false, 'center');
+    }
+    else {
+        await session.setAccessToken(data.access_token);
+        await session.setMatrikelNr(data.matrikelNr);
+
+        await hideLoading();
+        showToast("Login successful!");
+        showStartPage();
     }
 }
 
 export async function checkLoggedIn() {
     await session.load();
 
-    await showLoading();
-    let response;
-    try {
-        response = await timeout(getStudentInfo(session.matrikelNr, session.accessToken), 5000);
-    } catch (error) {
-        await hideLoading()
-        showToast("Server not reachable", false, 'center')
-        await session.clear()
+    if (!session.matrikelNr || !session.accessToken) {
         return;
     }
-    await hideLoading();
+
+    await showLoading();
+    let response;
+    response = getStudentInfo(session.matrikelNr, session.accessToken);
 
     if (response.status === 0) {
         showToast(TIMEOUT_MESSAGE, false, 'center');
+        session.clear()
         return;
     }
 
     if (response.status < 200 || response.status >= 300) {
         await session.clear()
+        showToast("new login required", false, 'bottom');
         return;
     }
 
