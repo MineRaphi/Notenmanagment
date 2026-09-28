@@ -1,6 +1,7 @@
 import { session } from "./session";
 import { TIMEOUT_MESSAGE } from "./config";
 import { logout } from "./auth";
+import { showToast } from "./ui";
 
 const store = new Map(); // key -> { value, expires }
 
@@ -46,8 +47,8 @@ export async function loadCached(key, fetchFunc, render, TTL_sec) {
     }
 
     const fresh = response.data;
+    cache.set(key, fresh, TTL_sec * 1000);
     if (JSON.stringify(fresh) !== JSON.stringify(cached)) {
-        cache.set(key, fresh, TTL_sec * 1000);
         render(fresh);
     }
 }
