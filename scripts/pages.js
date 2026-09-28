@@ -4,6 +4,7 @@ import { showToast, enableScroll, disableScroll, showLoading, hideLoading } from
 import Chart from 'chart.js/auto';
 import { session } from './session.js';
 import { TIMEOUT_MESSAGE } from './config.js';
+import { loadCached } from './cache.js';
 
 const startPage = document.getElementById("startPage");
 const notenPage = document.getElementById("notenPage");
@@ -110,26 +111,7 @@ function formatDate(data, shortYear=false) {
     return `${day}/${month}/${year}`
 }
 
-export async function showStartPage() {
-    hideAllPages();
-    document.getElementById("main").style.display = "block";
-    startPage.style.display = "block";
-    document.getElementById("menu").close();
-    document.getElementById("menu").disabled = false;
-
-    const response = await getLatestGrades(session.matrikelNr, session.accessToken);
-
-    if (response.status === 0) {
-        showToast(TIMEOUT_MESSAGE, false, 'center');
-        return;
-    }
-    
-    if (response.status < 200 || response.status >= 300) {
-        logout(true);
-        return;
-    }
-
-    const data = response.data;
+async function renderStartPage(data) {
     const element = document.getElementById("startPage");
     element.innerHTML = `
         <div class="latest-entries">
@@ -140,6 +122,21 @@ export async function showStartPage() {
     for (let i of data) {
         element.appendChild(createGradeBox(i));
     }
+}
+
+export async function showStartPage() {
+    hideAllPages();
+    document.getElementById("main").style.display = "block";
+    startPage.style.display = "block";
+    document.getElementById("menu").close();
+    document.getElementById("menu").disabled = false;
+
+    await loadCached(
+        "latestGrades",
+        () => getLatestGrades(session.matrikelNr, session.accessToken),
+        renderStartPage,
+        900
+    );
 }
 
 async function createSubjectGradeBox(subject) {
