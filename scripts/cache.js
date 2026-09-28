@@ -4,7 +4,7 @@ import { logout } from "./auth";
 
 const store = new Map(); // key -> { value, expires }
 
-const cache = {
+export const cache = {
     get(key) {
         const entry = store.get(key);
         if (!entry) return null;

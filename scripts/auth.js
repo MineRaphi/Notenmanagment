@@ -3,6 +3,7 @@ import { loginRequest, getStudentInfo } from './api.js';
 import { clearPages, showStartPage } from './pages.js';
 import { session } from './session.js';
 import { TIMEOUT_MESSAGE } from './config.js';
+import { cache } from './cache.js';
 
 function timeout(promise, ms) {
     const timeout = new Promise((_, reject) =>
@@ -70,6 +71,7 @@ export async function checkLoggedIn() {
 export async function logout(forced = false) {
     await session.clear()
     clearPages();
+    cache.clear()
 
     document.getElementById("login").style.display = "block";
     document.getElementById("main").style.display = "none";
