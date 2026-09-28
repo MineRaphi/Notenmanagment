@@ -1,24 +1,26 @@
 import { loadingController } from '@ionic/core';
 import { Toast } from '@capacitor/toast';
-
-let loadingInstance = null;
 const ionContent = document.querySelector('ion-content');
 
-export async function showLoading() {
-    loadingInstance = await loadingController.create({
-        message: 'Loading...',
-        spinner: 'crescent',
-        translucent: true,
-        backdropDismiss: false,
-    });
-    await loadingInstance.present();
+let loadingPromise = null;
+let loadingCount = 0;
+
+export function showLoading() {
+    loadingCount++;
+    if (!loadingPromise) {
+        loadingPromise = loadingController
+            .create({ message: 'Loading...', spinner: 'crescent', translucent: true, backdropDismiss: false })
+            .then(async (l) => { await l.present(); return l; });
+    }
+    return loadingPromise;
 }
 
 export async function hideLoading() {
-    if (loadingInstance) {
-        await loadingInstance.dismiss();
-        loadingInstance = null;
-    }
+    loadingCount = Math.max(0, loadingCount - 1);
+    if (loadingCount > 0 || !loadingPromise) return;
+    const p = loadingPromise;
+    loadingPromise = null;
+    await (await p).dismiss();
 }
 
 export async function showToast(message, success = true, position = 'bottom') {
