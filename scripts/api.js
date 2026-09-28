@@ -141,5 +141,10 @@ export async function getLehrerDataUntis(teacherID) {
         return response;
     }
 
-    return { ...response, data: DOMPurify.sanitize(response.data) }
+    return { 
+        ...response,
+        data: DOMPurify.sanitize(response.data, {
+            ALLOWED_TAGS: ['tr', 'td'],
+        })
+    }
 }
