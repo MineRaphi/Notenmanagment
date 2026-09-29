@@ -28,7 +28,7 @@ export async function loadCached(key, fetchFunc, render, TTL_sec) {
     const cached = cache.get(key);
 
     if (cached) {
-        render(cached);
+        await render(cached);
     }
 
     const response = await fetchFunc();
@@ -49,6 +49,6 @@ export async function loadCached(key, fetchFunc, render, TTL_sec) {
     const fresh = response.data;
     cache.set(key, fresh, TTL_sec * 1000);
     if (JSON.stringify(fresh) !== JSON.stringify(cached)) {
-        render(fresh);
+        await render(fresh);
     }
 }

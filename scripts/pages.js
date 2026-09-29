@@ -139,69 +139,34 @@ export async function showStartPage() {
     );
 }
 
-async function createSubjectGradeBox(subject) {
-    const div = document.createElement("div");
-    div.classList.add('subject-grades-list');
-    div.innerHTML = `<h3 class="subject-grades-header">${escapeHtml(subject)}</h3>`;
-
-    const response = await getGradesFromSubject(session.matrikelNr, session.accessToken, subject);
-
-    if (response.status === 0) {
-        showToast(TIMEOUT_MESSAGE, false, 'center');
-        return;
-    }
-
-    if (response.status < 200 || response.status >= 300) {
-        logout(true);
-        return;
-    }
-
-    const data = response.data;
+function renderSubjectGradeBox(container, subject, data) {
+    container.innerHTML = `<h3 class="subject-grades-header">${escapeHtml(subject)}</h3>`;
 
     const gradeTable = document.createElement("table");
-
     gradeTable.style.minWidth = "100%";
     gradeTable.style.marginTop = "0px";
 
     const headRow = document.createElement("tr");
     headRow.classList.add("subject-grades-header-row");
     headRow.style.height = "35px";
-
-    headRow.innerHTML = `
-        <th>Datum</th>
-        <th>Info</th>
-        <th>Note</th>
-        <th>Punkte</th>
-        <th>Prozent</th>
-    `;
+    headRow.innerHTML = `<th>Datum</th><th>Info</th><th>Note</th><th>Punkte</th><th>Prozent</th>`;
     gradeTable.appendChild(headRow);
 
     data.forEach(item => {
         const row = document.createElement("tr");
         row.style.height = "45px";
-        row.addEventListener("click", () => {
-            showLFdetailsPage(item.LF_ID);
-        });
+        row.addEventListener("click", () => showLFdetailsPage(item.LF_ID));
 
         const formatedDate = formatDate(item.Datum, true);
-
         const type = item.Typ.replace("Semesternote", "Semester");
         let grade = item.Note;
         let points = `${item.Punkte}/${item.MaxPunkte}`;
-        let percent = `${(item.Punkte/item.MaxPunkte*100).toFixed(2)}%<span style="color: #00000000">.</span>`;
+        let percent = `${(item.Punkte / item.MaxPunkte * 100).toFixed(2)}%<span style="color: #00000000">.</span>`;
         let gradeSpan = 1;
 
-        if (grade === null) {
-            grade = "";
-        }
-        if (item.Punkte === null || item.MaxPunkte === null) {
-            points = "";
-            percent = "";
-        }
-        if (grade === 0) {
-            gradeSpan = 2;
-            grade = "Gefehlt";
-        }
+        if (grade === null) grade = "";
+        if (item.Punkte === null || item.MaxPunkte === null) { points = ""; percent = ""; }
+        if (grade === 0) { gradeSpan = 2; grade = "Gefehlt"; }
 
         row.innerHTML = `
             <td style="width: 19%; text-align: end;">${escapeHtml(formatedDate)}</td>
@@ -212,13 +177,45 @@ async function createSubjectGradeBox(subject) {
         `;
 
         row.classList.add(getGradeClass(item.Note, item.Punkte, item.MaxPunkte));
-
         gradeTable.appendChild(row);
     });
 
-    div.appendChild(gradeTable);
+    container.appendChild(gradeTable);
+}
 
-    return div;
+async function loadSubjectGradeBox(subject, container) {
+    await loadCached(
+        `gradesFromSubject:${session.matrikelNr}:${subject}`,
+        () => getGradesFromSubject(session.matrikelNr, session.accessToken, subject),
+        (data) => renderSubjectGradeBox(container, subject, data),
+        900
+    );
+}
+
+async function renderSubjectlist(data) {
+    const subjectList = document.getElementById("subjectList");
+    const subjectGradeList = document.getElementById("subjectGradeList");
+
+    subjectList.innerHTML = "";
+    subjectGradeList.innerHTML = "";
+
+    data.forEach(item => {
+        const div = document.createElement("div");
+        div.innerHTML = `<p>${escapeHtml(item.Fach)}</p>`;
+        div.addEventListener("click", () => showSubjectPage(item.Fach));
+        subjectList.appendChild(div);
+    });
+
+    const containers = data.map(item => {
+        const container = document.createElement("div");
+        container.classList.add('subject-grades-list');
+        subjectGradeList.appendChild(container);   // placed immediately, in the right order
+        return { subject: item.Fach, container };
+    });
+
+    await Promise.all(
+        containers.map(({ subject, container }) => loadSubjectGradeBox(subject, container))
+    );
 }
 
 export async function showNotenPage() {
@@ -227,46 +224,12 @@ export async function showNotenPage() {
     document.getElementById("menu").close();
     enableScroll();
 
-    const subjectList = document.getElementById("subjectList");
-    const subjectGradeList = document.getElementById("subjectGradeList")
-
-    subjectList.innerHTML = "";
-    subjectGradeList.innerHTML = "";
-
-    const response = await getSubjectsWithGrade(session.matrikelNr, session.accessToken);
-
-    if (response.status === 0) {
-        showToast(TIMEOUT_MESSAGE, false, 'center');
-        return;
-    }
-
-    if (response.status < 200 || response.status >= 300) {
-        logout(true);
-        return;
-    }
-
-    const data = await response.data;
-
-    data.forEach(item => {
-        const div = document.createElement("div");
-        div.innerHTML = `<p>${escapeHtml(item.Fach)}</p>`;
-        div.addEventListener("click", () => {
-            showSubjectPage(item.Fach);
-        });
-        subjectList.appendChild(div);
-    });
-
-    await showLoading();
-    const promises = data.map(item =>
-        createSubjectGradeBox(item.Fach)
+    await loadCached(
+        `subjectsWithGrade:${session.matrikelNr}`,
+        () => getSubjectsWithGrade(session.matrikelNr, session.accessToken),
+        renderSubjectlist,
+        900
     );
-
-    for (const promise of promises) {
-        const box = await promise;
-        subjectGradeList.appendChild(box);
-    }
-    await hideLoading();
-
 }
 
 async function showSubjectPage(subject) {
@@ -277,13 +240,10 @@ async function showSubjectPage(subject) {
 
     subjectPage.innerHTML = "";
 
-    await showLoading();
+    const container = document.createElement("div");
+    subjectPage.appendChild(container);
 
-    const box = await createSubjectGradeBox(subject);
-
-    subjectPage.appendChild(box);
-
-    await hideLoading();
+    await loadSubjectGradeBox(subject, container);
 }
 
 export async function showFruehwarnungPage() {
