@@ -360,17 +360,27 @@ export async function showWhereIsMyTeacherPage() {
     teacherSelect.innerHTML = lehrerList;
 }
 
-export async function whereIsMyTeacherShowData() {
-    const teacherSelect = document.getElementById("whereIsMyTeacherList");
+async function whereIsMyTeacherRenderData(data) {
     const table = document.getElementById("whereIsMyTeacherTable");
 
-    const teacherID = teacherSelect.value;
+    table.innerHTML = data;
 
-    await showLoading();
-    const response = await getLehrerDataUntis(teacherID);
-
-    table.innerHTML = response.data;
     await hideLoading();
+}
+
+export async function whereIsMyTeacherShowData() {
+    const teacherSelect = document.getElementById("whereIsMyTeacherList");
+
+    const teacherID = teacherSelect.value;
+    
+    await showLoading();
+
+    await loadCached(
+        `whereIsMyTeacherData:${session.matrikelNr}:${teacherID}`,
+        () => getLehrerDataUntis(teacherID),
+        whereIsMyTeacherRenderData,
+        300
+    );
 }
 
 export async function showSettingsPage() {
