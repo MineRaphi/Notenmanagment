@@ -1,7 +1,7 @@
 import { session } from "./session";
 import { TIMEOUT_MESSAGE } from "./config";
 import { logout } from "./auth";
-import { showToast } from "./ui";
+import { showToast, showLoading, hideLoading } from "./ui";
 
 const store = new Map(); // key -> { value, expires }
 
@@ -26,29 +26,42 @@ export const cache = {
 export async function loadCached(key, fetchFunc, render, TTL_sec) {
     const user = session.matrikelNr;
     const cached = cache.get(key);
+    let is_showing_spinner = false;
 
     if (cached) {
         await render(cached);
     }
-
-    const response = await fetchFunc();
-
-    if (session.matrikelNr !== user) {
-        return;
+    else {
+        is_showing_spinner = true;
+        await showLoading();
     }
 
-    if (response.status === 0) {
-        if (!cached) showToast(TIMEOUT_MESSAGE, false, 'center');
-        return;
-    }
-    if (response.status < 200 || response.status >= 300) {
-        logout(true);
-        return;
-    }
+    try {
+        const response = await fetchFunc();
 
-    const fresh = response.data;
-    cache.set(key, fresh, TTL_sec * 1000);
-    if (JSON.stringify(fresh) !== JSON.stringify(cached)) {
-        await render(fresh);
-    }
+        if (session.matrikelNr !== user) {
+            return;
+        }
+
+        if (response.status === 0) {
+            if (!cached) {
+                showToast(TIMEOUT_MESSAGE, false, 'center');
+            }
+            return;
+        }
+        if (response.status < 200 || response.status >= 300) {
+            logout(true);
+            return;
+        }
+
+        const fresh = response.data;
+        cache.set(key, fresh, TTL_sec * 1000);
+        if (JSON.stringify(fresh) !== JSON.stringify(cached)) {
+            await render(fresh);
+        }
+    } finally {
+        if (is_showing_spinner) {
+            hideLoading();
+        }
+    }   
 }

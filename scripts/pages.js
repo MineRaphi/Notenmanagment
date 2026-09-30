@@ -1,9 +1,7 @@
 import { getLatestGrades, getSubjectsWithGrade, getGradesFromSubject, getFruewarnungen, getFehlstunden, getLFdata, getLFgrade, getLehrer, getLehrerListUntis, getLehrerDataUntis } from './api.js';
-import { logout } from './auth.js'
-import { showToast, enableScroll, disableScroll, showLoading, hideLoading } from './ui.js';
+import { showToast, enableScroll, disableScroll } from './ui.js';
 import Chart from 'chart.js/auto';
 import { session } from './session.js';
-import { TIMEOUT_MESSAGE } from './config.js';
 import { loadCached } from './cache.js';
 
 const startPage = document.getElementById("startPage");
@@ -395,8 +393,6 @@ export async function whereIsMyTeacherShowData() {
     const teacherSelect = document.getElementById("whereIsMyTeacherList");
 
     const teacherID = teacherSelect.value;
-    
-    await showLoading();
 
     await loadCached(
         `whereIsMyTeacherData:${session.matrikelNr}:${teacherID}`,
