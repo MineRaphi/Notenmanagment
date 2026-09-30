@@ -315,25 +315,7 @@ export async function showFruehwarnungPage() {
     });
 }
 
-export async function showFehlstundenPage() {
-    hideAllPages();
-    fehlstundenPage.style.display = "block";
-    document.getElementById("menu").close();
-
-    const response = await getFehlstunden(session.matrikelNr, session.accessToken);
-
-    if (response.status === 0) {
-        showToast(TIMEOUT_MESSAGE, false, 'center');
-        return;
-    }
-
-    if (response.status < 200 || response.status >= 300) {
-        logout(true);
-        return;
-    }
-
-    const data = await response.data;
-
+function renderFehlstundenPage(data) {
     const open = data.Fehlstunden_Offen;
     const notExcused = data.Fehlstunden_NichtEntschuldigt;
     const excused = data.Fehlstunden_Entschuldigt;
@@ -343,6 +325,19 @@ export async function showFehlstundenPage() {
     document.getElementById("absencesOpen").innerHTML = escapeHtml(open);
     document.getElementById("absencesExcused").innerHTML = escapeHtml(excused);
     document.getElementById("absencesNotExcused").innerHTML = escapeHtml(notExcused);
+}
+
+export async function showFehlstundenPage() {
+    hideAllPages();
+    fehlstundenPage.style.display = "block";
+    document.getElementById("menu").close();
+
+    await loadCached(
+        `latestGrades:${session.matrikelNr}`,
+        () => getFehlstunden(session.matrikelNr, session.accessToken),
+        renderFehlstundenPage,
+        900
+    );
 }
 
 export async function showWhereIsMyTeacherPage() {
