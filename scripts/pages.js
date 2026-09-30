@@ -441,15 +441,7 @@ function createTemplateChart() {
     });
 }
 
-async function showLFdetailsPage(LF_ID) {
-    hideAllPages();
-    LFdetailsPage.style.display = "block";
-    document.getElementById("menu").close();
-
-    if (chart === null) {
-        chart = createTemplateChart();
-    }
-
+function renderLFdetailsPage(data, grade) {
     const LFheaderName = document.getElementById("LFheaderName");
     const LFheaderDetails = document.getElementById("LFheaderDetails");
     const LFgrade = document.getElementById("LFgrade");
@@ -466,37 +458,6 @@ async function showLFdetailsPage(LF_ID) {
     const gradeMissing = document.getElementById("gradeMissing");
     const gradeAverage = document.getElementById("gradeAverage");
     const notenspiegelChart = document.getElementById("notenspiegelChart");
-    
-    LFheaderName.textContent = "";
-    LFheaderDetails.textContent = "";
-    LFgrade.textContent = "";
-    LFpoints.textContent = "";
-    LFpercent.textContent = "";
-    LFcomment.textContent = "";
-    row.classList.remove("n0", "n1", "n2", "n3", "n4", "n5");
-    LFnotenspiegel.style.display = "none";
-    notenspiegelChart.style.display = "none";
-
-    await showLoading();
-
-    const dataResponse = await getLFdata(session.matrikelNr, session.accessToken, LF_ID);   
-
-    if (dataResponse.status < 200 || dataResponse.status >= 300) {
-        logout(true);
-        return;
-    }
-
-    const data = dataResponse.data;
-
-
-    const gradeResponse = await getLFgrade(session.matrikelNr, session.accessToken, LF_ID);
-
-    if (gradeResponse.status < 200 || gradeResponse.status >= 300) {
-        logout(true);
-        return;
-    }
-
-    const grade = gradeResponse.data;
 
     const formatedDate = formatDate(data.Datum);
 
@@ -554,8 +515,40 @@ async function showLFdetailsPage(LF_ID) {
         LFnotenspiegel.style.display = "block";
         notenspiegelChart.style.display = "block";
     }
+}
 
-    await hideLoading();
+async function showLFdetailsPage(LF_ID) {
+    hideAllPages();
+    LFdetailsPage.style.display = "block";
+    document.getElementById("menu").close();
+
+    if (chart === null) {
+        chart = createTemplateChart();
+    }
+
+    document.getElementById("LFheaderName").textContent = "";
+    document.getElementById("LFheaderDetails").textContent = "";
+    document.getElementById("LFgrade").textContent = "";
+    document.getElementById("LFpoints").textContent = "";
+    document.getElementById("LFpercent").textContent = "";
+    document.getElementById("LFcomment").textContent = "";
+    document.getElementById("LFtableData").classList.remove("n0", "n1", "n2", "n3", "n4", "n5");
+    document.getElementById("LFnotenspiegel").style.display = "none";
+    document.getElementById("notenspiegelChart").style.display = "none";
+
+    await loadCached(
+        `LFdetails:${session.matrikelNr}:${LF_ID}`,
+        () => getLFdata(session.matrikelNr, session.accessToken, LF_ID),
+        (data) => {
+            loadCached(
+                `LFdetailsGrade:${session.matrikelNr}:${LF_ID}`,
+                () => getLFgrade(session.matrikelNr, session.accessToken, LF_ID),
+                (grade) => renderLFdetailsPage(data, grade),
+                900
+            );
+        },
+        900
+    );
 }
 
 export function clearPages() {
