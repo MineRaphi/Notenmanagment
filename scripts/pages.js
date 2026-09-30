@@ -129,16 +129,12 @@ export async function showStartPage() {
     document.getElementById("menu").close();
     document.getElementById("menu").disabled = false;
 
-    await showLoading();
-
     await loadCached(
         `latestGrades:${session.matrikelNr}`,
         () => getLatestGrades(session.matrikelNr, session.accessToken),
         renderStartPage,
         900
     );
-
-    await hideLoading();
 }
 
 function renderSubjectGradeBox(container, subject, data) {
@@ -186,16 +182,12 @@ function renderSubjectGradeBox(container, subject, data) {
 }
 
 async function loadSubjectGradeBox(subject, container) {
-    await showLoading();
-
     await loadCached(
         `gradesFromSubject:${session.matrikelNr}:${subject}`,
         () => getGradesFromSubject(session.matrikelNr, session.accessToken, subject),
         (data) => renderSubjectGradeBox(container, subject, data),
         900
     );
-
-    await hideLoading();
 }
 
 async function renderSubjectlist(data) {
@@ -230,16 +222,12 @@ export async function showNotenPage() {
     document.getElementById("menu").close();
     enableScroll();
 
-    await showLoading();
-
     await loadCached(
         `subjectsWithGrade:${session.matrikelNr}`,
         () => getSubjectsWithGrade(session.matrikelNr, session.accessToken),
         renderSubjectlist,
         900
     );
-
-    await hideLoading();
 }
 
 async function showSubjectPage(subject) {
@@ -254,11 +242,7 @@ async function showSubjectPage(subject) {
     container.classList.add('subject-grades-list');
     subjectPage.appendChild(container);
 
-    await showLoading();
-    
     await loadSubjectGradeBox(subject, container);
-
-    await hideLoading();
 }
 
 function renderFruehwarnungPage(data, lehrer) {
@@ -303,8 +287,6 @@ export async function showFruehwarnungPage() {
     fruewarnungPage.style.display = "block";
     document.getElementById("menu").close();
 
-    await showLoading();
-    
     await loadCached(
         `fruehwarnung:${session.matrikelNr}`,
         () => getFruewarnungen(session.matrikelNr, session.accessToken),
@@ -318,8 +300,6 @@ export async function showFruehwarnungPage() {
         },
         900
     );
-
-    await hideLoading();
 }
 
 function renderFehlstundenPage(data) {
@@ -339,16 +319,12 @@ export async function showFehlstundenPage() {
     fehlstundenPage.style.display = "block";
     document.getElementById("menu").close();
 
-    await showLoading();
-
     await loadCached(
         `fehlstunden:${session.matrikelNr}`,
         () => getFehlstunden(session.matrikelNr, session.accessToken),
         renderFehlstundenPage,
         900
     );
-
-    await hideLoading();
 }
 
 function renderWhereIsMyTeacherPage(lehrerList) {
@@ -371,16 +347,12 @@ export async function showWhereIsMyTeacherPage() {
 
     table.innerHTML = "";
 
-    await showLoading();
-
     await loadCached(
         `whereIsMyTeacherTeachers:${session.matrikelNr}`,
         () => getLehrerListUntis(),
         renderWhereIsMyTeacherPage,
         3600
     );
-
-    await hideLoading();
 }
 
 async function whereIsMyTeacherRenderData(data) {
@@ -400,8 +372,6 @@ export async function whereIsMyTeacherShowData() {
         whereIsMyTeacherRenderData,
         300
     );
-
-    await hideLoading();
 }
 
 export async function showSettingsPage() {
@@ -548,8 +518,6 @@ async function showLFdetailsPage(LF_ID) {
     document.getElementById("LFnotenspiegel").style.display = "none";
     document.getElementById("notenspiegelChart").style.display = "none";
 
-    await showLoading();
-
     await loadCached(
         `LFdetails:${session.matrikelNr}:${LF_ID}`,
         () => getLFdata(session.matrikelNr, session.accessToken, LF_ID),
@@ -563,8 +531,6 @@ async function showLFdetailsPage(LF_ID) {
         },
         900
     );
-
-    await hideLoading();
 }
 
 export function clearPages() {
