@@ -247,26 +247,8 @@ async function showSubjectPage(subject) {
     await loadSubjectGradeBox(subject, container);
 }
 
-export async function showFruehwarnungPage() {
-    hideAllPages();
-    fruewarnungPage.style.display = "block";
-    document.getElementById("menu").close();
-
+function renderFruehwarnungPage(data, lehrer) {
     const fruewarnungTable = document.getElementById("fruewarnungTable");
-
-    const response = await getFruewarnungen(session.matrikelNr, session.accessToken);
-
-    if (response.status === 0) {
-        showToast(TIMEOUT_MESSAGE, false, 'center');
-        return;
-    }
-
-    if (response.status < 200 || response.status >= 300) {
-        logout(true);
-        return;
-    }
-
-    const data = await response.data;
 
     if (data.length === 0) {
         fruewarnungTable.innerHTML = "";
@@ -277,20 +259,6 @@ export async function showFruehwarnungPage() {
         fruewarnungTable.appendChild(div);
         return;
     }
-
-    const responseLehrer = await getLehrer(session.matrikelNr, session.accessToken);
-
-    if (responseLehrer.status === 0) {
-        showToast(TIMEOUT_MESSAGE, false, "center");
-        return;
-    }
-
-    if (responseLehrer.status < 200 || responseLehrer.status >= 300) {
-        logout(true);
-        return;
-    }
-
-    const lehrer = await responseLehrer.data;
 
     fruewarnungTable.innerHTML = `
         <tr class="fruewarnung-table-header">
@@ -314,6 +282,26 @@ export async function showFruehwarnungPage() {
 
         fruewarnungTable.appendChild(row);
     });
+}
+
+export async function showFruehwarnungPage() {
+    hideAllPages();
+    fruewarnungPage.style.display = "block";
+    document.getElementById("menu").close();
+
+    loadCached(
+        `fruehwarnung:${session.matrikelNr}`,
+        () => getFruewarnungen(session.matrikelNr, session.accessToken),
+        (data) => {
+            loadCached(
+                `fruehwarnung:${session.matrikelNr}`,
+                () => getLehrer(session.matrikelNr, session.accessToken),
+                (lehrer) => renderFruehwarnungPage(data, lehrer), 
+                900
+            );
+        },
+        900
+    );
 }
 
 function renderFehlstundenPage(data) {
