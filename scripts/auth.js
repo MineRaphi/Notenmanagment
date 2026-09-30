@@ -14,6 +14,7 @@ export async function doLogin(username, password) {
     if (response.status === 0) {
         await hideLoading();
         showToast(TIMEOUT_MESSAGE, false, 'center');
+        return;
     }
 
     if (response.status < 200 || response.status >= 300 || data.role !== "Schueler") {
@@ -39,12 +40,12 @@ export async function checkLoggedIn() {
 
     await showLoading();
     let response;
-    response = getStudentInfo(session.matrikelNr, session.accessToken);
+    response = await getStudentInfo(session.matrikelNr, session.accessToken);
 
     if (response.status === 0) {
         showToast(TIMEOUT_MESSAGE, false, 'center');
         await hideLoading();
-        session.clear()
+        await session.clear()
         return;
     }
 
