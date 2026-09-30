@@ -118,10 +118,12 @@ export async function getLehrerListUntis() {
         return rawList;
     }
 
-    return DOMPurify.sanitize(rawList, {
+    const cleanList = DOMPurify.sanitize(rawList, {
         ALLOWED_TAGS: ['option'],
         ALLOWED_ATTR: ['value', 'selected']
-    });
+    })
+
+    return { status: 200, data: cleanList }
 }
 
 export async function getLehrerDataUntis(teacherID) {

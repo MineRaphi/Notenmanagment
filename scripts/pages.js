@@ -340,17 +340,8 @@ export async function showFehlstundenPage() {
     );
 }
 
-export async function showWhereIsMyTeacherPage() {
-    hideAllPages();
-    whereIsMyTeacherPage.style.display = "block";
-    document.getElementById("menu").close();
-
+function renderWhereIsMyTeacherPage(lehrerList) {
     const teacherSelect = document.getElementById("whereIsMyTeacherList");
-    const table = document.getElementById("whereIsMyTeacherTable");
-
-    table.innerHTML = "";
-
-    const lehrerList = await getLehrerListUntis();
 
     if (lehrerList === null) {
         showToast("Connection failed. Check your internet.", false, 'center');
@@ -358,6 +349,23 @@ export async function showWhereIsMyTeacherPage() {
     }
 
     teacherSelect.innerHTML = lehrerList;
+}
+
+export async function showWhereIsMyTeacherPage() {
+    hideAllPages();
+    whereIsMyTeacherPage.style.display = "block";
+    document.getElementById("menu").close();
+
+    const table = document.getElementById("whereIsMyTeacherTable");
+
+    table.innerHTML = "";
+
+    await loadCached(
+        `whereIsMyTeacherTeachers:${session.matrikelNr}`,
+        () => getLehrerListUntis(),
+        renderWhereIsMyTeacherPage,
+        3600
+    );
 }
 
 async function whereIsMyTeacherRenderData(data) {
