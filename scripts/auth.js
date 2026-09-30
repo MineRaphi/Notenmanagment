@@ -39,8 +39,7 @@ export async function checkLoggedIn() {
     }
 
     await showLoading();
-    let response;
-    response = await getStudentInfo(session.matrikelNr, session.accessToken);
+    const response = await getStudentInfo(session.matrikelNr, session.accessToken);
 
     if (response.status === 0) {
         showToast(TIMEOUT_MESSAGE, false, 'center');
