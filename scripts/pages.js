@@ -241,6 +241,7 @@ async function showSubjectPage(subject) {
     subjectPage.innerHTML = "";
 
     const container = document.createElement("div");
+    container.classList.add('subject-grades-list');
     subjectPage.appendChild(container);
 
     await loadSubjectGradeBox(subject, container);
