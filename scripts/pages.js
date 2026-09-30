@@ -333,7 +333,7 @@ export async function showFehlstundenPage() {
     document.getElementById("menu").close();
 
     await loadCached(
-        `latestGrades:${session.matrikelNr}`,
+        `fehlstunden:${session.matrikelNr}`,
         () => getFehlstunden(session.matrikelNr, session.accessToken),
         renderFehlstundenPage,
         900
