@@ -484,7 +484,7 @@ function renderLFdetailsPage(data, grade) {
     LFpercent.innerHTML = escapeHtml(percent);
     LFcomment.innerHTML = escapeHtml(grade.Kommentar);
 
-    row.classList.add(getGradeClass(data.Note, data.Punkte, data.MaxPunkte));
+    row.classList.add(getGradeClass(grade.Note, grade.Punkte, data.MaxPunkte));
 
     if (data.Notenspiegel !== null) {
         const average = (data.Notenspiegel[0] * 1 +
