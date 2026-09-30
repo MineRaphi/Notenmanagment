@@ -289,15 +289,15 @@ export async function showFruehwarnungPage() {
     fruewarnungPage.style.display = "block";
     document.getElementById("menu").close();
 
-    loadCached(
+    await loadCached(
         `fruehwarnung:${session.matrikelNr}`,
         () => getFruewarnungen(session.matrikelNr, session.accessToken),
-        (data) => {
-            loadCached(
-                `fruehwarnung:${session.matrikelNr}`,
+        async (data) => {
+            await loadCached(
+                `lehrer:${session.matrikelNr}`,
                 () => getLehrer(session.matrikelNr, session.accessToken),
                 (lehrer) => renderFruehwarnungPage(data, lehrer), 
-                900
+                86400
             );
         },
         900
@@ -527,8 +527,8 @@ async function showLFdetailsPage(LF_ID) {
     await loadCached(
         `LFdetails:${session.matrikelNr}:${LF_ID}`,
         () => getLFdata(session.matrikelNr, session.accessToken, LF_ID),
-        (data) => {
-            loadCached(
+        async (data) => {
+            await loadCached(
                 `LFdetailsGrade:${session.matrikelNr}:${LF_ID}`,
                 () => getLFgrade(session.matrikelNr, session.accessToken, LF_ID),
                 (grade) => renderLFdetailsPage(data, grade),
